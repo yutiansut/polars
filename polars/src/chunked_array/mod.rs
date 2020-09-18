@@ -286,6 +286,15 @@ impl<T> ChunkedArray<T> {
         if offset + length > self.len() {
             return Err(PolarsError::OutOfBounds);
         }
+        if self.chunks.len() == 1 {
+            let chunks = self
+                .chunks
+                .iter()
+                .map(|arr| arr.slice(offset, length))
+                .collect();
+            return Ok(self.copy_with_chunks(chunks));
+        }
+
         let mut remaining_length = length;
         let mut remaining_offset = offset;
         let mut new_chunks = vec![];

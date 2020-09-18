@@ -3,8 +3,11 @@ use crate::utils::Xob;
 use enum_dispatch::enum_dispatch;
 use fnv::{FnvBuildHasher, FnvHashMap};
 use rayon::prelude::*;
-use std::collections::{HashMap, HashSet};
 use std::hash::Hash;
+use std::{
+    collections::{HashMap, HashSet},
+    sync::RwLock,
+};
 use unsafe_unwrap::UnsafeUnwrap;
 
 macro_rules! hash_join_inner {
@@ -134,7 +137,7 @@ where
 
 macro_rules! par_prepare_hashed_relation {
     ($b:expr) => {{
-        $b.enumerate()
+        $b
             // acc is the hashmap
             .fold(FnvHashMap::default, |mut acc, (idx, key)| {
                 acc.entry(key).or_insert_with(Vec::new).push(idx);
@@ -144,40 +147,156 @@ macro_rules! par_prepare_hashed_relation {
                 map1.extend(map2.into_iter());
                 map1
             })
-
-        // let mut hash_tbl = FnvHashMap::default();
-        //
-        // $b.par_iter().enumerate()
-        //     .for_each(|(idx, key)| hash_tbl.entry(key).or_insert_with(Vec::new).push(idx));
-        // hash_tbl
     }};
 }
 
 macro_rules! par_hash_join_tuples_inner {
     ($a:expr, $b:expr, $swap:expr) => {{
         // First we hash one relation
-        // let hash_tbl = prepare_hashed_relation($b.iter());
         let hash_tbl = par_prepare_hashed_relation!($b);
 
         // Next we probe the other relation in the hash table
         // code duplication is because we want to only do the swap check once
         if $swap {
-            $a.enumerate()
+            $a.map(|(idx_a, key)| {
+                if let Some(indexes_b) = hash_tbl.get(&key) {
+                    let tuples: Vec<_> = indexes_b.iter().map(|&idx_b| (idx_b, idx_a)).collect();
+                    tuples
+                } else {
+                    Vec::with_capacity(0)
+                }
+            })
+            .reduce(Vec::new, |mut v1, v2| {
+                v1.extend(v2);
+                v1
+            })
+        } else {
+            $a.map(|(idx_a, key)| {
+                if let Some(indexes_b) = hash_tbl.get(&key) {
+                    let tuples: Vec<_> = indexes_b.iter().map(|&idx_b| (idx_a, idx_b)).collect();
+                    tuples
+                } else {
+                    Vec::with_capacity(0)
+                }
+            })
+            .reduce(Vec::new, |mut v1, v2| {
+                v1.extend(v2);
+                v1
+            })
+        }
+    }};
+}
+
+macro_rules! par_hash_join_tuples_left {
+    ($a:expr, $b:expr) => {{
+        // First we hash one relation
+        let hash_tbl = par_prepare_hashed_relation!($b);
+
+        // Next we probe the other relation in the hash table
+        $a.map(|(idx_a, key)| {
+            match hash_tbl.get(&key) {
+                // left and right matches
+                Some(indexes_b) => {
+                    let tuples: Vec<_> = indexes_b
+                        .iter()
+                        .map(|&idx_b| (idx_a, Some(idx_b)))
+                        .collect();
+                    tuples
+                }
+                // only left values, right = null
+                None => vec![(idx_a, None)],
+            }
+        })
+        .reduce(Vec::new, |mut v1, v2| {
+            v1.extend(v2);
+            v1
+        })
+    }};
+}
+
+macro_rules! par_hash_join_tuples_outer {
+    ($a:expr, $b:expr, $swap:expr) => {{
+        // prepare hash table
+        let hash_tbl = par_prepare_hashed_relation!($b);
+        let lock = RwLock::new(hash_tbl);
+
+        // probe the hash table.
+        // Note: indexes from b that are not matched will be None, Some(idx_b)
+        // Therefore we remove the matches and the remaining will be joined from the right
+
+        // code duplication is because we want to only do the swap check once
+        if $swap {
+            let mut tuples: Vec<_> = $a
                 .map(|(idx_a, key)| {
-                    if let Some(indexes_b) = hash_tbl.get(&key) {
-                        let tuples: Vec<_> =
-                            indexes_b.iter().map(|&idx_b| (idx_b, idx_a)).collect();
-                        tuples
+                    let hash_tbl = lock.read().unwrap();
+
+                    // only if hash table got key we try to lock
+                    if hash_tbl.contains_key(&key) {
+                        // drop to prevent dead lock
+                        drop(hash_tbl);
+                        // now we know it matches we remove the key and block other threads.
+                        let mut hash_tbl = lock.write().unwrap();
+                        // check again if key exists
+                        if let Some(indexes_b) = hash_tbl.remove(&key) {
+                            let tuples: Vec<_> = indexes_b
+                                .iter()
+                                .map(|&idx_b| (Some(idx_b), Some(idx_a)))
+                                .collect();
+                            tuples
+                        } else {
+                            // already removed by other thread
+                            vec![(None, Some(idx_a))]
+                        }
                     } else {
-                        Vec::with_capacity(0)
+                        vec![(None, Some(idx_a))]
                     }
                 })
                 .reduce(Vec::new, |mut v1, v2| {
                     v1.extend(v2);
                     v1
-                })
+                });
+            let hash_tbl = lock.read().unwrap();
+            hash_tbl.iter().for_each(|(_k, indexes_b)| {
+                // remaining joined values from the right table
+                tuples.extend(indexes_b.iter().map(|&idx_b| (Some(idx_b), None)))
+            });
+            tuples
         } else {
-            Vec::new()
+            let mut tuples: Vec<_> = $a
+                .map(|(idx_a, key)| {
+                    let hash_tbl = lock.read().unwrap();
+
+                    // only if hash table got key we try to lock
+                    if hash_tbl.contains_key(&key) {
+                        // drop to prevent dead lock
+                        drop(hash_tbl);
+                        // now we know it matches we remove the key and block other threads.
+                        let mut hash_tbl = lock.write().unwrap();
+                        // check again if key exists
+                        if let Some(indexes_b) = hash_tbl.remove(&key) {
+                            let tuples: Vec<_> = indexes_b
+                                .iter()
+                                .map(|&idx_b| (Some(idx_a), Some(idx_b)))
+                                .collect();
+                            tuples
+                        } else {
+                            // already removed by other thread
+                            vec![(Some(idx_a), None)]
+                        }
+                    } else {
+                        vec![(Some(idx_a), None)]
+                    }
+                })
+                .reduce(Vec::new, |mut v1, v2| {
+                    v1.extend(v2);
+                    v1
+                });
+            let hash_tbl = lock.read().unwrap();
+            hash_tbl.iter().for_each(|(_k, indexes_b)| {
+                // remaining joined values from the right table
+                tuples.extend(indexes_b.iter().map(|&idx_b| (None, Some(idx_b))))
+            });
+            tuples
         }
     }};
 }
@@ -213,16 +332,13 @@ fn hash_join_tuples_outer<'a, T, I, J>(
     a: I,
     b: J,
     swap: bool,
-) -> HashSet<(Option<usize>, Option<usize>), FnvBuildHasher>
+) -> Vec<(Option<usize>, Option<usize>)>
 where
     I: Iterator<Item = T>,
     J: Iterator<Item = T>,
     T: Hash + Eq + Copy + Sync,
 {
-    let mut results = HashSet::with_capacity_and_hasher(
-        a.size_hint().0 + b.size_hint().0,
-        FnvBuildHasher::default(),
-    );
+    let mut results = Vec::with_capacity(a.size_hint().0 + b.size_hint().0);
 
     // prepare hash table
     let mut hash_tbl = prepare_hashed_relation(b);
@@ -241,7 +357,7 @@ where
                 }
                 // only left values, right = null
                 None => {
-                    results.insert((None, Some(idx_a)));
+                    results.push((None, Some(idx_a)));
                 }
             }
         });
@@ -258,7 +374,7 @@ where
                 }
                 // only left values, right = null
                 None => {
-                    results.insert((Some(idx_a), None));
+                    results.push((Some(idx_a), None));
                 }
             }
         });
@@ -274,10 +390,7 @@ where
 pub trait HashJoin<T> {
     fn hash_join_inner(&self, other: &ChunkedArray<T>) -> Vec<(usize, usize)>;
     fn hash_join_left(&self, other: &ChunkedArray<T>) -> Vec<(usize, Option<usize>)>;
-    fn hash_join_outer(
-        &self,
-        other: &ChunkedArray<T>,
-    ) -> HashSet<(Option<usize>, Option<usize>), FnvBuildHasher>;
+    fn hash_join_outer(&self, other: &ChunkedArray<T>) -> Vec<(Option<usize>, Option<usize>)>;
 }
 
 macro_rules! det_hash_prone_order {
@@ -307,61 +420,79 @@ where
         let (a, b, swap) = det_hash_prone_order!(self, other);
 
         match (a.cont_slice(), b.cont_slice()) {
-            (Ok(a_slice), Ok(b_slice)) => {
-                par_hash_join_tuples_inner!(a_slice.par_iter(), b_slice.par_iter(), swap)
-            }
+            (Ok(a_slice), Ok(b_slice)) => par_hash_join_tuples_inner!(
+                a_slice.par_iter().enumerate(),
+                b_slice.par_iter().enumerate(),
+                swap
+            ),
             (Ok(a_slice), Err(_)) => {
-                hash_join_tuples_inner(
-                    a_slice.iter().map(|v| Some(*v)), // take ownership
-                    b.into_iter(),
-                    swap,
+                par_hash_join_tuples_inner!(
+                    a_slice.par_iter().map(|v| Some(*v)).enumerate(), // take ownership
+                    b.into_iter().enumerate().par_bridge(),
+                    swap
                 )
             }
-            (Err(_), Ok(b_slice)) => {
-                hash_join_tuples_inner(a.into_iter(), b_slice.iter().map(|v| Some(*v)), swap)
-            }
-            (Err(_), Err(_)) => hash_join_tuples_inner(a.into_iter(), b.into_iter(), swap),
+            (Err(_), Ok(b_slice)) => par_hash_join_tuples_inner!(
+                a.into_iter().enumerate().par_bridge(),
+                b_slice.par_iter().map(|v| Some(*v)).enumerate(),
+                swap
+            ),
+            (Err(_), Err(_)) => par_hash_join_tuples_inner!(
+                a.into_iter().enumerate().par_bridge(),
+                b.into_iter().enumerate().par_bridge(),
+                swap
+            ),
         }
     }
 
     fn hash_join_left(&self, other: &ChunkedArray<T>) -> Vec<(usize, Option<usize>)> {
         match (self.cont_slice(), other.cont_slice()) {
-            (Ok(a_slice), Ok(b_slice)) => hash_join_tuples_left(a_slice.iter(), b_slice.iter()),
+            (Ok(a_slice), Ok(b_slice)) => par_hash_join_tuples_left!(
+                a_slice.into_par_iter().enumerate(),
+                b_slice.into_par_iter().enumerate()
+            ),
             (Ok(a_slice), Err(_)) => {
-                hash_join_tuples_left(
-                    a_slice.iter().map(|v| Some(*v)), // take ownership
-                    other.into_iter(),
+                par_hash_join_tuples_left!(
+                    a_slice.par_iter().map(|v| Some(*v)).enumerate(), // take ownership
+                    other.into_iter().enumerate().par_bridge()
                 )
             }
-            (Err(_), Ok(b_slice)) => {
-                hash_join_tuples_left(self.into_iter(), b_slice.iter().map(|v| Some(*v)))
-            }
-            (Err(_), Err(_)) => hash_join_tuples_left(self.into_iter(), other.into_iter()),
+            (Err(_), Ok(b_slice)) => par_hash_join_tuples_left!(
+                self.into_iter().enumerate().par_bridge(),
+                b_slice.par_iter().map(|v| Some(*v)).enumerate()
+            ),
+            (Err(_), Err(_)) => par_hash_join_tuples_left!(
+                self.into_iter().enumerate().par_bridge(),
+                other.into_iter().enumerate().par_bridge()
+            ),
         }
     }
 
-    fn hash_join_outer(
-        &self,
-        other: &ChunkedArray<T>,
-    ) -> HashSet<(Option<usize>, Option<usize>), FnvBuildHasher> {
+    fn hash_join_outer(&self, other: &ChunkedArray<T>) -> Vec<(Option<usize>, Option<usize>)> {
         let (a, b, swap) = det_hash_prone_order!(self, other);
         match (a.cont_slice(), b.cont_slice()) {
-            (Ok(a_slice), Ok(b_slice)) => {
-                hash_join_tuples_outer(a_slice.iter(), b_slice.iter(), swap)
-            }
+            (Ok(a_slice), Ok(b_slice)) => par_hash_join_tuples_outer!(
+                a_slice.into_par_iter().enumerate(),
+                b_slice.into_par_iter().enumerate(),
+                swap
+            ),
             (Ok(a_slice), Err(_)) => {
-                hash_join_tuples_outer(
-                    a_slice.iter().map(|v| Some(*v)), // take ownership
-                    b.into_iter(),
-                    swap,
+                par_hash_join_tuples_outer!(
+                    a_slice.par_iter().map(|v| Some(*v)).enumerate(), // take ownership
+                    b.into_iter().enumerate().par_bridge(),
+                    swap
                 )
             }
-            (Err(_), Ok(b_slice)) => hash_join_tuples_outer(
-                a.into_iter(),
-                b_slice.iter().map(|v: &T::Native| Some(*v)),
-                swap,
+            (Err(_), Ok(b_slice)) => par_hash_join_tuples_outer!(
+                a.into_iter().enumerate().par_bridge(),
+                b_slice.par_iter().map(|v: &T::Native| Some(*v)).enumerate(),
+                swap
             ),
-            (Err(_), Err(_)) => hash_join_tuples_outer(a.into_iter(), b.into_iter(), swap),
+            (Err(_), Err(_)) => par_hash_join_tuples_outer!(
+                a.into_iter().enumerate().par_bridge(),
+                b.into_iter().enumerate().par_bridge(),
+                swap
+            ),
         }
     }
 }
@@ -372,32 +503,45 @@ impl HashJoin<BooleanType> for BooleanChunked {
 
         // Create the join tuples
         match (a.is_optimal_aligned(), b.is_optimal_aligned()) {
-            (true, true) => {
-                hash_join_tuples_inner(a.into_no_null_iter(), b.into_no_null_iter(), swap)
-            }
-            _ => hash_join_tuples_inner(a.into_iter(), b.into_iter(), swap),
+            (true, true) => par_hash_join_tuples_inner!(
+                a.into_no_null_iter().enumerate().par_bridge(),
+                b.into_no_null_iter().enumerate().par_bridge(),
+                swap
+            ),
+            _ => par_hash_join_tuples_inner!(
+                a.into_iter().enumerate().par_bridge(),
+                b.into_iter().enumerate().par_bridge(),
+                swap
+            ),
         }
     }
 
     fn hash_join_left(&self, other: &BooleanChunked) -> Vec<(usize, Option<usize>)> {
         match (self.is_optimal_aligned(), other.is_optimal_aligned()) {
-            (true, true) => {
-                hash_join_tuples_left(self.into_no_null_iter(), other.into_no_null_iter())
-            }
-            _ => hash_join_tuples_left(self.into_iter(), other.into_iter()),
+            (true, true) => par_hash_join_tuples_left!(
+                self.into_no_null_iter().enumerate().par_bridge(),
+                other.into_no_null_iter().enumerate().par_bridge()
+            ),
+            _ => par_hash_join_tuples_left!(
+                self.into_iter().enumerate().par_bridge(),
+                other.into_iter().enumerate().par_bridge()
+            ),
         }
     }
 
-    fn hash_join_outer(
-        &self,
-        other: &BooleanChunked,
-    ) -> HashSet<(Option<usize>, Option<usize>), FnvBuildHasher> {
+    fn hash_join_outer(&self, other: &BooleanChunked) -> Vec<(Option<usize>, Option<usize>)> {
         let (a, b, swap) = det_hash_prone_order!(self, other);
         match (a.is_optimal_aligned(), b.is_optimal_aligned()) {
-            (true, true) => {
-                hash_join_tuples_outer(a.into_no_null_iter(), b.into_no_null_iter(), swap)
-            }
-            _ => hash_join_tuples_outer(a.into_iter(), b.into_iter(), swap),
+            (true, true) => par_hash_join_tuples_outer!(
+                a.into_no_null_iter().enumerate().par_bridge(),
+                b.into_no_null_iter().enumerate().par_bridge(),
+                swap
+            ),
+            _ => par_hash_join_tuples_outer!(
+                a.into_iter().enumerate().par_bridge(),
+                b.into_iter().enumerate().par_bridge(),
+                swap
+            ),
         }
     }
 }
@@ -408,32 +552,45 @@ impl HashJoin<Utf8Type> for Utf8Chunked {
 
         // Create the join tuples
         match (a.is_optimal_aligned(), b.is_optimal_aligned()) {
-            (true, true) => {
-                hash_join_tuples_inner(a.into_no_null_iter(), b.into_no_null_iter(), swap)
-            }
-            _ => hash_join_tuples_inner(a.into_iter(), b.into_iter(), swap),
+            (true, true) => par_hash_join_tuples_inner!(
+                a.into_no_null_iter().enumerate().par_bridge(),
+                b.into_no_null_iter().enumerate().par_bridge(),
+                swap
+            ),
+            _ => par_hash_join_tuples_inner!(
+                a.into_iter().enumerate().par_bridge(),
+                b.into_iter().enumerate().par_bridge(),
+                swap
+            ),
         }
     }
 
     fn hash_join_left(&self, other: &Utf8Chunked) -> Vec<(usize, Option<usize>)> {
         match (self.is_optimal_aligned(), other.is_optimal_aligned()) {
-            (true, true) => {
-                hash_join_tuples_left(self.into_no_null_iter(), other.into_no_null_iter())
-            }
-            _ => hash_join_tuples_left(self.into_iter(), other.into_iter()),
+            (true, true) => par_hash_join_tuples_left!(
+                self.into_no_null_iter().enumerate().par_bridge(),
+                other.into_no_null_iter().enumerate().par_bridge()
+            ),
+            _ => par_hash_join_tuples_left!(
+                self.into_iter().enumerate().par_bridge(),
+                other.into_iter().enumerate().par_bridge()
+            ),
         }
     }
 
-    fn hash_join_outer(
-        &self,
-        other: &Utf8Chunked,
-    ) -> HashSet<(Option<usize>, Option<usize>), FnvBuildHasher> {
+    fn hash_join_outer(&self, other: &Utf8Chunked) -> Vec<(Option<usize>, Option<usize>)> {
         let (a, b, swap) = det_hash_prone_order!(self, other);
         match (a.is_optimal_aligned(), b.is_optimal_aligned()) {
-            (true, true) => {
-                hash_join_tuples_outer(a.into_no_null_iter(), b.into_no_null_iter(), swap)
-            }
-            _ => hash_join_tuples_outer(a.into_iter(), b.into_iter(), swap),
+            (true, true) => par_hash_join_tuples_outer!(
+                a.into_no_null_iter().enumerate().par_bridge(),
+                b.into_no_null_iter().enumerate().par_bridge(),
+                swap
+            ),
+            _ => par_hash_join_tuples_outer!(
+                a.into_iter().enumerate().par_bridge(),
+                b.into_iter().enumerate().par_bridge(),
+                swap
+            ),
         }
     }
 }
@@ -443,7 +600,7 @@ trait ZipOuterJoinColumn {
     fn zip_outer_join_column(
         &self,
         _right_column: &Series,
-        _opt_join_tuples: &HashSet<(Option<usize>, Option<usize>), FnvBuildHasher>,
+        _opt_join_tuples: &[(Option<usize>, Option<usize>)],
     ) -> Series {
         unimplemented!()
     }
@@ -456,7 +613,7 @@ where
     fn zip_outer_join_column(
         &self,
         right_column: &Series,
-        opt_join_tuples: &HashSet<(Option<usize>, Option<usize>), FnvBuildHasher>,
+        opt_join_tuples: &[(Option<usize>, Option<usize>)],
     ) -> Series {
         let right_ca = self.unpack_series_matching_type(right_column).unwrap();
 
@@ -491,7 +648,7 @@ macro_rules! impl_zip_outer_join {
             fn zip_outer_join_column(
                 &self,
                 right_column: &Series,
-                opt_join_tuples: &HashSet<(Option<usize>, Option<usize>), FnvBuildHasher>,
+                opt_join_tuples: &[(Option<usize>, Option<usize>)],
             ) -> Series {
                 let right_ca = self.unpack_series_matching_type(right_column).unwrap();
 
@@ -632,7 +789,7 @@ impl DataFrame {
         let s_right = other.column(right_on)?;
 
         // Get the indexes of the joined relations
-        let opt_join_tuples: HashSet<(Option<usize>, Option<usize>), FnvBuildHasher> =
+        let opt_join_tuples: Vec<(Option<usize>, Option<usize>)> =
             apply_hash_join_on_series!(s_left, s_right, hash_join_outer);
 
         // Take the left and right dataframes by join tuples
