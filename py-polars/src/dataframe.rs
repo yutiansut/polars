@@ -200,7 +200,7 @@ impl PyDataFrame {
         Ok(series)
     }
 
-    pub fn select(&self, selection: Vec<String>) -> PyResult<Self> {
+    pub fn select(&self, selection: Vec<&str>) -> PyResult<Self> {
         let df = self.df.select(&selection).map_err(PyPolarsEr::from)?;
         Ok(PyDataFrame::new(df))
     }
@@ -271,7 +271,7 @@ impl PyDataFrame {
         self.df.frame_equal(&other.df)
     }
 
-    pub fn groupby(&self, by: Vec<String>, select: Vec<String>, agg: &str) -> PyResult<Self> {
+    pub fn groupby(&self, by: Vec<&str>, select: Vec<String>, agg: &str) -> PyResult<Self> {
         let gb = self.df.groupby(&by).map_err(PyPolarsEr::from)?;
         let selection = gb.select(&select);
         let df = match agg {
