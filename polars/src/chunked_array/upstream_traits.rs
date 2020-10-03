@@ -372,7 +372,7 @@ impl<'a> FromParallelIterator<&'a str> for Utf8Chunked {
 // We cannot return a & str owned by this function.
 impl<'a> From<&'a Utf8Chunked> for Vec<Option<&'a str>> {
     fn from(ca: &'a Utf8Chunked) -> Self {
-        let mut vec = Vec::with_capacity_aligned(ca.len());
+        let mut vec = Vec::with_capacity(ca.len());
         ca.into_iter().for_each(|opt| vec.push(opt));
         vec
     }
@@ -380,7 +380,7 @@ impl<'a> From<&'a Utf8Chunked> for Vec<Option<&'a str>> {
 
 impl From<Utf8Chunked> for Vec<Option<String>> {
     fn from(ca: Utf8Chunked) -> Self {
-        let mut vec = Vec::with_capacity_aligned(ca.len());
+        let mut vec = Vec::with_capacity(ca.len());
         ca.into_iter()
             .for_each(|opt| vec.push(opt.map(|s| s.to_string())));
         vec
@@ -389,7 +389,7 @@ impl From<Utf8Chunked> for Vec<Option<String>> {
 
 impl<'a> From<&'a BooleanChunked> for Vec<Option<bool>> {
     fn from(ca: &'a BooleanChunked) -> Self {
-        let mut vec = Vec::with_capacity_aligned(ca.len());
+        let mut vec = Vec::with_capacity(ca.len());
         ca.into_iter().for_each(|opt| vec.push(opt));
         vec
     }
@@ -397,7 +397,7 @@ impl<'a> From<&'a BooleanChunked> for Vec<Option<bool>> {
 
 impl From<BooleanChunked> for Vec<Option<bool>> {
     fn from(ca: BooleanChunked) -> Self {
-        let mut vec = Vec::with_capacity_aligned(ca.len());
+        let mut vec = Vec::with_capacity(ca.len());
         ca.into_iter().for_each(|opt| vec.push(opt));
         vec
     }
@@ -410,7 +410,7 @@ where
     ChunkedArray<T>: ChunkOps,
 {
     fn from(ca: &'a ChunkedArray<T>) -> Self {
-        let mut vec = Vec::with_capacity_aligned(ca.len());
+        let mut vec = Vec::with_capacity(ca.len());
         ca.into_iter().for_each(|opt| vec.push(opt));
         vec
     }
