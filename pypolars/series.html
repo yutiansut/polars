@@ -1,0 +1,4047 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>pypolars.series API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pypolars.series</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">try:
+    from .pypolars import PySeries
+except:
+    import warnings
+
+    warnings.warn(&#34;binary files missing&#34;)
+    __pdoc__ = {
+        &#34;wrap_s&#34;: False,
+        &#34;find_first_non_none&#34;: False,
+        &#34;out_to_dtype&#34;: False,
+        &#34;get_ffi_func&#34;: False,
+    }
+import numpy as np
+from typing import Optional, List, Sequence, Union, Any, Callable
+from .ffi import _ptr_to_numpy
+from .datatypes import *
+from numbers import Number
+import pypolars
+
+
+class IdentityDict(dict):
+    def __missing__(self, key):
+        return key
+
+
+def get_ffi_func(
+    name: str, dtype: str, obj: Optional[&#34;Series&#34;] = None, default: Optional = None
+):
+    &#34;&#34;&#34;
+    Dynamically obtain the proper ffi function/ method.
+
+    Parameters
+    ----------
+    name
+        function or method name where dtype is replaced by &lt;&gt;
+        for example
+            &#34;call_foo_&lt;&gt;&#34;
+    dtype
+        polars dtype str
+    obj
+        Optional object to find the method for. If none provided globals are used.
+    default
+        default function to use if not found.
+
+    Returns
+    -------
+    ffi function
+    &#34;&#34;&#34;
+    ffi_name = DTYPE_TO_FFINAME[dtype]
+    fname = name.replace(&#34;&lt;&gt;&#34;, ffi_name)
+    if obj:
+        return getattr(obj, fname, default)
+    else:
+        return globals().get(fname, default)
+
+
+def wrap_s(s: &#34;PySeries&#34;) -&gt; &#34;Series&#34;:
+    return Series._from_pyseries(s)
+
+
+def find_first_non_none(a: &#34;List[Optional[Any]]&#34;) -&gt; Any:
+    v = a[0]
+    if v is None:
+        return find_first_non_none(a[1:])
+    else:
+        return v
+
+
+class Series:
+    def __init__(
+        self,
+        name: str,
+        values: &#34;Union[np.array, List[Optional[Any]]]&#34;,
+        nullable: bool = False,
+    ):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        name
+            Name of the series
+        values
+            Values of the series
+        nullable
+            If nullable. List[Optional[Any]] will remain lists where None values will be interpreted as nulls
+        &#34;&#34;&#34;
+        if values.__class__ == self.__class__:
+            values.rename(name)
+            self._s = values._s
+            return
+
+        self._s: PySeries
+        # series path
+        if isinstance(values, Series):
+            self._from_pyseries(values)
+            return
+        elif isinstance(values, dict):
+            raise ValueError(
+                f&#34;Constructing a Series with a dict is not supported for {values}&#34;
+            )
+
+        # castable to numpy
+        if not isinstance(values, np.ndarray) and not nullable:
+            values = np.array(values)
+
+        # numpy path
+        if isinstance(values, np.ndarray):
+            if not values.data.contiguous:
+                values = np.array(values)
+            if len(values.shape) &gt; 1:
+                self._s = PySeries.new_object(name, values)
+                return
+            dtype = values.dtype
+            if dtype == np.int64:
+                self._s = PySeries.new_i64(name, values)
+            elif dtype == np.int32:
+                self._s = PySeries.new_i32(name, values)
+            elif dtype == np.int16:
+                self._s = PySeries.new_i16(name, values)
+            elif dtype == np.int8:
+                self._s = PySeries.new_i8(name, values)
+            elif dtype == np.float32:
+                self._s = PySeries.new_f32(name, values)
+            elif dtype == np.float64:
+                self._s = PySeries.new_f64(name, values)
+            elif isinstance(values[0], str):
+                self._s = PySeries.new_str(name, values)
+            elif dtype == np.bool:
+                self._s = PySeries.new_bool(name, values)
+            elif dtype == np.uint8:
+                self._s = PySeries.new_u8(name, values)
+            elif dtype == np.uint16:
+                self._s = PySeries.new_u16(name, values)
+            elif dtype == np.uint32:
+                self._s = PySeries.new_u32(name, values)
+            elif dtype == np.uint64:
+                self._s = PySeries.new_u64(name, values)
+            else:
+                self._s = PySeries.new_object(name, values)
+        # list path
+        else:
+            dtype = find_first_non_none(values)
+            if isinstance(dtype, int):
+                self._s = PySeries.new_opt_i64(name, values)
+            elif isinstance(dtype, float):
+                self._s = PySeries.new_opt_f64(name, values)
+            elif isinstance(dtype, str):
+                self._s = PySeries.new_str(name, values)
+            elif isinstance(dtype, bool):
+                self._s = PySeries.new_opt_bool(name, values)
+            else:
+                self._s = PySeries.new_object(name, values)
+
+    @staticmethod
+    def _from_pyseries(s: &#34;PySeries&#34;) -&gt; &#34;Series&#34;:
+        self = Series.__new__(Series)
+        self._s = s
+        return self
+
+    def inner(self) -&gt; &#34;PySeries&#34;:
+        return self._s
+
+    def __str__(self) -&gt; str:
+        return self._s.as_str()
+
+    def __repr__(self) -&gt; str:
+        return self.__str__()
+
+    def __eq__(self, other):
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.eq(other._s))
+        f = get_ffi_func(&#34;eq_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __ne__(self, other):
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.neq(other._s))
+        f = get_ffi_func(&#34;neq_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __gt__(self, other):
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.gt(other._s))
+        f = get_ffi_func(&#34;gt_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __lt__(self, other):
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.lt(other._s))
+        f = get_ffi_func(&#34;lt_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __ge__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.gt_eq(other._s))
+        f = get_ffi_func(&#34;gt_eq_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __le__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.lt_eq(other._s))
+        f = get_ffi_func(&#34;lt_eq_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __add__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, str):
+            other = Series(&#34;&#34;, [other])
+        if isinstance(other, Series):
+            return wrap_s(self._s.add(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;add_&lt;&gt;&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __sub__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.sub(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;sub_&lt;&gt;&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __truediv__(self, other) -&gt; &#34;Series&#34;:
+        primitive = dtype_to_primitive(self.dtype)
+        if self.dtype != primitive:
+            return self.__floordiv__(other)
+
+        if not self.is_float():
+            out_dtype = Float64
+        else:
+            out_dtype = self.dtype
+        return np.true_divide(self, other, dtype=out_dtype)
+
+    def __floordiv__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.div(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;div_&lt;&gt;&#34;, dtype, self._s)
+        return wrap_s(f(other))
+
+    def __mul__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.mul(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;mul_&lt;&gt;&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __radd__(self, other):
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.add(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;add_&lt;&gt;_rhs&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __rsub__(self, other):
+        if isinstance(other, Series):
+            return Series._from_pyseries(other._s.sub(self._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;sub_&lt;&gt;_rhs&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __invert__(self):
+        if self.dtype == Boolean:
+            return wrap_s(self._s._not())
+        return NotImplemented
+
+    def __rtruediv__(self, other):
+
+        primitive = dtype_to_primitive(self.dtype)
+        if self.dtype != primitive:
+            self.__rfloordiv__(other)
+
+        if not self.is_float():
+            out_dtype = Float64
+        else:
+            out_dtype = DTYPE_TO_FFINAME[self.dtype]
+        return np.true_divide(other, self, dtype=out_dtype)
+
+    def __rfloordiv__(self, other):
+        if isinstance(other, Series):
+            return Series._from_pyseries(other._s.div(self._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;div_&lt;&gt;_rhs&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __rmul__(self, other):
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.mul(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;mul_&lt;&gt;&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __getitem__(self, item):
+        if isinstance(item, int):
+            if item &gt;= self.len():
+                raise IndexError
+        # assume it is boolean mask
+        if isinstance(item, Series):
+            return Series._from_pyseries(self._s.filter(item._s))
+        # slice
+        if type(item) == slice:
+            start, stop, stride = item.indices(self.len())
+            if stride != 1:
+                return NotImplemented
+            return self.slice(start, stop - start)
+        f = get_ffi_func(&#34;get_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return f(item)
+
+    def __setitem__(self, key, value):
+        if isinstance(key, Series):
+            if key.dtype == Boolean:
+                self._s = self.set(key, value)._s
+            elif key.dtype == UInt64:
+                self._s = self.set_at_idx(key, value)._s
+            elif key.dtype == UInt32:
+                self._s = self.set_at_idx(key.cast_u64(), value)._s
+        # TODO: implement for these types without casting to series
+        if isinstance(key, (np.ndarray, list, tuple)):
+            s = wrap_s(PySeries.new_u64(&#34;&#34;, np.array(key, np.uint64)))
+            self.__setitem__(s, value)
+
+    def drop_nulls(self) -&gt; &#34;Series&#34;:
+        return wrap_s(self._s.drop_nulls())
+
+    @property
+    def dtype(self):
+        &#34;&#34;&#34;
+        Get the data type of this Series
+        &#34;&#34;&#34;
+        return dtypes[self._s.dtype()]
+
+    def sum(self):
+        &#34;&#34;&#34;
+        Reduce this Series to the sum value.
+        &#34;&#34;&#34;
+        if self.dtype == Boolean:
+            return self._s.sum_u32()
+        f = get_ffi_func(&#34;sum_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return f()
+
+    def mean(self):
+        &#34;&#34;&#34;
+        Reduce this Series to the mean value.
+        &#34;&#34;&#34;
+        # use float type for mean aggregations no matter of base type
+        return self._s.mean_f64()
+
+    def min(self):
+        &#34;&#34;&#34;
+        Get the minimal value in this Series
+        &#34;&#34;&#34;
+        if self.dtype == Boolean:
+            return self._s.min_u32()
+        f = get_ffi_func(&#34;min_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return f()
+
+    def max(self):
+        &#34;&#34;&#34;
+        Get the maximum value in this Series
+        &#34;&#34;&#34;
+        if self.dtype == Boolean:
+            return self._s.max_u32()
+        f = get_ffi_func(&#34;max_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return f()
+
+    def std(self) -&gt; float:
+        &#34;&#34;&#34;
+        Get standard deviation of this Series
+        &#34;&#34;&#34;
+        return np.std(self.drop_nulls().view())
+
+    def var(self) -&gt; float:
+        &#34;&#34;&#34;
+        Get variance of this Series
+        &#34;&#34;&#34;
+        return np.var(self.drop_nulls().view())
+
+    def to_dummies(self) -&gt; &#34;DataFrame&#34;:
+        &#34;&#34;&#34;
+        Get dummy variables
+        &#34;&#34;&#34;
+        return pypolars.frame.wrap_df(self._s.to_dummies())
+
+    def value_counts(self) -&gt; &#34;DataFrame&#34;:
+        &#34;&#34;&#34;
+        Count the unique values in a Series
+        &#34;&#34;&#34;
+        return pypolars.frame.wrap_df(self._s.value_counts())
+
+    @property
+    def name(self):
+        &#34;&#34;&#34;
+        Get the name of this Series
+        &#34;&#34;&#34;
+        return self._s.name()
+
+    def rename(self, name: str):
+        &#34;&#34;&#34;
+        Rename this Series.
+
+        Parameters
+        ----------
+        name
+            New name
+        &#34;&#34;&#34;
+        self._s.rename(name)
+
+    def chunk_lengths(self) -&gt; &#34;List[int]&#34;:
+        return self._s.chunk_lengths()
+
+    def n_chunks(self) -&gt; int:
+        &#34;&#34;&#34;
+        Get the number of chunks that this Series contains.
+        &#34;&#34;&#34;
+        return self._s.n_chunks()
+
+    def limit(self, num_elements: int) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Take n elements from this Series.
+
+        Parameters
+        ----------
+        num_elements
+            Amount of elements to take.
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.limit(num_elements))
+
+    def slice(self, offset: int, length: int) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get a slice of this Series
+
+        Parameters
+        ----------
+        offset
+            Offset index.
+        length
+            Length of the slice.
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.slice(offset, length))
+
+    def append(self, other: &#34;Series&#34;):
+        &#34;&#34;&#34;
+        Append a Series to this one.
+
+        Parameters
+        ----------
+        other
+            Series to append
+        &#34;&#34;&#34;
+        self._s.append(other._s)
+
+    def filter(self, filter: &#34;Series&#34;) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Filter elements by a boolean mask
+
+        Parameters
+        ----------
+        filter
+            Boolean mask
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.filter(filter._s))
+
+    def head(self, length: Optional[int] = None) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get first N elements as Series
+
+        Parameters
+        ----------
+        length
+            Length of the head
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.head(length))
+
+    def tail(self, length: Optional[int] = None) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get last N elements as Series
+
+        Parameters
+        ----------
+        length
+            Length of the tail
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.tail(length))
+
+    def sort(self, in_place: bool = False, reverse: bool = False) -&gt; Optional[&#34;Series&#34;]:
+        &#34;&#34;&#34;
+        Sort this Series.
+
+        Parameters
+        ----------
+        in_place
+            Sort in place.
+        reverse
+            Reverse sort
+        &#34;&#34;&#34;
+        if in_place:
+            self._s.sort_in_place(reverse)
+        else:
+            return wrap_s(self._s.sort(reverse))
+
+    def argsort(self, reverse: bool = False) -&gt; Sequence[int]:
+        &#34;&#34;&#34;
+        Index location of the sorted variant of this Series.
+
+        Returns
+        -------
+        indexes
+            Indexes that can be used to sort this array.
+        &#34;&#34;&#34;
+        return self._s.argsort(reverse)
+
+    def arg_unique(self) -&gt; &#34;List[int]&#34;:
+        &#34;&#34;&#34;
+        Get unique arguments.
+
+        Returns
+        -------
+        indexes
+            Indexes of the unique values
+        &#34;&#34;&#34;
+        return self._s.arg_unique()
+
+    def unique(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get unique elements in series.
+        &#34;&#34;&#34;
+        return wrap_s(self._s.unique())
+
+    def take(self, indices: &#34;Union[np.ndarray, List[int]]&#34;) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Take values by index.
+
+        Parameters
+        ----------
+        indices
+            Index location used for selection.
+        &#34;&#34;&#34;
+        if isinstance(indices, list):
+            indices = np.array(indices)
+        return Series._from_pyseries(self._s.take(indices))
+
+    def null_count(self) -&gt; int:
+        &#34;&#34;&#34;
+        Count the null values in this Series
+        &#34;&#34;&#34;
+        return self._s.null_count()
+
+    def is_null(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get mask of null values
+
+        Returns
+        -------
+        Boolean Series
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.is_null())
+
+    def is_not_null(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get mask of non null values
+
+        Returns
+        -------
+        Boolean Series
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.is_not_null())
+
+    def is_unique(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get mask of all unique values
+
+        Returns
+        -------
+        Boolean Series
+        &#34;&#34;&#34;
+        return wrap_s(self._s.is_unique())
+
+    def is_duplicated(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get mask of all duplicated values
+
+        Returns
+        -------
+        Boolean Series
+        &#34;&#34;&#34;
+        return wrap_s(self._s.is_duplicated())
+
+    def series_equal(self, other: &#34;Series&#34;, null_equal: bool = False) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if series equal with another Series.
+
+        Parameters
+        ----------
+        other
+            Series to compare with.
+        null_equal
+            Consider null values as equal.
+        &#34;&#34;&#34;
+        return self._s.series_equal(other._s, null_equal)
+
+    def len(self) -&gt; int:
+        &#34;&#34;&#34;
+        Length of this Series
+        &#34;&#34;&#34;
+        return self._s.len()
+
+    def __len__(self):
+        return self.len()
+
+    def cast(self, data_type=&#34;DataType&#34;):
+        if data_type == int:
+            data_type = Int64
+        elif data_type == str:
+            data_type = Utf8
+        elif data_type == float:
+            data_type = Float64
+        f = get_ffi_func(&#34;cast_&lt;&gt;&#34;, data_type, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f())
+
+    def to_list(self) -&gt; &#34;List[Optional[Any]]&#34;:
+        &#34;&#34;&#34;
+        Convert this Series to a Python List. This operation clones data.
+        &#34;&#34;&#34;
+        if self.dtype == List:
+            column = []
+            for i in range(len(self)):
+                subseries = self[i]
+                column.append(subseries.to_numpy())
+            return column
+        return self._s.to_list()
+
+    def __iter__(self):
+        return self.to_list().__iter__()
+
+    def rechunk(self, in_place: bool = False) -&gt; Optional[&#34;Series&#34;]:
+        &#34;&#34;&#34;
+        Create a single chunk of memory for this Series.
+
+        Parameters
+        ----------
+        in_place
+            In place or not.
+        &#34;&#34;&#34;
+        opt_s = self._s.rechunk(in_place)
+        if not in_place:
+            return wrap_s(opt_s)
+
+    def is_numeric(self) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if this Series datatype is numeric.
+        &#34;&#34;&#34;
+        return self.dtype not in (Utf8, Boolean, List)
+
+    def is_float(self) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if this Series has floating point numbers
+        &#34;&#34;&#34;
+        return self.dtype in (Float32, Float64)
+
+    def view(self) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Get a view into this Series data with a numpy array. This operation doesn&#39;t clone data, but does not include
+        missing values
+        &#34;&#34;&#34;
+        ptr_type = dtype_to_ctype(self.dtype)
+        ptr = self._s.as_single_ptr()
+        array = _ptr_to_numpy(ptr, self.len(), ptr_type)
+        array.setflags(write=False)
+        return array
+
+    def __array_ufunc__(self, ufunc, method, *inputs, **kwargs):
+        if self._s.n_chunks() &gt; 0:
+            self._s.rechunk(in_place=True)
+
+        if method == &#34;__call__&#34;:
+            args = []
+            for arg in inputs:
+                if isinstance(arg, Number):
+                    args.append(arg)
+                elif isinstance(arg, self.__class__):
+                    args.append(arg.view())
+                else:
+                    return NotImplemented
+
+            if &#34;dtype&#34; in kwargs:
+                dtype = kwargs.pop(&#34;dtype&#34;)
+            else:
+                dtype = self.dtype
+
+            f = get_ffi_func(&#34;apply_ufunc_&lt;&gt;&#34;, dtype, self._s)
+            series = f(lambda out: ufunc(*args, out=out, **kwargs))
+            return wrap_s(series)
+        else:
+            return NotImplemented
+
+    def to_numpy(self) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Convert this Series to numpy. This operation clones data.
+        &#34;&#34;&#34;
+        if self.dtype == List:
+            return np.array(self.to_list())
+
+        a = self._s.to_numpy()
+        # strings are returned in lists
+        if isinstance(a, list):
+            return np.array(a)
+        return a
+
+    def set(self, filter: &#34;Series&#34;, value: Union[int, float]) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Set masked values.
+
+        Parameters
+        ----------
+        filter
+            Boolean mask
+        value
+            Value to replace the the masked values with.
+        &#34;&#34;&#34;
+        f = get_ffi_func(&#34;set_with_mask_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(filter._s, value))
+
+    def set_at_idx(
+        self, idx: Union[&#34;Series&#34;, np.ndarray], value: Union[int, float]
+    ) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Set values at the index locations.
+
+        Parameters
+        ----------
+        idx
+            Integers representing the index locations.
+        value
+            replacement values
+
+        Returns
+        -------
+        New allocated Series
+        &#34;&#34;&#34;
+        f = get_ffi_func(&#34;set_at_idx_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        if isinstance(idx, Series):
+            idx_array = idx.view()
+        elif isinstance(idx, np.ndarray):
+            if not idx.data.c_contiguous:
+                idx_array = np.ascontiguousarray(idx, dtype=np.uint64)
+            else:
+                idx_array = idx
+                if idx_array.dtype != np.uint64:
+                    idx_array = np.array(idx_array, np.uint64)
+
+        else:
+            idx_array = np.array(idx, dtype=np.uint64)
+
+        return wrap_s(f(idx_array, value))
+
+    def clone(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Cheap deep clones
+        &#34;&#34;&#34;
+        return wrap_s(self._s.clone())
+
+    def fill_none(self, strategy: str) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Fill null values with a fill strategy.
+
+        Parameters
+        ----------
+        strategy
+               * &#34;backward&#34;
+               * &#34;forward&#34;
+               * &#34;min&#34;
+               * &#34;max&#34;
+               * &#34;mean&#34;
+        &#34;&#34;&#34;
+        return wrap_s(self._s.fill_none(strategy))
+
+    def apply(
+        self,
+        func: &#34;Union[Callable[[&#39;T&#39;], &#39;T&#39;], Callable[[&#39;T&#39;], &#39;S&#39;]]&#34;,
+        dtype_out: &#34;Optional[&#39;DataType&#39;]&#34; = None,
+        sniff_dtype: bool = True,
+    ):
+        &#34;&#34;&#34;
+        Apply a function over elements in this Series and return a new Series.
+
+        If the function returns another datatype, the dtype_out arg should be set, otherwise the method will fail.
+
+        Parameters
+        ----------
+        func
+            function or lambda.
+        dtype_out
+            Output datatype. If none given the same datatype as this Series will be used.
+        sniff_dtype:
+            will try to infer return type
+
+        Returns
+        -------
+        Series
+        &#34;&#34;&#34;
+        if sniff_dtype and dtype_out is None:
+            if self.is_numeric():
+                dtype_out = out_to_dtype(func(1))
+            elif self.dtype == Boolean:
+                dtype_out = out_to_dtype(func(True))
+            elif self.dtype == List:
+                dtype_out = out_to_dtype(func(Series(&#34;&#34;, [1, 2])))
+            elif self.dtype == Utf8:
+                dtype_out = out_to_dtype(func(&#34;foo&#34;))
+            else:
+                # try a numeric input for temporal data
+                dtype_out = out_to_dtype(func(1))
+
+        if dtype_out is None:
+            return wrap_s(self._s.apply_lambda(func))
+        else:
+            dt = dtype_to_int(dtype_out)
+            return wrap_s(self._s.apply_lambda(func, dt))
+
+    def shift(self, periods: int) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Shift the values by a given period and fill the parts that will be empty due to this operation
+        with `Nones`.
+
+        Parameters
+        ----------
+        periods
+            Number of places to shift (may be negative).
+        &#34;&#34;&#34;
+        return wrap_s(self._s.shift(periods))
+
+    def zip_with(self, mask: &#34;Series&#34;, other: &#34;Series&#34;) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Where mask evaluates true take values from self. Where mask evaluates false, take values from other.
+
+        Parameters
+        ----------
+        mask
+            Boolean Series
+        other
+            Series of same type
+
+        Returns
+        -------
+        New Series
+        &#34;&#34;&#34;
+        return wrap_s(self._s.zip_with(mask._s, other._s))
+
+    def str_lengths(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get length of the string values in the Series.
+
+        Returns
+        -------
+        Series[u32]
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_lengths())
+
+    def str_contains(self, pattern: str) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Check if strings in Series contain regex pattern
+
+        Parameters
+        ----------
+        pattern
+            A valid regex pattern
+
+        Returns
+        -------
+        Boolean mask
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_contains(pattern))
+
+    def str_replace(self, pattern: str, value: str) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Replace first regex math with a string value
+
+        Parameters
+        ----------
+        pattern
+            A valid regex pattern
+        value
+            Substring to replace
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_replace(pattern, value))
+
+    def str_replace_all(self, pattern: str, value: str) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Replace all regex matches with a string value
+
+        Parameters
+        ----------
+        pattern
+            A valid regex pattern
+        value
+            Substring to replace
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_replace_all(pattern, value))
+
+    def str_to_lowercase(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Modify the strings to their lowercase equivalent
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_to_lowercase())
+
+    def str_to_uppercase(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Modify the strings to their uppercase equivalent
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_to_uppercase())
+
+    def as_duration(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        If Series is a date32 or a date64 it can be turned into a duration.
+        &#34;&#34;&#34;
+        return wrap_s(self._s.as_duration())
+
+    def str_parse_date(self, datatype: &#34;DataType&#34;, fmt: Optional[str] = None):
+        if datatype == Date32:
+            return wrap_s(self._s.str_parse_date32(fmt))
+        if datatype == Date64:
+            return wrap_s(self._s.str_parse_date64(fmt))
+        return NotImplemented
+
+    def rolling_min(
+        self,
+        window_size: int,
+        weight: &#34;Optional[List[float]]&#34; = None,
+        ignore_null: bool = False,
+    ):
+        return wrap_s(self._s.rolling_min(window_size, weight, ignore_null))
+
+    def rolling_max(
+        self,
+        window_size: int,
+        weight: &#34;Optional[List[float]]&#34; = None,
+        ignore_null: bool = False,
+    ):
+        return wrap_s(self._s.rolling_max(window_size, weight, ignore_null))
+
+    def rolling_mean(
+        self,
+        window_size: int,
+        weight: &#34;Optional[List[float]]&#34; = None,
+        ignore_null: bool = False,
+    ):
+        return wrap_s(self._s.rolling_mean(window_size, weight, ignore_null))
+
+    def rolling_sum(
+        self,
+        window_size: int,
+        weight: &#34;Optional[List[float]]&#34; = None,
+        ignore_null: bool = False,
+    ):
+        return wrap_s(self._s.rolling_sum(window_size, weight, ignore_null))
+
+    def year(self):
+        &#34;&#34;&#34;
+        Extract year from underlying Date representation.
+        Can be performed on Date32 and Date64
+
+        Returns the year number in the calendar date.
+
+        Returns
+        -------
+        Year as Int32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.year())
+
+    def month(self):
+        &#34;&#34;&#34;
+        Extract month from underlying Date representation.
+        Can be performed on Date32 and Date64
+
+        Returns the month number starting from 1.
+        The return value ranges from 1 to 12.
+
+        Returns
+        -------
+        Month as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.month())
+
+    def day(self):
+        &#34;&#34;&#34;
+        Extract day from underlying Date representation.
+        Can be performed on Date32 and Date64
+
+        Returns the day of month starting from 1.
+        The return value ranges from 1 to 31. (The last day of month differs by months.)
+
+        Returns
+        -------
+        Day as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.day())
+
+    def ordinal_day(self):
+        &#34;&#34;&#34;
+        Extract ordinal day from underlying Date representation.
+        Can be performed on Date32 and Date64
+
+        Returns the day of year starting from 1.
+        The return value ranges from 1 to 366. (The last day of year differs by years.)
+
+        Returns
+        -------
+        Day as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.ordinal_day())
+
+    def hour(self):
+        &#34;&#34;&#34;
+        Extract day from underlying DateTime representation.
+        Can be performed on Date64
+
+        Returns the hour number from 0 to 23.
+
+        Returns
+        -------
+        Hour as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.hour())
+
+    def minute(self):
+        &#34;&#34;&#34;
+        Extract minutes from underlying DateTime representation.
+        Can be performed on Date64
+
+        Returns the minute number from 0 to 59.
+
+        Returns
+        -------
+        Minute as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.minute())
+
+    def second(self):
+        &#34;&#34;&#34;
+        Extract seconds from underlying DateTime representation.
+        Can be performed on Date64
+
+        Returns the second number from 0 to 59.
+
+        Returns
+        -------
+        Second as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.second())
+
+    def nanosecond(self):
+        &#34;&#34;&#34;
+        Extract seconds from underlying DateTime representation.
+        Can be performed on Date64
+
+        Returns the number of nanoseconds since the whole non-leap second.
+        The range from 1,000,000,000 to 1,999,999,999 represents the leap second.
+
+        Returns
+        -------
+        Nanosecond as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.nanosecond())
+
+    @staticmethod
+    def parse_date(
+        name: str, values: Sequence[str], dtype: &#34;DataType&#34;, fmt: str
+    ) -&gt; &#34;Series&#34;:
+        f = get_ffi_func(&#34;parse_&lt;&gt;_from_str_slice&#34;, dtype, PySeries)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(name, values, fmt))
+
+
+def out_to_dtype(out: Any) -&gt; &#34;Datatype&#34;:
+    if isinstance(out, float):
+        return Float64
+    if isinstance(out, int):
+        return Int64
+    if isinstance(out, str):
+        return Utf8
+    if isinstance(out, bool):
+        return Boolean
+    if isinstance(out, Series):
+        return List
+    return NotImplemented</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pypolars.series.IdentityDict"><code class="flex name class">
+<span>class <span class="ident">IdentityDict</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>dict() -&gt; new empty dictionary
+dict(mapping) -&gt; new dictionary initialized from a mapping object's
+(key, value) pairs
+dict(iterable) -&gt; new dictionary initialized as if via:
+d = {}
+for k, v in iterable:
+d[k] = v
+dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
+in the keyword argument list.
+For example:
+dict(one=1, two=2)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IdentityDict(dict):
+    def __missing__(self, key):
+        return key</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.dict</li>
+</ul>
+</dd>
+<dt id="pypolars.series.Series"><code class="flex name class">
+<span>class <span class="ident">Series</span></span>
+<span>(</span><span>name: str, values: Union[np.array, List[Optional[Any]]], nullable: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>Name of the series</dd>
+<dt><strong><code>values</code></strong></dt>
+<dd>Values of the series</dd>
+<dt><strong><code>nullable</code></strong></dt>
+<dd>If nullable. List[Optional[Any]] will remain lists where None values will be interpreted as nulls</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Series:
+    def __init__(
+        self,
+        name: str,
+        values: &#34;Union[np.array, List[Optional[Any]]]&#34;,
+        nullable: bool = False,
+    ):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        name
+            Name of the series
+        values
+            Values of the series
+        nullable
+            If nullable. List[Optional[Any]] will remain lists where None values will be interpreted as nulls
+        &#34;&#34;&#34;
+        if values.__class__ == self.__class__:
+            values.rename(name)
+            self._s = values._s
+            return
+
+        self._s: PySeries
+        # series path
+        if isinstance(values, Series):
+            self._from_pyseries(values)
+            return
+        elif isinstance(values, dict):
+            raise ValueError(
+                f&#34;Constructing a Series with a dict is not supported for {values}&#34;
+            )
+
+        # castable to numpy
+        if not isinstance(values, np.ndarray) and not nullable:
+            values = np.array(values)
+
+        # numpy path
+        if isinstance(values, np.ndarray):
+            if not values.data.contiguous:
+                values = np.array(values)
+            if len(values.shape) &gt; 1:
+                self._s = PySeries.new_object(name, values)
+                return
+            dtype = values.dtype
+            if dtype == np.int64:
+                self._s = PySeries.new_i64(name, values)
+            elif dtype == np.int32:
+                self._s = PySeries.new_i32(name, values)
+            elif dtype == np.int16:
+                self._s = PySeries.new_i16(name, values)
+            elif dtype == np.int8:
+                self._s = PySeries.new_i8(name, values)
+            elif dtype == np.float32:
+                self._s = PySeries.new_f32(name, values)
+            elif dtype == np.float64:
+                self._s = PySeries.new_f64(name, values)
+            elif isinstance(values[0], str):
+                self._s = PySeries.new_str(name, values)
+            elif dtype == np.bool:
+                self._s = PySeries.new_bool(name, values)
+            elif dtype == np.uint8:
+                self._s = PySeries.new_u8(name, values)
+            elif dtype == np.uint16:
+                self._s = PySeries.new_u16(name, values)
+            elif dtype == np.uint32:
+                self._s = PySeries.new_u32(name, values)
+            elif dtype == np.uint64:
+                self._s = PySeries.new_u64(name, values)
+            else:
+                self._s = PySeries.new_object(name, values)
+        # list path
+        else:
+            dtype = find_first_non_none(values)
+            if isinstance(dtype, int):
+                self._s = PySeries.new_opt_i64(name, values)
+            elif isinstance(dtype, float):
+                self._s = PySeries.new_opt_f64(name, values)
+            elif isinstance(dtype, str):
+                self._s = PySeries.new_str(name, values)
+            elif isinstance(dtype, bool):
+                self._s = PySeries.new_opt_bool(name, values)
+            else:
+                self._s = PySeries.new_object(name, values)
+
+    @staticmethod
+    def _from_pyseries(s: &#34;PySeries&#34;) -&gt; &#34;Series&#34;:
+        self = Series.__new__(Series)
+        self._s = s
+        return self
+
+    def inner(self) -&gt; &#34;PySeries&#34;:
+        return self._s
+
+    def __str__(self) -&gt; str:
+        return self._s.as_str()
+
+    def __repr__(self) -&gt; str:
+        return self.__str__()
+
+    def __eq__(self, other):
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.eq(other._s))
+        f = get_ffi_func(&#34;eq_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __ne__(self, other):
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.neq(other._s))
+        f = get_ffi_func(&#34;neq_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __gt__(self, other):
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.gt(other._s))
+        f = get_ffi_func(&#34;gt_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __lt__(self, other):
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.lt(other._s))
+        f = get_ffi_func(&#34;lt_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __ge__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.gt_eq(other._s))
+        f = get_ffi_func(&#34;gt_eq_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __le__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, Sequence) and not isinstance(other, str):
+            other = Series(&#34;&#34;, other, nullable=True)
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.lt_eq(other._s))
+        f = get_ffi_func(&#34;lt_eq_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __add__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, str):
+            other = Series(&#34;&#34;, [other])
+        if isinstance(other, Series):
+            return wrap_s(self._s.add(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;add_&lt;&gt;&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __sub__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.sub(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;sub_&lt;&gt;&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __truediv__(self, other) -&gt; &#34;Series&#34;:
+        primitive = dtype_to_primitive(self.dtype)
+        if self.dtype != primitive:
+            return self.__floordiv__(other)
+
+        if not self.is_float():
+            out_dtype = Float64
+        else:
+            out_dtype = self.dtype
+        return np.true_divide(self, other, dtype=out_dtype)
+
+    def __floordiv__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.div(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;div_&lt;&gt;&#34;, dtype, self._s)
+        return wrap_s(f(other))
+
+    def __mul__(self, other) -&gt; &#34;Series&#34;:
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.mul(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;mul_&lt;&gt;&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __radd__(self, other):
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.add(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;add_&lt;&gt;_rhs&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __rsub__(self, other):
+        if isinstance(other, Series):
+            return Series._from_pyseries(other._s.sub(self._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;sub_&lt;&gt;_rhs&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __invert__(self):
+        if self.dtype == Boolean:
+            return wrap_s(self._s._not())
+        return NotImplemented
+
+    def __rtruediv__(self, other):
+
+        primitive = dtype_to_primitive(self.dtype)
+        if self.dtype != primitive:
+            self.__rfloordiv__(other)
+
+        if not self.is_float():
+            out_dtype = Float64
+        else:
+            out_dtype = DTYPE_TO_FFINAME[self.dtype]
+        return np.true_divide(other, self, dtype=out_dtype)
+
+    def __rfloordiv__(self, other):
+        if isinstance(other, Series):
+            return Series._from_pyseries(other._s.div(self._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;div_&lt;&gt;_rhs&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __rmul__(self, other):
+        if isinstance(other, Series):
+            return Series._from_pyseries(self._s.mul(other._s))
+        dtype = dtype_to_primitive(self.dtype)
+        f = get_ffi_func(&#34;mul_&lt;&gt;&#34;, dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(other))
+
+    def __getitem__(self, item):
+        if isinstance(item, int):
+            if item &gt;= self.len():
+                raise IndexError
+        # assume it is boolean mask
+        if isinstance(item, Series):
+            return Series._from_pyseries(self._s.filter(item._s))
+        # slice
+        if type(item) == slice:
+            start, stop, stride = item.indices(self.len())
+            if stride != 1:
+                return NotImplemented
+            return self.slice(start, stop - start)
+        f = get_ffi_func(&#34;get_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return f(item)
+
+    def __setitem__(self, key, value):
+        if isinstance(key, Series):
+            if key.dtype == Boolean:
+                self._s = self.set(key, value)._s
+            elif key.dtype == UInt64:
+                self._s = self.set_at_idx(key, value)._s
+            elif key.dtype == UInt32:
+                self._s = self.set_at_idx(key.cast_u64(), value)._s
+        # TODO: implement for these types without casting to series
+        if isinstance(key, (np.ndarray, list, tuple)):
+            s = wrap_s(PySeries.new_u64(&#34;&#34;, np.array(key, np.uint64)))
+            self.__setitem__(s, value)
+
+    def drop_nulls(self) -&gt; &#34;Series&#34;:
+        return wrap_s(self._s.drop_nulls())
+
+    @property
+    def dtype(self):
+        &#34;&#34;&#34;
+        Get the data type of this Series
+        &#34;&#34;&#34;
+        return dtypes[self._s.dtype()]
+
+    def sum(self):
+        &#34;&#34;&#34;
+        Reduce this Series to the sum value.
+        &#34;&#34;&#34;
+        if self.dtype == Boolean:
+            return self._s.sum_u32()
+        f = get_ffi_func(&#34;sum_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return f()
+
+    def mean(self):
+        &#34;&#34;&#34;
+        Reduce this Series to the mean value.
+        &#34;&#34;&#34;
+        # use float type for mean aggregations no matter of base type
+        return self._s.mean_f64()
+
+    def min(self):
+        &#34;&#34;&#34;
+        Get the minimal value in this Series
+        &#34;&#34;&#34;
+        if self.dtype == Boolean:
+            return self._s.min_u32()
+        f = get_ffi_func(&#34;min_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return f()
+
+    def max(self):
+        &#34;&#34;&#34;
+        Get the maximum value in this Series
+        &#34;&#34;&#34;
+        if self.dtype == Boolean:
+            return self._s.max_u32()
+        f = get_ffi_func(&#34;max_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return f()
+
+    def std(self) -&gt; float:
+        &#34;&#34;&#34;
+        Get standard deviation of this Series
+        &#34;&#34;&#34;
+        return np.std(self.drop_nulls().view())
+
+    def var(self) -&gt; float:
+        &#34;&#34;&#34;
+        Get variance of this Series
+        &#34;&#34;&#34;
+        return np.var(self.drop_nulls().view())
+
+    def to_dummies(self) -&gt; &#34;DataFrame&#34;:
+        &#34;&#34;&#34;
+        Get dummy variables
+        &#34;&#34;&#34;
+        return pypolars.frame.wrap_df(self._s.to_dummies())
+
+    def value_counts(self) -&gt; &#34;DataFrame&#34;:
+        &#34;&#34;&#34;
+        Count the unique values in a Series
+        &#34;&#34;&#34;
+        return pypolars.frame.wrap_df(self._s.value_counts())
+
+    @property
+    def name(self):
+        &#34;&#34;&#34;
+        Get the name of this Series
+        &#34;&#34;&#34;
+        return self._s.name()
+
+    def rename(self, name: str):
+        &#34;&#34;&#34;
+        Rename this Series.
+
+        Parameters
+        ----------
+        name
+            New name
+        &#34;&#34;&#34;
+        self._s.rename(name)
+
+    def chunk_lengths(self) -&gt; &#34;List[int]&#34;:
+        return self._s.chunk_lengths()
+
+    def n_chunks(self) -&gt; int:
+        &#34;&#34;&#34;
+        Get the number of chunks that this Series contains.
+        &#34;&#34;&#34;
+        return self._s.n_chunks()
+
+    def limit(self, num_elements: int) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Take n elements from this Series.
+
+        Parameters
+        ----------
+        num_elements
+            Amount of elements to take.
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.limit(num_elements))
+
+    def slice(self, offset: int, length: int) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get a slice of this Series
+
+        Parameters
+        ----------
+        offset
+            Offset index.
+        length
+            Length of the slice.
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.slice(offset, length))
+
+    def append(self, other: &#34;Series&#34;):
+        &#34;&#34;&#34;
+        Append a Series to this one.
+
+        Parameters
+        ----------
+        other
+            Series to append
+        &#34;&#34;&#34;
+        self._s.append(other._s)
+
+    def filter(self, filter: &#34;Series&#34;) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Filter elements by a boolean mask
+
+        Parameters
+        ----------
+        filter
+            Boolean mask
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.filter(filter._s))
+
+    def head(self, length: Optional[int] = None) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get first N elements as Series
+
+        Parameters
+        ----------
+        length
+            Length of the head
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.head(length))
+
+    def tail(self, length: Optional[int] = None) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get last N elements as Series
+
+        Parameters
+        ----------
+        length
+            Length of the tail
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.tail(length))
+
+    def sort(self, in_place: bool = False, reverse: bool = False) -&gt; Optional[&#34;Series&#34;]:
+        &#34;&#34;&#34;
+        Sort this Series.
+
+        Parameters
+        ----------
+        in_place
+            Sort in place.
+        reverse
+            Reverse sort
+        &#34;&#34;&#34;
+        if in_place:
+            self._s.sort_in_place(reverse)
+        else:
+            return wrap_s(self._s.sort(reverse))
+
+    def argsort(self, reverse: bool = False) -&gt; Sequence[int]:
+        &#34;&#34;&#34;
+        Index location of the sorted variant of this Series.
+
+        Returns
+        -------
+        indexes
+            Indexes that can be used to sort this array.
+        &#34;&#34;&#34;
+        return self._s.argsort(reverse)
+
+    def arg_unique(self) -&gt; &#34;List[int]&#34;:
+        &#34;&#34;&#34;
+        Get unique arguments.
+
+        Returns
+        -------
+        indexes
+            Indexes of the unique values
+        &#34;&#34;&#34;
+        return self._s.arg_unique()
+
+    def unique(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get unique elements in series.
+        &#34;&#34;&#34;
+        return wrap_s(self._s.unique())
+
+    def take(self, indices: &#34;Union[np.ndarray, List[int]]&#34;) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Take values by index.
+
+        Parameters
+        ----------
+        indices
+            Index location used for selection.
+        &#34;&#34;&#34;
+        if isinstance(indices, list):
+            indices = np.array(indices)
+        return Series._from_pyseries(self._s.take(indices))
+
+    def null_count(self) -&gt; int:
+        &#34;&#34;&#34;
+        Count the null values in this Series
+        &#34;&#34;&#34;
+        return self._s.null_count()
+
+    def is_null(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get mask of null values
+
+        Returns
+        -------
+        Boolean Series
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.is_null())
+
+    def is_not_null(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get mask of non null values
+
+        Returns
+        -------
+        Boolean Series
+        &#34;&#34;&#34;
+        return Series._from_pyseries(self._s.is_not_null())
+
+    def is_unique(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get mask of all unique values
+
+        Returns
+        -------
+        Boolean Series
+        &#34;&#34;&#34;
+        return wrap_s(self._s.is_unique())
+
+    def is_duplicated(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get mask of all duplicated values
+
+        Returns
+        -------
+        Boolean Series
+        &#34;&#34;&#34;
+        return wrap_s(self._s.is_duplicated())
+
+    def series_equal(self, other: &#34;Series&#34;, null_equal: bool = False) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if series equal with another Series.
+
+        Parameters
+        ----------
+        other
+            Series to compare with.
+        null_equal
+            Consider null values as equal.
+        &#34;&#34;&#34;
+        return self._s.series_equal(other._s, null_equal)
+
+    def len(self) -&gt; int:
+        &#34;&#34;&#34;
+        Length of this Series
+        &#34;&#34;&#34;
+        return self._s.len()
+
+    def __len__(self):
+        return self.len()
+
+    def cast(self, data_type=&#34;DataType&#34;):
+        if data_type == int:
+            data_type = Int64
+        elif data_type == str:
+            data_type = Utf8
+        elif data_type == float:
+            data_type = Float64
+        f = get_ffi_func(&#34;cast_&lt;&gt;&#34;, data_type, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f())
+
+    def to_list(self) -&gt; &#34;List[Optional[Any]]&#34;:
+        &#34;&#34;&#34;
+        Convert this Series to a Python List. This operation clones data.
+        &#34;&#34;&#34;
+        if self.dtype == List:
+            column = []
+            for i in range(len(self)):
+                subseries = self[i]
+                column.append(subseries.to_numpy())
+            return column
+        return self._s.to_list()
+
+    def __iter__(self):
+        return self.to_list().__iter__()
+
+    def rechunk(self, in_place: bool = False) -&gt; Optional[&#34;Series&#34;]:
+        &#34;&#34;&#34;
+        Create a single chunk of memory for this Series.
+
+        Parameters
+        ----------
+        in_place
+            In place or not.
+        &#34;&#34;&#34;
+        opt_s = self._s.rechunk(in_place)
+        if not in_place:
+            return wrap_s(opt_s)
+
+    def is_numeric(self) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if this Series datatype is numeric.
+        &#34;&#34;&#34;
+        return self.dtype not in (Utf8, Boolean, List)
+
+    def is_float(self) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if this Series has floating point numbers
+        &#34;&#34;&#34;
+        return self.dtype in (Float32, Float64)
+
+    def view(self) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Get a view into this Series data with a numpy array. This operation doesn&#39;t clone data, but does not include
+        missing values
+        &#34;&#34;&#34;
+        ptr_type = dtype_to_ctype(self.dtype)
+        ptr = self._s.as_single_ptr()
+        array = _ptr_to_numpy(ptr, self.len(), ptr_type)
+        array.setflags(write=False)
+        return array
+
+    def __array_ufunc__(self, ufunc, method, *inputs, **kwargs):
+        if self._s.n_chunks() &gt; 0:
+            self._s.rechunk(in_place=True)
+
+        if method == &#34;__call__&#34;:
+            args = []
+            for arg in inputs:
+                if isinstance(arg, Number):
+                    args.append(arg)
+                elif isinstance(arg, self.__class__):
+                    args.append(arg.view())
+                else:
+                    return NotImplemented
+
+            if &#34;dtype&#34; in kwargs:
+                dtype = kwargs.pop(&#34;dtype&#34;)
+            else:
+                dtype = self.dtype
+
+            f = get_ffi_func(&#34;apply_ufunc_&lt;&gt;&#34;, dtype, self._s)
+            series = f(lambda out: ufunc(*args, out=out, **kwargs))
+            return wrap_s(series)
+        else:
+            return NotImplemented
+
+    def to_numpy(self) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Convert this Series to numpy. This operation clones data.
+        &#34;&#34;&#34;
+        if self.dtype == List:
+            return np.array(self.to_list())
+
+        a = self._s.to_numpy()
+        # strings are returned in lists
+        if isinstance(a, list):
+            return np.array(a)
+        return a
+
+    def set(self, filter: &#34;Series&#34;, value: Union[int, float]) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Set masked values.
+
+        Parameters
+        ----------
+        filter
+            Boolean mask
+        value
+            Value to replace the the masked values with.
+        &#34;&#34;&#34;
+        f = get_ffi_func(&#34;set_with_mask_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(filter._s, value))
+
+    def set_at_idx(
+        self, idx: Union[&#34;Series&#34;, np.ndarray], value: Union[int, float]
+    ) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Set values at the index locations.
+
+        Parameters
+        ----------
+        idx
+            Integers representing the index locations.
+        value
+            replacement values
+
+        Returns
+        -------
+        New allocated Series
+        &#34;&#34;&#34;
+        f = get_ffi_func(&#34;set_at_idx_&lt;&gt;&#34;, self.dtype, self._s)
+        if f is None:
+            return NotImplemented
+        if isinstance(idx, Series):
+            idx_array = idx.view()
+        elif isinstance(idx, np.ndarray):
+            if not idx.data.c_contiguous:
+                idx_array = np.ascontiguousarray(idx, dtype=np.uint64)
+            else:
+                idx_array = idx
+                if idx_array.dtype != np.uint64:
+                    idx_array = np.array(idx_array, np.uint64)
+
+        else:
+            idx_array = np.array(idx, dtype=np.uint64)
+
+        return wrap_s(f(idx_array, value))
+
+    def clone(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Cheap deep clones
+        &#34;&#34;&#34;
+        return wrap_s(self._s.clone())
+
+    def fill_none(self, strategy: str) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Fill null values with a fill strategy.
+
+        Parameters
+        ----------
+        strategy
+               * &#34;backward&#34;
+               * &#34;forward&#34;
+               * &#34;min&#34;
+               * &#34;max&#34;
+               * &#34;mean&#34;
+        &#34;&#34;&#34;
+        return wrap_s(self._s.fill_none(strategy))
+
+    def apply(
+        self,
+        func: &#34;Union[Callable[[&#39;T&#39;], &#39;T&#39;], Callable[[&#39;T&#39;], &#39;S&#39;]]&#34;,
+        dtype_out: &#34;Optional[&#39;DataType&#39;]&#34; = None,
+        sniff_dtype: bool = True,
+    ):
+        &#34;&#34;&#34;
+        Apply a function over elements in this Series and return a new Series.
+
+        If the function returns another datatype, the dtype_out arg should be set, otherwise the method will fail.
+
+        Parameters
+        ----------
+        func
+            function or lambda.
+        dtype_out
+            Output datatype. If none given the same datatype as this Series will be used.
+        sniff_dtype:
+            will try to infer return type
+
+        Returns
+        -------
+        Series
+        &#34;&#34;&#34;
+        if sniff_dtype and dtype_out is None:
+            if self.is_numeric():
+                dtype_out = out_to_dtype(func(1))
+            elif self.dtype == Boolean:
+                dtype_out = out_to_dtype(func(True))
+            elif self.dtype == List:
+                dtype_out = out_to_dtype(func(Series(&#34;&#34;, [1, 2])))
+            elif self.dtype == Utf8:
+                dtype_out = out_to_dtype(func(&#34;foo&#34;))
+            else:
+                # try a numeric input for temporal data
+                dtype_out = out_to_dtype(func(1))
+
+        if dtype_out is None:
+            return wrap_s(self._s.apply_lambda(func))
+        else:
+            dt = dtype_to_int(dtype_out)
+            return wrap_s(self._s.apply_lambda(func, dt))
+
+    def shift(self, periods: int) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Shift the values by a given period and fill the parts that will be empty due to this operation
+        with `Nones`.
+
+        Parameters
+        ----------
+        periods
+            Number of places to shift (may be negative).
+        &#34;&#34;&#34;
+        return wrap_s(self._s.shift(periods))
+
+    def zip_with(self, mask: &#34;Series&#34;, other: &#34;Series&#34;) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Where mask evaluates true take values from self. Where mask evaluates false, take values from other.
+
+        Parameters
+        ----------
+        mask
+            Boolean Series
+        other
+            Series of same type
+
+        Returns
+        -------
+        New Series
+        &#34;&#34;&#34;
+        return wrap_s(self._s.zip_with(mask._s, other._s))
+
+    def str_lengths(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Get length of the string values in the Series.
+
+        Returns
+        -------
+        Series[u32]
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_lengths())
+
+    def str_contains(self, pattern: str) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Check if strings in Series contain regex pattern
+
+        Parameters
+        ----------
+        pattern
+            A valid regex pattern
+
+        Returns
+        -------
+        Boolean mask
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_contains(pattern))
+
+    def str_replace(self, pattern: str, value: str) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Replace first regex math with a string value
+
+        Parameters
+        ----------
+        pattern
+            A valid regex pattern
+        value
+            Substring to replace
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_replace(pattern, value))
+
+    def str_replace_all(self, pattern: str, value: str) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Replace all regex matches with a string value
+
+        Parameters
+        ----------
+        pattern
+            A valid regex pattern
+        value
+            Substring to replace
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_replace_all(pattern, value))
+
+    def str_to_lowercase(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Modify the strings to their lowercase equivalent
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_to_lowercase())
+
+    def str_to_uppercase(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        Modify the strings to their uppercase equivalent
+        &#34;&#34;&#34;
+        return wrap_s(self._s.str_to_uppercase())
+
+    def as_duration(self) -&gt; &#34;Series&#34;:
+        &#34;&#34;&#34;
+        If Series is a date32 or a date64 it can be turned into a duration.
+        &#34;&#34;&#34;
+        return wrap_s(self._s.as_duration())
+
+    def str_parse_date(self, datatype: &#34;DataType&#34;, fmt: Optional[str] = None):
+        if datatype == Date32:
+            return wrap_s(self._s.str_parse_date32(fmt))
+        if datatype == Date64:
+            return wrap_s(self._s.str_parse_date64(fmt))
+        return NotImplemented
+
+    def rolling_min(
+        self,
+        window_size: int,
+        weight: &#34;Optional[List[float]]&#34; = None,
+        ignore_null: bool = False,
+    ):
+        return wrap_s(self._s.rolling_min(window_size, weight, ignore_null))
+
+    def rolling_max(
+        self,
+        window_size: int,
+        weight: &#34;Optional[List[float]]&#34; = None,
+        ignore_null: bool = False,
+    ):
+        return wrap_s(self._s.rolling_max(window_size, weight, ignore_null))
+
+    def rolling_mean(
+        self,
+        window_size: int,
+        weight: &#34;Optional[List[float]]&#34; = None,
+        ignore_null: bool = False,
+    ):
+        return wrap_s(self._s.rolling_mean(window_size, weight, ignore_null))
+
+    def rolling_sum(
+        self,
+        window_size: int,
+        weight: &#34;Optional[List[float]]&#34; = None,
+        ignore_null: bool = False,
+    ):
+        return wrap_s(self._s.rolling_sum(window_size, weight, ignore_null))
+
+    def year(self):
+        &#34;&#34;&#34;
+        Extract year from underlying Date representation.
+        Can be performed on Date32 and Date64
+
+        Returns the year number in the calendar date.
+
+        Returns
+        -------
+        Year as Int32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.year())
+
+    def month(self):
+        &#34;&#34;&#34;
+        Extract month from underlying Date representation.
+        Can be performed on Date32 and Date64
+
+        Returns the month number starting from 1.
+        The return value ranges from 1 to 12.
+
+        Returns
+        -------
+        Month as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.month())
+
+    def day(self):
+        &#34;&#34;&#34;
+        Extract day from underlying Date representation.
+        Can be performed on Date32 and Date64
+
+        Returns the day of month starting from 1.
+        The return value ranges from 1 to 31. (The last day of month differs by months.)
+
+        Returns
+        -------
+        Day as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.day())
+
+    def ordinal_day(self):
+        &#34;&#34;&#34;
+        Extract ordinal day from underlying Date representation.
+        Can be performed on Date32 and Date64
+
+        Returns the day of year starting from 1.
+        The return value ranges from 1 to 366. (The last day of year differs by years.)
+
+        Returns
+        -------
+        Day as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.ordinal_day())
+
+    def hour(self):
+        &#34;&#34;&#34;
+        Extract day from underlying DateTime representation.
+        Can be performed on Date64
+
+        Returns the hour number from 0 to 23.
+
+        Returns
+        -------
+        Hour as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.hour())
+
+    def minute(self):
+        &#34;&#34;&#34;
+        Extract minutes from underlying DateTime representation.
+        Can be performed on Date64
+
+        Returns the minute number from 0 to 59.
+
+        Returns
+        -------
+        Minute as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.minute())
+
+    def second(self):
+        &#34;&#34;&#34;
+        Extract seconds from underlying DateTime representation.
+        Can be performed on Date64
+
+        Returns the second number from 0 to 59.
+
+        Returns
+        -------
+        Second as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.second())
+
+    def nanosecond(self):
+        &#34;&#34;&#34;
+        Extract seconds from underlying DateTime representation.
+        Can be performed on Date64
+
+        Returns the number of nanoseconds since the whole non-leap second.
+        The range from 1,000,000,000 to 1,999,999,999 represents the leap second.
+
+        Returns
+        -------
+        Nanosecond as UInt32
+        &#34;&#34;&#34;
+        return wrap_s(self._s.nanosecond())
+
+    @staticmethod
+    def parse_date(
+        name: str, values: Sequence[str], dtype: &#34;DataType&#34;, fmt: str
+    ) -&gt; &#34;Series&#34;:
+        f = get_ffi_func(&#34;parse_&lt;&gt;_from_str_slice&#34;, dtype, PySeries)
+        if f is None:
+            return NotImplemented
+        return wrap_s(f(name, values, fmt))</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="pypolars.series.Series.parse_date"><code class="name flex">
+<span>def <span class="ident">parse_date</span></span>(<span>name: str, values: Sequence[str], dtype: DataType, fmt: str) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def parse_date(
+    name: str, values: Sequence[str], dtype: &#34;DataType&#34;, fmt: str
+) -&gt; &#34;Series&#34;:
+    f = get_ffi_func(&#34;parse_&lt;&gt;_from_str_slice&#34;, dtype, PySeries)
+    if f is None:
+        return NotImplemented
+    return wrap_s(f(name, values, fmt))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pypolars.series.Series.dtype"><code class="name">var <span class="ident">dtype</span></code></dt>
+<dd>
+<div class="desc"><p>Get the data type of this Series</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def dtype(self):
+    &#34;&#34;&#34;
+    Get the data type of this Series
+    &#34;&#34;&#34;
+    return dtypes[self._s.dtype()]</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"><p>Get the name of this Series</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self):
+    &#34;&#34;&#34;
+    Get the name of this Series
+    &#34;&#34;&#34;
+    return self._s.name()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pypolars.series.Series.append"><code class="name flex">
+<span>def <span class="ident">append</span></span>(<span>self, other: <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Append a Series to this one.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>other</code></strong></dt>
+<dd>Series to append</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def append(self, other: &#34;Series&#34;):
+    &#34;&#34;&#34;
+    Append a Series to this one.
+
+    Parameters
+    ----------
+    other
+        Series to append
+    &#34;&#34;&#34;
+    self._s.append(other._s)</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.apply"><code class="name flex">
+<span>def <span class="ident">apply</span></span>(<span>self, func: "Union[Callable[['T'], 'T'], Callable[['T'], 'S']]", dtype_out: "Optional['DataType']" = None, sniff_dtype: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Apply a function over elements in this Series and return a new Series.</p>
+<p>If the function returns another datatype, the dtype_out arg should be set, otherwise the method will fail.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>func</code></strong></dt>
+<dd>function or lambda.</dd>
+<dt><strong><code>dtype_out</code></strong></dt>
+<dd>Output datatype. If none given the same datatype as this Series will be used.</dd>
+</dl>
+<p>sniff_dtype:
+will try to infer return type</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def apply(
+    self,
+    func: &#34;Union[Callable[[&#39;T&#39;], &#39;T&#39;], Callable[[&#39;T&#39;], &#39;S&#39;]]&#34;,
+    dtype_out: &#34;Optional[&#39;DataType&#39;]&#34; = None,
+    sniff_dtype: bool = True,
+):
+    &#34;&#34;&#34;
+    Apply a function over elements in this Series and return a new Series.
+
+    If the function returns another datatype, the dtype_out arg should be set, otherwise the method will fail.
+
+    Parameters
+    ----------
+    func
+        function or lambda.
+    dtype_out
+        Output datatype. If none given the same datatype as this Series will be used.
+    sniff_dtype:
+        will try to infer return type
+
+    Returns
+    -------
+    Series
+    &#34;&#34;&#34;
+    if sniff_dtype and dtype_out is None:
+        if self.is_numeric():
+            dtype_out = out_to_dtype(func(1))
+        elif self.dtype == Boolean:
+            dtype_out = out_to_dtype(func(True))
+        elif self.dtype == List:
+            dtype_out = out_to_dtype(func(Series(&#34;&#34;, [1, 2])))
+        elif self.dtype == Utf8:
+            dtype_out = out_to_dtype(func(&#34;foo&#34;))
+        else:
+            # try a numeric input for temporal data
+            dtype_out = out_to_dtype(func(1))
+
+    if dtype_out is None:
+        return wrap_s(self._s.apply_lambda(func))
+    else:
+        dt = dtype_to_int(dtype_out)
+        return wrap_s(self._s.apply_lambda(func, dt))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.arg_unique"><code class="name flex">
+<span>def <span class="ident">arg_unique</span></span>(<span>self) ‑> List[int]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get unique arguments.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>indexes</code></dt>
+<dd>Indexes of the unique values</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def arg_unique(self) -&gt; &#34;List[int]&#34;:
+    &#34;&#34;&#34;
+    Get unique arguments.
+
+    Returns
+    -------
+    indexes
+        Indexes of the unique values
+    &#34;&#34;&#34;
+    return self._s.arg_unique()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.argsort"><code class="name flex">
+<span>def <span class="ident">argsort</span></span>(<span>self, reverse: bool = False) ‑> Sequence[int]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Index location of the sorted variant of this Series.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>indexes</code></dt>
+<dd>Indexes that can be used to sort this array.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def argsort(self, reverse: bool = False) -&gt; Sequence[int]:
+    &#34;&#34;&#34;
+    Index location of the sorted variant of this Series.
+
+    Returns
+    -------
+    indexes
+        Indexes that can be used to sort this array.
+    &#34;&#34;&#34;
+    return self._s.argsort(reverse)</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.as_duration"><code class="name flex">
+<span>def <span class="ident">as_duration</span></span>(<span>self) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>If Series is a date32 or a date64 it can be turned into a duration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def as_duration(self) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    If Series is a date32 or a date64 it can be turned into a duration.
+    &#34;&#34;&#34;
+    return wrap_s(self._s.as_duration())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.cast"><code class="name flex">
+<span>def <span class="ident">cast</span></span>(<span>self, data_type='DataType')</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cast(self, data_type=&#34;DataType&#34;):
+    if data_type == int:
+        data_type = Int64
+    elif data_type == str:
+        data_type = Utf8
+    elif data_type == float:
+        data_type = Float64
+    f = get_ffi_func(&#34;cast_&lt;&gt;&#34;, data_type, self._s)
+    if f is None:
+        return NotImplemented
+    return wrap_s(f())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.chunk_lengths"><code class="name flex">
+<span>def <span class="ident">chunk_lengths</span></span>(<span>self) ‑> List[int]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def chunk_lengths(self) -&gt; &#34;List[int]&#34;:
+    return self._s.chunk_lengths()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.clone"><code class="name flex">
+<span>def <span class="ident">clone</span></span>(<span>self) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Cheap deep clones</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clone(self) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Cheap deep clones
+    &#34;&#34;&#34;
+    return wrap_s(self._s.clone())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.day"><code class="name flex">
+<span>def <span class="ident">day</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extract day from underlying Date representation.
+Can be performed on Date32 and Date64</p>
+<p>Returns the day of month starting from 1.
+The return value ranges from 1 to 31. (The last day of month differs by months.)</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Day as UInt32</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def day(self):
+    &#34;&#34;&#34;
+    Extract day from underlying Date representation.
+    Can be performed on Date32 and Date64
+
+    Returns the day of month starting from 1.
+    The return value ranges from 1 to 31. (The last day of month differs by months.)
+
+    Returns
+    -------
+    Day as UInt32
+    &#34;&#34;&#34;
+    return wrap_s(self._s.day())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.drop_nulls"><code class="name flex">
+<span>def <span class="ident">drop_nulls</span></span>(<span>self) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def drop_nulls(self) -&gt; &#34;Series&#34;:
+    return wrap_s(self._s.drop_nulls())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.fill_none"><code class="name flex">
+<span>def <span class="ident">fill_none</span></span>(<span>self, strategy: str) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fill null values with a fill strategy.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>strategy</code></strong></dt>
+<dd>
+<ul>
+<li>"backward"</li>
+<li>"forward"</li>
+<li>"min"</li>
+<li>"max"</li>
+<li>"mean"</li>
+</ul>
+</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fill_none(self, strategy: str) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Fill null values with a fill strategy.
+
+    Parameters
+    ----------
+    strategy
+           * &#34;backward&#34;
+           * &#34;forward&#34;
+           * &#34;min&#34;
+           * &#34;max&#34;
+           * &#34;mean&#34;
+    &#34;&#34;&#34;
+    return wrap_s(self._s.fill_none(strategy))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.filter"><code class="name flex">
+<span>def <span class="ident">filter</span></span>(<span>self, filter: <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a>) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Filter elements by a boolean mask</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>filter</code></strong></dt>
+<dd>Boolean mask</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def filter(self, filter: &#34;Series&#34;) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Filter elements by a boolean mask
+
+    Parameters
+    ----------
+    filter
+        Boolean mask
+    &#34;&#34;&#34;
+    return Series._from_pyseries(self._s.filter(filter._s))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.head"><code class="name flex">
+<span>def <span class="ident">head</span></span>(<span>self, length: Union[int, NoneType] = None) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get first N elements as Series</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>length</code></strong></dt>
+<dd>Length of the head</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def head(self, length: Optional[int] = None) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Get first N elements as Series
+
+    Parameters
+    ----------
+    length
+        Length of the head
+    &#34;&#34;&#34;
+    return Series._from_pyseries(self._s.head(length))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.hour"><code class="name flex">
+<span>def <span class="ident">hour</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extract day from underlying DateTime representation.
+Can be performed on Date64</p>
+<p>Returns the hour number from 0 to 23.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Hour as UInt32</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def hour(self):
+    &#34;&#34;&#34;
+    Extract day from underlying DateTime representation.
+    Can be performed on Date64
+
+    Returns the hour number from 0 to 23.
+
+    Returns
+    -------
+    Hour as UInt32
+    &#34;&#34;&#34;
+    return wrap_s(self._s.hour())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.inner"><code class="name flex">
+<span>def <span class="ident">inner</span></span>(<span>self) ‑> PySeries</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def inner(self) -&gt; &#34;PySeries&#34;:
+    return self._s</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.is_duplicated"><code class="name flex">
+<span>def <span class="ident">is_duplicated</span></span>(<span>self) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get mask of all duplicated values</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Boolean <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_duplicated(self) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Get mask of all duplicated values
+
+    Returns
+    -------
+    Boolean Series
+    &#34;&#34;&#34;
+    return wrap_s(self._s.is_duplicated())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.is_float"><code class="name flex">
+<span>def <span class="ident">is_float</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if this Series has floating point numbers</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_float(self) -&gt; bool:
+    &#34;&#34;&#34;
+    Check if this Series has floating point numbers
+    &#34;&#34;&#34;
+    return self.dtype in (Float32, Float64)</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.is_not_null"><code class="name flex">
+<span>def <span class="ident">is_not_null</span></span>(<span>self) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get mask of non null values</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Boolean <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_not_null(self) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Get mask of non null values
+
+    Returns
+    -------
+    Boolean Series
+    &#34;&#34;&#34;
+    return Series._from_pyseries(self._s.is_not_null())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.is_null"><code class="name flex">
+<span>def <span class="ident">is_null</span></span>(<span>self) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get mask of null values</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Boolean <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_null(self) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Get mask of null values
+
+    Returns
+    -------
+    Boolean Series
+    &#34;&#34;&#34;
+    return Series._from_pyseries(self._s.is_null())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.is_numeric"><code class="name flex">
+<span>def <span class="ident">is_numeric</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if this Series datatype is numeric.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_numeric(self) -&gt; bool:
+    &#34;&#34;&#34;
+    Check if this Series datatype is numeric.
+    &#34;&#34;&#34;
+    return self.dtype not in (Utf8, Boolean, List)</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.is_unique"><code class="name flex">
+<span>def <span class="ident">is_unique</span></span>(<span>self) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get mask of all unique values</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Boolean <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_unique(self) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Get mask of all unique values
+
+    Returns
+    -------
+    Boolean Series
+    &#34;&#34;&#34;
+    return wrap_s(self._s.is_unique())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.len"><code class="name flex">
+<span>def <span class="ident">len</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Length of this Series</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def len(self) -&gt; int:
+    &#34;&#34;&#34;
+    Length of this Series
+    &#34;&#34;&#34;
+    return self._s.len()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.limit"><code class="name flex">
+<span>def <span class="ident">limit</span></span>(<span>self, num_elements: int) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Take n elements from this Series.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>num_elements</code></strong></dt>
+<dd>Amount of elements to take.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def limit(self, num_elements: int) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Take n elements from this Series.
+
+    Parameters
+    ----------
+    num_elements
+        Amount of elements to take.
+    &#34;&#34;&#34;
+    return Series._from_pyseries(self._s.limit(num_elements))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.max"><code class="name flex">
+<span>def <span class="ident">max</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the maximum value in this Series</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def max(self):
+    &#34;&#34;&#34;
+    Get the maximum value in this Series
+    &#34;&#34;&#34;
+    if self.dtype == Boolean:
+        return self._s.max_u32()
+    f = get_ffi_func(&#34;max_&lt;&gt;&#34;, self.dtype, self._s)
+    if f is None:
+        return NotImplemented
+    return f()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.mean"><code class="name flex">
+<span>def <span class="ident">mean</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reduce this Series to the mean value.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mean(self):
+    &#34;&#34;&#34;
+    Reduce this Series to the mean value.
+    &#34;&#34;&#34;
+    # use float type for mean aggregations no matter of base type
+    return self._s.mean_f64()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.min"><code class="name flex">
+<span>def <span class="ident">min</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the minimal value in this Series</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def min(self):
+    &#34;&#34;&#34;
+    Get the minimal value in this Series
+    &#34;&#34;&#34;
+    if self.dtype == Boolean:
+        return self._s.min_u32()
+    f = get_ffi_func(&#34;min_&lt;&gt;&#34;, self.dtype, self._s)
+    if f is None:
+        return NotImplemented
+    return f()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.minute"><code class="name flex">
+<span>def <span class="ident">minute</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extract minutes from underlying DateTime representation.
+Can be performed on Date64</p>
+<p>Returns the minute number from 0 to 59.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Minute as UInt32</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def minute(self):
+    &#34;&#34;&#34;
+    Extract minutes from underlying DateTime representation.
+    Can be performed on Date64
+
+    Returns the minute number from 0 to 59.
+
+    Returns
+    -------
+    Minute as UInt32
+    &#34;&#34;&#34;
+    return wrap_s(self._s.minute())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.month"><code class="name flex">
+<span>def <span class="ident">month</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extract month from underlying Date representation.
+Can be performed on Date32 and Date64</p>
+<p>Returns the month number starting from 1.
+The return value ranges from 1 to 12.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Month as UInt32</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def month(self):
+    &#34;&#34;&#34;
+    Extract month from underlying Date representation.
+    Can be performed on Date32 and Date64
+
+    Returns the month number starting from 1.
+    The return value ranges from 1 to 12.
+
+    Returns
+    -------
+    Month as UInt32
+    &#34;&#34;&#34;
+    return wrap_s(self._s.month())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.n_chunks"><code class="name flex">
+<span>def <span class="ident">n_chunks</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the number of chunks that this Series contains.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def n_chunks(self) -&gt; int:
+    &#34;&#34;&#34;
+    Get the number of chunks that this Series contains.
+    &#34;&#34;&#34;
+    return self._s.n_chunks()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.nanosecond"><code class="name flex">
+<span>def <span class="ident">nanosecond</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extract seconds from underlying DateTime representation.
+Can be performed on Date64</p>
+<p>Returns the number of nanoseconds since the whole non-leap second.
+The range from 1,000,000,000 to 1,999,999,999 represents the leap second.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Nanosecond as UInt32</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def nanosecond(self):
+    &#34;&#34;&#34;
+    Extract seconds from underlying DateTime representation.
+    Can be performed on Date64
+
+    Returns the number of nanoseconds since the whole non-leap second.
+    The range from 1,000,000,000 to 1,999,999,999 represents the leap second.
+
+    Returns
+    -------
+    Nanosecond as UInt32
+    &#34;&#34;&#34;
+    return wrap_s(self._s.nanosecond())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.null_count"><code class="name flex">
+<span>def <span class="ident">null_count</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Count the null values in this Series</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def null_count(self) -&gt; int:
+    &#34;&#34;&#34;
+    Count the null values in this Series
+    &#34;&#34;&#34;
+    return self._s.null_count()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.ordinal_day"><code class="name flex">
+<span>def <span class="ident">ordinal_day</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extract ordinal day from underlying Date representation.
+Can be performed on Date32 and Date64</p>
+<p>Returns the day of year starting from 1.
+The return value ranges from 1 to 366. (The last day of year differs by years.)</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Day as UInt32</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ordinal_day(self):
+    &#34;&#34;&#34;
+    Extract ordinal day from underlying Date representation.
+    Can be performed on Date32 and Date64
+
+    Returns the day of year starting from 1.
+    The return value ranges from 1 to 366. (The last day of year differs by years.)
+
+    Returns
+    -------
+    Day as UInt32
+    &#34;&#34;&#34;
+    return wrap_s(self._s.ordinal_day())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.rechunk"><code class="name flex">
+<span>def <span class="ident">rechunk</span></span>(<span>self, in_place: bool = False) ‑> Union[<a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a>, NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a single chunk of memory for this Series.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>in_place</code></strong></dt>
+<dd>In place or not.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rechunk(self, in_place: bool = False) -&gt; Optional[&#34;Series&#34;]:
+    &#34;&#34;&#34;
+    Create a single chunk of memory for this Series.
+
+    Parameters
+    ----------
+    in_place
+        In place or not.
+    &#34;&#34;&#34;
+    opt_s = self._s.rechunk(in_place)
+    if not in_place:
+        return wrap_s(opt_s)</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.rename"><code class="name flex">
+<span>def <span class="ident">rename</span></span>(<span>self, name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Rename this Series.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>New name</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rename(self, name: str):
+    &#34;&#34;&#34;
+    Rename this Series.
+
+    Parameters
+    ----------
+    name
+        New name
+    &#34;&#34;&#34;
+    self._s.rename(name)</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.rolling_max"><code class="name flex">
+<span>def <span class="ident">rolling_max</span></span>(<span>self, window_size: int, weight: Optional[List[float]] = None, ignore_null: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rolling_max(
+    self,
+    window_size: int,
+    weight: &#34;Optional[List[float]]&#34; = None,
+    ignore_null: bool = False,
+):
+    return wrap_s(self._s.rolling_max(window_size, weight, ignore_null))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.rolling_mean"><code class="name flex">
+<span>def <span class="ident">rolling_mean</span></span>(<span>self, window_size: int, weight: Optional[List[float]] = None, ignore_null: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rolling_mean(
+    self,
+    window_size: int,
+    weight: &#34;Optional[List[float]]&#34; = None,
+    ignore_null: bool = False,
+):
+    return wrap_s(self._s.rolling_mean(window_size, weight, ignore_null))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.rolling_min"><code class="name flex">
+<span>def <span class="ident">rolling_min</span></span>(<span>self, window_size: int, weight: Optional[List[float]] = None, ignore_null: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rolling_min(
+    self,
+    window_size: int,
+    weight: &#34;Optional[List[float]]&#34; = None,
+    ignore_null: bool = False,
+):
+    return wrap_s(self._s.rolling_min(window_size, weight, ignore_null))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.rolling_sum"><code class="name flex">
+<span>def <span class="ident">rolling_sum</span></span>(<span>self, window_size: int, weight: Optional[List[float]] = None, ignore_null: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rolling_sum(
+    self,
+    window_size: int,
+    weight: &#34;Optional[List[float]]&#34; = None,
+    ignore_null: bool = False,
+):
+    return wrap_s(self._s.rolling_sum(window_size, weight, ignore_null))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.second"><code class="name flex">
+<span>def <span class="ident">second</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extract seconds from underlying DateTime representation.
+Can be performed on Date64</p>
+<p>Returns the second number from 0 to 59.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Second as UInt32</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def second(self):
+    &#34;&#34;&#34;
+    Extract seconds from underlying DateTime representation.
+    Can be performed on Date64
+
+    Returns the second number from 0 to 59.
+
+    Returns
+    -------
+    Second as UInt32
+    &#34;&#34;&#34;
+    return wrap_s(self._s.second())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.series_equal"><code class="name flex">
+<span>def <span class="ident">series_equal</span></span>(<span>self, other: <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a>, null_equal: bool = False) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if series equal with another Series.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>other</code></strong></dt>
+<dd>Series to compare with.</dd>
+<dt><strong><code>null_equal</code></strong></dt>
+<dd>Consider null values as equal.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def series_equal(self, other: &#34;Series&#34;, null_equal: bool = False) -&gt; bool:
+    &#34;&#34;&#34;
+    Check if series equal with another Series.
+
+    Parameters
+    ----------
+    other
+        Series to compare with.
+    null_equal
+        Consider null values as equal.
+    &#34;&#34;&#34;
+    return self._s.series_equal(other._s, null_equal)</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.set"><code class="name flex">
+<span>def <span class="ident">set</span></span>(<span>self, filter: <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a>, value: Union[int, float]) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set masked values.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>filter</code></strong></dt>
+<dd>Boolean mask</dd>
+<dt><strong><code>value</code></strong></dt>
+<dd>Value to replace the the masked values with.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set(self, filter: &#34;Series&#34;, value: Union[int, float]) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Set masked values.
+
+    Parameters
+    ----------
+    filter
+        Boolean mask
+    value
+        Value to replace the the masked values with.
+    &#34;&#34;&#34;
+    f = get_ffi_func(&#34;set_with_mask_&lt;&gt;&#34;, self.dtype, self._s)
+    if f is None:
+        return NotImplemented
+    return wrap_s(f(filter._s, value))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.set_at_idx"><code class="name flex">
+<span>def <span class="ident">set_at_idx</span></span>(<span>self, idx: Union[ForwardRef('<a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a>'), numpy.ndarray], value: Union[int, float]) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set values at the index locations.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>idx</code></strong></dt>
+<dd>Integers representing the index locations.</dd>
+<dt><strong><code>value</code></strong></dt>
+<dd>replacement values</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>New allocated <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_at_idx(
+    self, idx: Union[&#34;Series&#34;, np.ndarray], value: Union[int, float]
+) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Set values at the index locations.
+
+    Parameters
+    ----------
+    idx
+        Integers representing the index locations.
+    value
+        replacement values
+
+    Returns
+    -------
+    New allocated Series
+    &#34;&#34;&#34;
+    f = get_ffi_func(&#34;set_at_idx_&lt;&gt;&#34;, self.dtype, self._s)
+    if f is None:
+        return NotImplemented
+    if isinstance(idx, Series):
+        idx_array = idx.view()
+    elif isinstance(idx, np.ndarray):
+        if not idx.data.c_contiguous:
+            idx_array = np.ascontiguousarray(idx, dtype=np.uint64)
+        else:
+            idx_array = idx
+            if idx_array.dtype != np.uint64:
+                idx_array = np.array(idx_array, np.uint64)
+
+    else:
+        idx_array = np.array(idx, dtype=np.uint64)
+
+    return wrap_s(f(idx_array, value))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.shift"><code class="name flex">
+<span>def <span class="ident">shift</span></span>(<span>self, periods: int) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shift the values by a given period and fill the parts that will be empty due to this operation
+with <code>Nones</code>.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>periods</code></strong></dt>
+<dd>Number of places to shift (may be negative).</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def shift(self, periods: int) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Shift the values by a given period and fill the parts that will be empty due to this operation
+    with `Nones`.
+
+    Parameters
+    ----------
+    periods
+        Number of places to shift (may be negative).
+    &#34;&#34;&#34;
+    return wrap_s(self._s.shift(periods))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.slice"><code class="name flex">
+<span>def <span class="ident">slice</span></span>(<span>self, offset: int, length: int) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get a slice of this Series</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>offset</code></strong></dt>
+<dd>Offset index.</dd>
+<dt><strong><code>length</code></strong></dt>
+<dd>Length of the slice.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def slice(self, offset: int, length: int) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Get a slice of this Series
+
+    Parameters
+    ----------
+    offset
+        Offset index.
+    length
+        Length of the slice.
+    &#34;&#34;&#34;
+    return Series._from_pyseries(self._s.slice(offset, length))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.sort"><code class="name flex">
+<span>def <span class="ident">sort</span></span>(<span>self, in_place: bool = False, reverse: bool = False) ‑> Union[<a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a>, NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sort this Series.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>in_place</code></strong></dt>
+<dd>Sort in place.</dd>
+<dt><strong><code>reverse</code></strong></dt>
+<dd>Reverse sort</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sort(self, in_place: bool = False, reverse: bool = False) -&gt; Optional[&#34;Series&#34;]:
+    &#34;&#34;&#34;
+    Sort this Series.
+
+    Parameters
+    ----------
+    in_place
+        Sort in place.
+    reverse
+        Reverse sort
+    &#34;&#34;&#34;
+    if in_place:
+        self._s.sort_in_place(reverse)
+    else:
+        return wrap_s(self._s.sort(reverse))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.std"><code class="name flex">
+<span>def <span class="ident">std</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get standard deviation of this Series</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def std(self) -&gt; float:
+    &#34;&#34;&#34;
+    Get standard deviation of this Series
+    &#34;&#34;&#34;
+    return np.std(self.drop_nulls().view())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.str_contains"><code class="name flex">
+<span>def <span class="ident">str_contains</span></span>(<span>self, pattern: str) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if strings in Series contain regex pattern</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pattern</code></strong></dt>
+<dd>A valid regex pattern</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Boolean mask</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def str_contains(self, pattern: str) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Check if strings in Series contain regex pattern
+
+    Parameters
+    ----------
+    pattern
+        A valid regex pattern
+
+    Returns
+    -------
+    Boolean mask
+    &#34;&#34;&#34;
+    return wrap_s(self._s.str_contains(pattern))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.str_lengths"><code class="name flex">
+<span>def <span class="ident">str_lengths</span></span>(<span>self) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get length of the string values in the Series.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a>[u32]</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def str_lengths(self) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Get length of the string values in the Series.
+
+    Returns
+    -------
+    Series[u32]
+    &#34;&#34;&#34;
+    return wrap_s(self._s.str_lengths())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.str_parse_date"><code class="name flex">
+<span>def <span class="ident">str_parse_date</span></span>(<span>self, datatype: DataType, fmt: Union[str, NoneType] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def str_parse_date(self, datatype: &#34;DataType&#34;, fmt: Optional[str] = None):
+    if datatype == Date32:
+        return wrap_s(self._s.str_parse_date32(fmt))
+    if datatype == Date64:
+        return wrap_s(self._s.str_parse_date64(fmt))
+    return NotImplemented</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.str_replace"><code class="name flex">
+<span>def <span class="ident">str_replace</span></span>(<span>self, pattern: str, value: str) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Replace first regex math with a string value</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pattern</code></strong></dt>
+<dd>A valid regex pattern</dd>
+<dt><strong><code>value</code></strong></dt>
+<dd>Substring to replace</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def str_replace(self, pattern: str, value: str) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Replace first regex math with a string value
+
+    Parameters
+    ----------
+    pattern
+        A valid regex pattern
+    value
+        Substring to replace
+    &#34;&#34;&#34;
+    return wrap_s(self._s.str_replace(pattern, value))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.str_replace_all"><code class="name flex">
+<span>def <span class="ident">str_replace_all</span></span>(<span>self, pattern: str, value: str) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Replace all regex matches with a string value</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pattern</code></strong></dt>
+<dd>A valid regex pattern</dd>
+<dt><strong><code>value</code></strong></dt>
+<dd>Substring to replace</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def str_replace_all(self, pattern: str, value: str) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Replace all regex matches with a string value
+
+    Parameters
+    ----------
+    pattern
+        A valid regex pattern
+    value
+        Substring to replace
+    &#34;&#34;&#34;
+    return wrap_s(self._s.str_replace_all(pattern, value))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.str_to_lowercase"><code class="name flex">
+<span>def <span class="ident">str_to_lowercase</span></span>(<span>self) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Modify the strings to their lowercase equivalent</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def str_to_lowercase(self) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Modify the strings to their lowercase equivalent
+    &#34;&#34;&#34;
+    return wrap_s(self._s.str_to_lowercase())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.str_to_uppercase"><code class="name flex">
+<span>def <span class="ident">str_to_uppercase</span></span>(<span>self) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Modify the strings to their uppercase equivalent</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def str_to_uppercase(self) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Modify the strings to their uppercase equivalent
+    &#34;&#34;&#34;
+    return wrap_s(self._s.str_to_uppercase())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.sum"><code class="name flex">
+<span>def <span class="ident">sum</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reduce this Series to the sum value.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sum(self):
+    &#34;&#34;&#34;
+    Reduce this Series to the sum value.
+    &#34;&#34;&#34;
+    if self.dtype == Boolean:
+        return self._s.sum_u32()
+    f = get_ffi_func(&#34;sum_&lt;&gt;&#34;, self.dtype, self._s)
+    if f is None:
+        return NotImplemented
+    return f()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.tail"><code class="name flex">
+<span>def <span class="ident">tail</span></span>(<span>self, length: Union[int, NoneType] = None) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get last N elements as Series</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>length</code></strong></dt>
+<dd>Length of the tail</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def tail(self, length: Optional[int] = None) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Get last N elements as Series
+
+    Parameters
+    ----------
+    length
+        Length of the tail
+    &#34;&#34;&#34;
+    return Series._from_pyseries(self._s.tail(length))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.take"><code class="name flex">
+<span>def <span class="ident">take</span></span>(<span>self, indices: Union[np.ndarray, List[int]]) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Take values by index.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>indices</code></strong></dt>
+<dd>Index location used for selection.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def take(self, indices: &#34;Union[np.ndarray, List[int]]&#34;) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Take values by index.
+
+    Parameters
+    ----------
+    indices
+        Index location used for selection.
+    &#34;&#34;&#34;
+    if isinstance(indices, list):
+        indices = np.array(indices)
+    return Series._from_pyseries(self._s.take(indices))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.to_dummies"><code class="name flex">
+<span>def <span class="ident">to_dummies</span></span>(<span>self) ‑> DataFrame</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get dummy variables</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_dummies(self) -&gt; &#34;DataFrame&#34;:
+    &#34;&#34;&#34;
+    Get dummy variables
+    &#34;&#34;&#34;
+    return pypolars.frame.wrap_df(self._s.to_dummies())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.to_list"><code class="name flex">
+<span>def <span class="ident">to_list</span></span>(<span>self) ‑> List[Optional[Any]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert this Series to a Python List. This operation clones data.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_list(self) -&gt; &#34;List[Optional[Any]]&#34;:
+    &#34;&#34;&#34;
+    Convert this Series to a Python List. This operation clones data.
+    &#34;&#34;&#34;
+    if self.dtype == List:
+        column = []
+        for i in range(len(self)):
+            subseries = self[i]
+            column.append(subseries.to_numpy())
+        return column
+    return self._s.to_list()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.to_numpy"><code class="name flex">
+<span>def <span class="ident">to_numpy</span></span>(<span>self) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert this Series to numpy. This operation clones data.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_numpy(self) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Convert this Series to numpy. This operation clones data.
+    &#34;&#34;&#34;
+    if self.dtype == List:
+        return np.array(self.to_list())
+
+    a = self._s.to_numpy()
+    # strings are returned in lists
+    if isinstance(a, list):
+        return np.array(a)
+    return a</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.unique"><code class="name flex">
+<span>def <span class="ident">unique</span></span>(<span>self) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get unique elements in series.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unique(self) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Get unique elements in series.
+    &#34;&#34;&#34;
+    return wrap_s(self._s.unique())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.value_counts"><code class="name flex">
+<span>def <span class="ident">value_counts</span></span>(<span>self) ‑> DataFrame</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Count the unique values in a Series</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def value_counts(self) -&gt; &#34;DataFrame&#34;:
+    &#34;&#34;&#34;
+    Count the unique values in a Series
+    &#34;&#34;&#34;
+    return pypolars.frame.wrap_df(self._s.value_counts())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.var"><code class="name flex">
+<span>def <span class="ident">var</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get variance of this Series</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def var(self) -&gt; float:
+    &#34;&#34;&#34;
+    Get variance of this Series
+    &#34;&#34;&#34;
+    return np.var(self.drop_nulls().view())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.view"><code class="name flex">
+<span>def <span class="ident">view</span></span>(<span>self) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get a view into this Series data with a numpy array. This operation doesn't clone data, but does not include
+missing values</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def view(self) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Get a view into this Series data with a numpy array. This operation doesn&#39;t clone data, but does not include
+    missing values
+    &#34;&#34;&#34;
+    ptr_type = dtype_to_ctype(self.dtype)
+    ptr = self._s.as_single_ptr()
+    array = _ptr_to_numpy(ptr, self.len(), ptr_type)
+    array.setflags(write=False)
+    return array</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.year"><code class="name flex">
+<span>def <span class="ident">year</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extract year from underlying Date representation.
+Can be performed on Date32 and Date64</p>
+<p>Returns the year number in the calendar date.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Year as Int32</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def year(self):
+    &#34;&#34;&#34;
+    Extract year from underlying Date representation.
+    Can be performed on Date32 and Date64
+
+    Returns the year number in the calendar date.
+
+    Returns
+    -------
+    Year as Int32
+    &#34;&#34;&#34;
+    return wrap_s(self._s.year())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.series.Series.zip_with"><code class="name flex">
+<span>def <span class="ident">zip_with</span></span>(<span>self, mask: <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a>, other: <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a>) ‑> <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Where mask evaluates true take values from self. Where mask evaluates false, take values from other.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>mask</code></strong></dt>
+<dd>Boolean Series</dd>
+<dt><strong><code>other</code></strong></dt>
+<dd>Series of same type</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>New <a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def zip_with(self, mask: &#34;Series&#34;, other: &#34;Series&#34;) -&gt; &#34;Series&#34;:
+    &#34;&#34;&#34;
+    Where mask evaluates true take values from self. Where mask evaluates false, take values from other.
+
+    Parameters
+    ----------
+    mask
+        Boolean Series
+    other
+        Series of same type
+
+    Returns
+    -------
+    New Series
+    &#34;&#34;&#34;
+    return wrap_s(self._s.zip_with(mask._s, other._s))</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pypolars" href="index.html">pypolars</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pypolars.series.IdentityDict" href="#pypolars.series.IdentityDict">IdentityDict</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pypolars.series.Series" href="#pypolars.series.Series">Series</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pypolars.series.Series.append" href="#pypolars.series.Series.append">append</a></code></li>
+<li><code><a title="pypolars.series.Series.apply" href="#pypolars.series.Series.apply">apply</a></code></li>
+<li><code><a title="pypolars.series.Series.arg_unique" href="#pypolars.series.Series.arg_unique">arg_unique</a></code></li>
+<li><code><a title="pypolars.series.Series.argsort" href="#pypolars.series.Series.argsort">argsort</a></code></li>
+<li><code><a title="pypolars.series.Series.as_duration" href="#pypolars.series.Series.as_duration">as_duration</a></code></li>
+<li><code><a title="pypolars.series.Series.cast" href="#pypolars.series.Series.cast">cast</a></code></li>
+<li><code><a title="pypolars.series.Series.chunk_lengths" href="#pypolars.series.Series.chunk_lengths">chunk_lengths</a></code></li>
+<li><code><a title="pypolars.series.Series.clone" href="#pypolars.series.Series.clone">clone</a></code></li>
+<li><code><a title="pypolars.series.Series.day" href="#pypolars.series.Series.day">day</a></code></li>
+<li><code><a title="pypolars.series.Series.drop_nulls" href="#pypolars.series.Series.drop_nulls">drop_nulls</a></code></li>
+<li><code><a title="pypolars.series.Series.dtype" href="#pypolars.series.Series.dtype">dtype</a></code></li>
+<li><code><a title="pypolars.series.Series.fill_none" href="#pypolars.series.Series.fill_none">fill_none</a></code></li>
+<li><code><a title="pypolars.series.Series.filter" href="#pypolars.series.Series.filter">filter</a></code></li>
+<li><code><a title="pypolars.series.Series.head" href="#pypolars.series.Series.head">head</a></code></li>
+<li><code><a title="pypolars.series.Series.hour" href="#pypolars.series.Series.hour">hour</a></code></li>
+<li><code><a title="pypolars.series.Series.inner" href="#pypolars.series.Series.inner">inner</a></code></li>
+<li><code><a title="pypolars.series.Series.is_duplicated" href="#pypolars.series.Series.is_duplicated">is_duplicated</a></code></li>
+<li><code><a title="pypolars.series.Series.is_float" href="#pypolars.series.Series.is_float">is_float</a></code></li>
+<li><code><a title="pypolars.series.Series.is_not_null" href="#pypolars.series.Series.is_not_null">is_not_null</a></code></li>
+<li><code><a title="pypolars.series.Series.is_null" href="#pypolars.series.Series.is_null">is_null</a></code></li>
+<li><code><a title="pypolars.series.Series.is_numeric" href="#pypolars.series.Series.is_numeric">is_numeric</a></code></li>
+<li><code><a title="pypolars.series.Series.is_unique" href="#pypolars.series.Series.is_unique">is_unique</a></code></li>
+<li><code><a title="pypolars.series.Series.len" href="#pypolars.series.Series.len">len</a></code></li>
+<li><code><a title="pypolars.series.Series.limit" href="#pypolars.series.Series.limit">limit</a></code></li>
+<li><code><a title="pypolars.series.Series.max" href="#pypolars.series.Series.max">max</a></code></li>
+<li><code><a title="pypolars.series.Series.mean" href="#pypolars.series.Series.mean">mean</a></code></li>
+<li><code><a title="pypolars.series.Series.min" href="#pypolars.series.Series.min">min</a></code></li>
+<li><code><a title="pypolars.series.Series.minute" href="#pypolars.series.Series.minute">minute</a></code></li>
+<li><code><a title="pypolars.series.Series.month" href="#pypolars.series.Series.month">month</a></code></li>
+<li><code><a title="pypolars.series.Series.n_chunks" href="#pypolars.series.Series.n_chunks">n_chunks</a></code></li>
+<li><code><a title="pypolars.series.Series.name" href="#pypolars.series.Series.name">name</a></code></li>
+<li><code><a title="pypolars.series.Series.nanosecond" href="#pypolars.series.Series.nanosecond">nanosecond</a></code></li>
+<li><code><a title="pypolars.series.Series.null_count" href="#pypolars.series.Series.null_count">null_count</a></code></li>
+<li><code><a title="pypolars.series.Series.ordinal_day" href="#pypolars.series.Series.ordinal_day">ordinal_day</a></code></li>
+<li><code><a title="pypolars.series.Series.parse_date" href="#pypolars.series.Series.parse_date">parse_date</a></code></li>
+<li><code><a title="pypolars.series.Series.rechunk" href="#pypolars.series.Series.rechunk">rechunk</a></code></li>
+<li><code><a title="pypolars.series.Series.rename" href="#pypolars.series.Series.rename">rename</a></code></li>
+<li><code><a title="pypolars.series.Series.rolling_max" href="#pypolars.series.Series.rolling_max">rolling_max</a></code></li>
+<li><code><a title="pypolars.series.Series.rolling_mean" href="#pypolars.series.Series.rolling_mean">rolling_mean</a></code></li>
+<li><code><a title="pypolars.series.Series.rolling_min" href="#pypolars.series.Series.rolling_min">rolling_min</a></code></li>
+<li><code><a title="pypolars.series.Series.rolling_sum" href="#pypolars.series.Series.rolling_sum">rolling_sum</a></code></li>
+<li><code><a title="pypolars.series.Series.second" href="#pypolars.series.Series.second">second</a></code></li>
+<li><code><a title="pypolars.series.Series.series_equal" href="#pypolars.series.Series.series_equal">series_equal</a></code></li>
+<li><code><a title="pypolars.series.Series.set" href="#pypolars.series.Series.set">set</a></code></li>
+<li><code><a title="pypolars.series.Series.set_at_idx" href="#pypolars.series.Series.set_at_idx">set_at_idx</a></code></li>
+<li><code><a title="pypolars.series.Series.shift" href="#pypolars.series.Series.shift">shift</a></code></li>
+<li><code><a title="pypolars.series.Series.slice" href="#pypolars.series.Series.slice">slice</a></code></li>
+<li><code><a title="pypolars.series.Series.sort" href="#pypolars.series.Series.sort">sort</a></code></li>
+<li><code><a title="pypolars.series.Series.std" href="#pypolars.series.Series.std">std</a></code></li>
+<li><code><a title="pypolars.series.Series.str_contains" href="#pypolars.series.Series.str_contains">str_contains</a></code></li>
+<li><code><a title="pypolars.series.Series.str_lengths" href="#pypolars.series.Series.str_lengths">str_lengths</a></code></li>
+<li><code><a title="pypolars.series.Series.str_parse_date" href="#pypolars.series.Series.str_parse_date">str_parse_date</a></code></li>
+<li><code><a title="pypolars.series.Series.str_replace" href="#pypolars.series.Series.str_replace">str_replace</a></code></li>
+<li><code><a title="pypolars.series.Series.str_replace_all" href="#pypolars.series.Series.str_replace_all">str_replace_all</a></code></li>
+<li><code><a title="pypolars.series.Series.str_to_lowercase" href="#pypolars.series.Series.str_to_lowercase">str_to_lowercase</a></code></li>
+<li><code><a title="pypolars.series.Series.str_to_uppercase" href="#pypolars.series.Series.str_to_uppercase">str_to_uppercase</a></code></li>
+<li><code><a title="pypolars.series.Series.sum" href="#pypolars.series.Series.sum">sum</a></code></li>
+<li><code><a title="pypolars.series.Series.tail" href="#pypolars.series.Series.tail">tail</a></code></li>
+<li><code><a title="pypolars.series.Series.take" href="#pypolars.series.Series.take">take</a></code></li>
+<li><code><a title="pypolars.series.Series.to_dummies" href="#pypolars.series.Series.to_dummies">to_dummies</a></code></li>
+<li><code><a title="pypolars.series.Series.to_list" href="#pypolars.series.Series.to_list">to_list</a></code></li>
+<li><code><a title="pypolars.series.Series.to_numpy" href="#pypolars.series.Series.to_numpy">to_numpy</a></code></li>
+<li><code><a title="pypolars.series.Series.unique" href="#pypolars.series.Series.unique">unique</a></code></li>
+<li><code><a title="pypolars.series.Series.value_counts" href="#pypolars.series.Series.value_counts">value_counts</a></code></li>
+<li><code><a title="pypolars.series.Series.var" href="#pypolars.series.Series.var">var</a></code></li>
+<li><code><a title="pypolars.series.Series.view" href="#pypolars.series.Series.view">view</a></code></li>
+<li><code><a title="pypolars.series.Series.year" href="#pypolars.series.Series.year">year</a></code></li>
+<li><code><a title="pypolars.series.Series.zip_with" href="#pypolars.series.Series.zip_with">zip_with</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["polars"] = [{"text":"impl Display for PolarsError","synthetic":false,"types":[]},{"text":"impl Display for Series","synthetic":false,"types":[]},{"text":"impl Display for DataFrame","synthetic":false,"types":[]},{"text":"impl&lt;'_&gt; Display for AnyType&lt;'_&gt;","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

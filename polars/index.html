@@ -1,0 +1,201 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `polars` crate."><meta name="keywords" content="rust, rustlang, rust-lang, polars"><title>polars - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../ayu.css" disabled ><script id="default-settings"></script><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../polars/index.html'><div class='logo-container rust-logo'><img src='../rust-logo.png' alt='logo'></div></a><p class="location">Crate polars</p><div class="block version"><p>Version 0.8.1</p></div><div class="sidebar-elems"><a id="all-types" href="all.html"><p>See all polars's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li></ul></div><p class="location"></p><script>window.sidebarCurrent = {name: "polars", ty: "mod", relpath: "../"};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class="fqn"><span class="out-of-band"><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="../src/polars/lib.rs.html#1-213" title="goto source code">[src]</a></span><span class="in-band">Crate <a class="mod" href="">polars</a></span></h1><div class="docblock"><h1 id="polars-dataframes-in-rust" class="section-header"><a href="#polars-dataframes-in-rust">Polars: <em><small>DataFrames in Rust</small></em></a></h1>
+<p>Polars is a DataFrame library for Rust. It is based on <a href="https://arrow.apache.org/">Apache Arrows</a> memory model.
+This means that operations on Polars array's <em>(called <code>Series</code> or <code>ChunkedArray&lt;T&gt;</code> {if the type <code>T</code> is known})</em> are
+optimally aligned cache friendly operations and SIMD. Sadly, Apache Arrow needs <strong>nightly Rust</strong>,
+which means that Polars cannot run on stable.</p>
+<p>Polars supports an eager and a lazy api. The eager api is similar to <a href="https://pandas.pydata.org/">pandas</a>,
+the lazy api is similar to <a href="https://spark.apache.org/">Spark</a>.</p>
+<h3 id="eager" class="section-header"><a href="#eager">Eager</a></h3>
+<p>Read more in the pages of the <a href="frame/struct.DataFrame.html">DataFrame</a>, <a href="series/enum.Series.html">Series</a>, and
+<a href="chunked_array/struct.ChunkedArray.html">ChunkedArray</a> data structures.</p>
+<h3 id="lazy" class="section-header"><a href="#lazy">Lazy</a></h3>
+<p>Read more in the <a href="lazy/index.html">lazy</a> module</p>
+<h2 id="read-and-write-csv-json" class="section-header"><a href="#read-and-write-csv-json">Read and write CSV/ JSON</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">polars</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>::<span class="ident">File</span>;
+
+<span class="kw">fn</span> <span class="ident">example</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DataFrame</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="string">&quot;iris.csv&quot;</span>)
+                    .<span class="ident">expect</span>(<span class="string">&quot;could not read file&quot;</span>);
+
+    <span class="ident">CsvReader</span>::<span class="ident">new</span>(<span class="ident">file</span>)
+            .<span class="ident">infer_schema</span>(<span class="prelude-val">None</span>)
+            .<span class="ident">has_header</span>(<span class="bool-val">true</span>)
+            .<span class="ident">finish</span>()
+}</pre></div>
+<p>For more IO examples see:</p>
+<ul>
+<li><a href="frame/ser/csv/index.html">the csv module</a></li>
+<li><a href="frame/ser/json/index.html">the json module</a></li>
+<li><a href="frame/ser/ipc/index.html">the IPC module</a></li>
+<li><a href="frame/ser/parquet/index.html">the parquet module</a></li>
+</ul>
+<h2 id="joins" class="section-header"><a href="#joins">Joins</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">polars</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+
+<span class="kw">fn</span> <span class="ident">join</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DataFrame</span><span class="op">&gt;</span> {
+    <span class="comment">// Create first df.</span>
+    <span class="kw">let</span> <span class="ident">temp</span> <span class="op">=</span> <span class="macro">df</span><span class="macro">!</span>(<span class="string">&quot;days&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],
+                   <span class="string">&quot;temp&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="number">22.1</span>, <span class="number">19.9</span>, <span class="number">7.</span>, <span class="number">2.</span>, <span class="number">3.</span>])<span class="question-mark">?</span>;
+
+    <span class="comment">// Create second df.</span>
+    <span class="kw">let</span> <span class="ident">rain</span> <span class="op">=</span> <span class="macro">df</span><span class="macro">!</span>(<span class="string">&quot;days&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>],
+                   <span class="string">&quot;rain&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="number">0.1</span>, <span class="number">0.2</span>])<span class="question-mark">?</span>;
+
+    <span class="comment">// Left join on days column.</span>
+    <span class="ident">temp</span>.<span class="ident">left_join</span>(<span class="kw-2">&amp;</span><span class="ident">rain</span>, <span class="string">&quot;days&quot;</span>, <span class="string">&quot;days&quot;</span>)
+}
+
+<span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">join</span>().<span class="ident">unwrap</span>())</pre></div>
+<pre><code class="language-text">+------+------+------+
+| days | temp | rain |
+| ---  | ---  | ---  |
+| i32  | f64  | f64  |
++======+======+======+
+| 0    | 22.1 | null |
++------+------+------+
+| 1    | 19.9 | 0.1  |
++------+------+------+
+| 2    | 7    | 0.2  |
++------+------+------+
+| 3    | 2    | null |
++------+------+------+
+| 4    | 3    | null |
++------+------+------+
+</code></pre>
+<h2 id="groupbys--aggregations--pivots--melts" class="section-header"><a href="#groupbys--aggregations--pivots--melts">Groupby's | aggregations | pivots | melts</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">polars</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="kw">fn</span> <span class="ident">groupby_sum</span>(<span class="ident">df</span>: <span class="kw-2">&amp;</span><span class="ident">DataFrame</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DataFrame</span><span class="op">&gt;</span> {
+    <span class="ident">df</span>.<span class="ident">groupby</span>(<span class="string">&quot;column_name&quot;</span>)<span class="question-mark">?</span>
+    .<span class="ident">select</span>(<span class="string">&quot;agg_column_name&quot;</span>)
+    .<span class="ident">sum</span>()
+}</pre></div>
+<h2 id="arithmetic" class="section-header"><a href="#arithmetic">Arithmetic</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">polars</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">Series</span>::<span class="ident">new</span>(<span class="string">&quot;foo&quot;</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
+<span class="kw">let</span> <span class="ident">s_squared</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">s</span> <span class="op">*</span> <span class="kw-2">&amp;</span><span class="ident">s</span>;</pre></div>
+<h2 id="rust-iterators" class="section-header"><a href="#rust-iterators">Rust iterators</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">polars</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+
+<span class="kw">let</span> <span class="ident">s</span>: <span class="ident">Series</span> <span class="op">=</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].<span class="ident">iter</span>().<span class="ident">collect</span>();
+<span class="kw">let</span> <span class="ident">s_squared</span>: <span class="ident">Series</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">i32</span>()
+     .<span class="ident">expect</span>(<span class="string">&quot;datatype mismatch&quot;</span>)
+     .<span class="ident">into_iter</span>()
+     .<span class="ident">map</span>(<span class="op">|</span><span class="ident">optional_v</span><span class="op">|</span> {
+         <span class="kw">match</span> <span class="ident">optional_v</span> {
+             <span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span> <span class="op">*</span> <span class="ident">v</span>),
+             <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>, <span class="comment">// null value</span>
+         }
+ }).<span class="ident">collect</span>();</pre></div>
+<h2 id="apply-custom-closures" class="section-header"><a href="#apply-custom-closures">Apply custom closures</a></h2>
+<p>Besides running custom iterators, custom closures can be applied on the values of <a href="chunked_array/struct.ChunkedArray.html">ChunkedArray</a>
+by using the <a href="chunked_array/apply/trait.Apply.html">apply</a> method. This method accepts
+a closure that will be applied on all values of <code>Option&lt;T&gt;</code> that are non null. Note that this is the
+<strong>fastest</strong> way to apply a custom closure on <code>ChunkedArray</code>'s.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">s</span>: <span class="ident">Series</span> <span class="op">=</span> <span class="ident">Series</span>::<span class="ident">new</span>(<span class="string">&quot;values&quot;</span>, [<span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">3.0</span>)]);
+<span class="comment">// null values are ignored automatically</span>
+<span class="kw">let</span> <span class="ident">squared</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">f64</span>()
+    .<span class="ident">unwrap</span>()
+    .<span class="ident">apply</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> <span class="ident">value</span>.<span class="ident">powf</span>(<span class="number">2.0</span>))
+    .<span class="ident">into_series</span>();
+
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">squared</span>.<span class="ident">f64</span>().<span class="ident">unwrap</span>()), <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">9.0</span>)])</pre></div>
+<h2 id="comparisons" class="section-header"><a href="#comparisons">Comparisons</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">polars</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">itertools</span>::<span class="ident">Itertools</span>;
+<span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">Series</span>::<span class="ident">new</span>(<span class="string">&quot;dollars&quot;</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
+<span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">eq</span>(<span class="number">1</span>);
+
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">mask</span>), <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="bool-val">true</span>), <span class="prelude-val">Some</span>(<span class="bool-val">false</span>), <span class="prelude-val">Some</span>(<span class="bool-val">false</span>)]);</pre></div>
+<h2 id="temporal-data-types" class="section-header"><a href="#temporal-data-types">Temporal data types</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">dates</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[
+<span class="string">&quot;2020-08-21&quot;</span>,
+<span class="string">&quot;2020-08-21&quot;</span>,
+<span class="string">&quot;2020-08-22&quot;</span>,
+<span class="string">&quot;2020-08-23&quot;</span>,
+<span class="string">&quot;2020-08-22&quot;</span>,
+];
+<span class="comment">// date format</span>
+<span class="kw">let</span> <span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;%Y-%m-%d&quot;</span>;
+<span class="comment">// create date series</span>
+<span class="kw">let</span> <span class="ident">s0</span> <span class="op">=</span> <span class="ident">Date32Chunked</span>::<span class="ident">parse_from_str_slice</span>(<span class="string">&quot;date&quot;</span>, <span class="ident">dates</span>, <span class="ident">fmt</span>)
+        .<span class="ident">into_series</span>();</pre></div>
+<h2 id="and-more" class="section-header"><a href="#and-more">And more...</a></h2>
+<ul>
+<li><a href="frame/struct.DataFrame.html">DataFrame</a></li>
+<li><a href="series/enum.Series.html">Series</a></li>
+<li><a href="chunked_array/struct.ChunkedArray.html">ChunkedArray</a>
+<ul>
+<li><a href="chunked_array/ops/index.html">Operations implemented by Traits</a></li>
+</ul>
+</li>
+<li><a href="doc/time/index.html">Time/ DateTime utilities</a></li>
+<li><a href="frame/group_by/struct.GroupBy.html">Groupby, aggregations, pivots and melts</a></li>
+</ul>
+<h2 id="features" class="section-header"><a href="#features">Features</a></h2>
+<p>Additional cargo features:</p>
+<ul>
+<li><code>temporal (default)</code>
+<ul>
+<li>Conversions between Chrono and Polars for temporal data</li>
+</ul>
+</li>
+<li><code>simd (default)</code>
+<ul>
+<li>SIMD operations</li>
+</ul>
+</li>
+<li><code>parquet</code>
+<ul>
+<li>Read Apache Parquet format</li>
+</ul>
+</li>
+<li><code>random</code>
+<ul>
+<li>Generate array's with randomly sampled values</li>
+</ul>
+</li>
+<li><code>ndarray</code>
+<ul>
+<li>Convert from <code>DataFrame</code> to <code>ndarray</code></li>
+</ul>
+</li>
+<li><code>parallel</code>
+<ul>
+<li>Parallel variants of operation</li>
+</ul>
+</li>
+<li><code>lazy</code>
+<ul>
+<li>Lazy api</li>
+</ul>
+</li>
+<li><code>strings</code>
+<ul>
+<li>String utilities for <code>Utf8Chunked</code></li>
+</ul>
+</li>
+</ul>
+</div><h2 id="modules" class="section-header"><a href="#modules">Modules</a></h2>
+<table><tr class="module-item"><td><a class="mod" href="chunked_array/index.html" title="polars::chunked_array mod">chunked_array</a></td><td class="docblock-short"><p>The typed heart of every Series column.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="datatypes/index.html" title="polars::datatypes mod">datatypes</a></td><td class="docblock-short"><p>Data types supported by Polars.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="doc/index.html" title="polars::doc mod">doc</a></td><td class="docblock-short"><p>Other documentation</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="error/index.html" title="polars::error mod">error</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="mod" href="frame/index.html" title="polars::frame mod">frame</a></td><td class="docblock-short"><p>DataFrame module.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="lazy/index.html" title="polars::lazy mod">lazy</a></td><td class="docblock-short"><p>Lazy API of Polars</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="prelude/index.html" title="polars::prelude mod">prelude</a></td><td class="docblock-short"><p>Everything you need to get started with Polars.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="series/index.html" title="polars::series mod">series</a></td><td class="docblock-short"><p>Type agnostic columnar data structure.</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="testing/index.html" title="polars::testing mod">testing</a></td><td class="docblock-short"><p>Testing utilities.</p>
+</td></tr></table><h2 id="macros" class="section-header"><a href="#macros">Macros</a></h2>
+<table><tr class="module-item"><td><a class="macro" href="macro.apply_method_all_arrow_series.html" title="polars::apply_method_all_arrow_series macro">apply_method_all_arrow_series</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="macro" href="macro.apply_method_all_series.html" title="polars::apply_method_all_series macro">apply_method_all_series</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="macro" href="macro.apply_method_numeric_series.html" title="polars::apply_method_numeric_series macro">apply_method_numeric_series</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="macro" href="macro.apply_method_numeric_series_and_return.html" title="polars::apply_method_numeric_series_and_return macro">apply_method_numeric_series_and_return</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="macro" href="macro.apply_operand_on_chunkedarray_by_iter.html" title="polars::apply_operand_on_chunkedarray_by_iter macro">apply_operand_on_chunkedarray_by_iter</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="macro" href="macro.as_result.html" title="polars::as_result macro">as_result</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="macro" href="macro.df.html" title="polars::df macro">df</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="macro" href="macro.match_arrow_data_type_apply_macro.html" title="polars::match_arrow_data_type_apply_macro macro">match_arrow_data_type_apply_macro</a></td><td class="docblock-short"></td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "polars";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

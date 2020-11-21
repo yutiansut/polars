@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["polars"] = [{"text":"impl&lt;'_&gt; BitAnd&lt;&amp;'_ ChunkedArray&lt;BooleanType&gt;&gt; for &amp;'_ BooleanChunked","synthetic":false,"types":[]},{"text":"impl BitAnd&lt;ChunkedArray&lt;BooleanType&gt;&gt; for BooleanChunked","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

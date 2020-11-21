@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["ParquetReader","Read Apache parquet format into a DataFrame."]]});

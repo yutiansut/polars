@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["changelog",""],["time","DateTime related functionalityPolars supports all data types in Arrow related to time and dates in any kind. In Arrow times and dates are stored as i32 or i64 integers. This can represent for instance a duration in seconds since the Unix Epoch: 00:00:00 1 january 1970."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["GroupBy","Returned by a groupby operation on a DataFrame. This struct supports several aggregations."],["Pivot","Intermediate structure when a `pivot` operation is applied. See the pivot method for more information."]],"trait":[["IntoGroupTuples","Used to create the tuples for a groupby operation."]]});

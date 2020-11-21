@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["polars"] = [{"text":"impl&lt;T&gt; Default for ObjectChunkedBuilder&lt;T&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: Any + Debug + Clone + Send + Sync + Default,&nbsp;</span>","synthetic":false,"types":[]},{"text":"impl&lt;T&gt; Default for ChunkedArray&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl Default for DataFrame","synthetic":false,"types":[]},{"text":"impl Default for LazyFrame","synthetic":false,"types":[]},{"text":"impl Default for Series","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

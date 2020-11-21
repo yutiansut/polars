@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Series","SeriesThe columnar data type for a DataFrame. The Series enum consists of typed ChunkedArray's. To quickly cast a `Series` to a `ChunkedArray` you can call the method with the name of the type:"]],"mod":[["ops",""]],"trait":[["NamedFrom",""]]});

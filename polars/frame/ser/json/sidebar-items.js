@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["JsonReader",""],["ReaderBuilder","JSON file reader builder"]]});

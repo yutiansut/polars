@@ -1,0 +1,2160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>pypolars.lazy API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pypolars.lazy</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from typing import Union, List, Callable, Optional
+
+from pypolars import Series
+from pypolars.frame import DataFrame, wrap_df
+
+try:
+    from .pypolars import (
+        PyLazyFrame,
+        col as pycol,
+        lit as pylit,
+        binary_expr,
+        PyExpr,
+        PyLazyGroupBy,
+        when as pywhen,
+    )
+except:
+    import warnings
+
+    warnings.warn(&#34;binary files missing&#34;)
+
+    __pdoc__ = {&#34;wrap_ldf&#34;: False, &#34;wrap_expr&#34;: False}
+
+
+def lazy(self) -&gt; &#34;LazyFrame&#34;:
+    return wrap_ldf(self._df.lazy())
+
+
+DataFrame.lazy = lazy
+
+
+def _selection_to_pyexpr_list(exprs) -&gt; &#34;List[PyExpr]&#34;:
+    if not isinstance(exprs, list):
+        if isinstance(exprs, str):
+            exprs = col(exprs)
+        exprs = [exprs._pyexpr]
+    else:
+        new = []
+        for expr in exprs:
+            if isinstance(expr, str):
+                expr = col(expr)
+            new.append(expr._pyexpr)
+        exprs = new
+    return exprs
+
+
+def wrap_ldf(ldf: &#34;PyLazyFrame&#34;) -&gt; &#34;LazyFrame&#34;:
+    return LazyFrame.from_pyldf(ldf)
+
+
+class LazyGroupBy:
+    def __init__(self, lgb: &#34;PyLazyGroupBy&#34;):
+        self.lgb = lgb
+
+    def agg(self, aggs: &#34;Union[List[Expr], Expr]&#34;) -&gt; &#34;LazyFrame&#34;:
+        aggs = _selection_to_pyexpr_list(aggs)
+        return wrap_ldf(self.lgb.agg(aggs))
+
+
+class LazyFrame:
+    def __init__(self):
+        self._ldf = None
+
+    @staticmethod
+    def from_pyldf(ldf: &#34;PyLazyFrame&#34;) -&gt; &#34;LazyFrame&#34;:
+        self = LazyFrame.__new__(LazyFrame)
+        self._ldf = ldf
+        return self
+
+    def pipe(self, func: Callable, *args, **kwargs):
+        &#34;&#34;&#34;
+        Apply a function on Self
+
+        Parameters
+        ----------
+        func
+            Callable
+        args
+            Arguments
+        kwargs
+            Keyword arguments
+        &#34;&#34;&#34;
+        return func(self, *args, **kwargs)
+
+    def describe_plan(self) -&gt; str:
+        return self._ldf.describe_plan()
+
+    def describe_optimized_plan(self) -&gt; str:
+        return self._ldf.describe_optimized_plan()
+
+    def sort(self, by_column: str) -&gt; &#34;LazyFrame&#34;:
+        return wrap_ldf(self._ldf.sort(by_column))
+
+    def collect(
+        self,
+        type_coercion: bool = True,
+        predicate_pushdown: bool = True,
+        projection_pushdown: bool = True,
+    ) -&gt; DataFrame:
+        ldf = self._ldf.optimization_toggle(
+            type_coercion, predicate_pushdown, projection_pushdown
+        )
+        return wrap_df(ldf.collect())
+
+    def filter(self, predicate: &#34;Expr&#34;) -&gt; &#34;LazyFrame&#34;:
+        return wrap_ldf(self._ldf.filter(predicate._pyexpr))
+
+    def select(self, exprs: &#34;Expr&#34;) -&gt; &#34;LazyFrame&#34;:
+        exprs = _selection_to_pyexpr_list(exprs)
+        return wrap_ldf(self._ldf.select(exprs))
+
+    def groupby(self, by: Union[str, List[str]]) -&gt; LazyGroupBy:
+        &#34;&#34;&#34;
+        Start a groupby operation
+
+        Parameters
+        ----------
+        by
+            Column(s) to group by.
+        &#34;&#34;&#34;
+        if isinstance(by, str):
+            by = [by]
+        lgb = self._ldf.groupby(by)
+        return LazyGroupBy(lgb)
+
+    def join(
+        self,
+        ldf: &#34;LazyFrame&#34;,
+        left_on: &#34;Expr&#34;,
+        right_on: &#34;Expr&#34;,
+        how=&#34;inner&#34;,
+    ) -&gt; &#34;LazyFrame&#34;:
+        left_on = left_on._pyexpr
+        right_on = right_on._pyexpr
+        if how == &#34;inner&#34;:
+            inner = self._ldf.inner_join(ldf._ldf, left_on, right_on)
+        elif how == &#34;left&#34;:
+            inner = self._ldf.left_join(ldf._ldf, left_on, right_on)
+        elif how == &#34;outer&#34;:
+            inner = self._ldf.outer_join(ldf._ldf, left_on, right_on)
+        else:
+            return NotImplemented
+        return wrap_ldf(inner)
+
+    def with_columns(self, exprs: &#34;List[Expr]&#34;) -&gt; &#34;LazyFrame&#34;:
+        exprs = [e._pyexpr for e in exprs]
+        return wrap_ldf(self._ldf.with_columns(exprs))
+
+    def with_column(self, expr: &#34;Expr&#34;) -&gt; &#34;LazyFrame&#34;:
+        return self.with_columns([expr])
+
+    def reverse(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Reverse the DataFrame.
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.reverse())
+
+    def shift(self, periods: int):
+        &#34;&#34;&#34;
+        Shift the values by a given period and fill the parts that will be empty due to this operation
+        with `Nones`.
+
+        Parameters
+        ----------
+        periods
+            Number of places to shift (may be negative).
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.shift(periods))
+
+    def max(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their maximum value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.max())
+
+    def min(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their minimum value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.min())
+
+    def sum(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their sum value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.sum())
+
+    def mean(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their mean value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.mean())
+
+    def median(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their median value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.median())
+
+    def quantile(self, quantile: float) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their quantile value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.quantile(quantile))
+
+    def explode(self, column: str) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Explode lists to long format
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.explode(column))
+
+    def drop_duplicates(
+        self, maintain_order: bool, subset: &#34;Optional[List[str]]&#34; = None
+    ) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Drop duplicate rows from this DataFrame.
+        Note that this fails if there is a column of type `List` in the DataFrame.
+        &#34;&#34;&#34;
+        if subset is not None and not isinstance(subset, list):
+            subset = [subset]
+        return wrap_ldf(self._ldf.drop_duplicates(maintain_order, subset))
+
+    def drop_nulls(self, subset: &#34;Optional[List[str]]&#34; = None) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Drop rows with null values from this DataFrame.
+        &#34;&#34;&#34;
+        if subset is not None and not isinstance(subset, list):
+            subset = [subset]
+        return wrap_ldf(self._ldf.drop_nulls(subset))
+
+
+def wrap_expr(pyexpr: &#34;PyExpr&#34;) -&gt; &#34;Expr&#34;:
+    return Expr.from_pyexpr(pyexpr)
+
+
+class Expr:
+    def __init__(self):
+        self._pyexpr = None
+
+    @staticmethod
+    def from_pyexpr(pyexpr: &#34;PyExpr&#34;) -&gt; &#34;Expr&#34;:
+        self = Expr.__new__(Expr)
+        self._pyexpr = pyexpr
+        return self
+
+    def __add__(self, other):
+        return wrap_expr(self._pyexpr + other._pyexpr)
+
+    def __sub__(self, other):
+        return wrap_expr(self._pyexpr - other._pyexpr)
+
+    def __mul__(self, other):
+        return wrap_expr(self._pyexpr * other._pyexpr)
+
+    def __truediv__(self, other):
+        return wrap_expr(self._pyexpr / other._pyexpr)
+
+    def __ge__(self, other):
+        return self.gt_eq(other)
+
+    def __le__(self, other):
+        return self.lt_eq(other)
+
+    def __eq__(self, other):
+        return self.eq(other)
+
+    def __ne__(self, other):
+        return self.neq(other)
+
+    def __lt__(self, other):
+        return self.lt(other)
+
+    def __gt__(self, other):
+        return self.gt(other)
+
+    def eq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.eq(other._pyexpr))
+
+    def neq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.neq(other._pyexpr))
+
+    def gt(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.gt(other._pyexpr))
+
+    def gt_eq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.gt_eq(other._pyexpr))
+
+    def lt_eq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.lt_eq(other._pyexpr))
+
+    def lt(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.lt(other._pyexpr))
+
+    def alias(self, name: str) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.alias(name))
+
+    def is_not(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.is_not())
+
+    def is_null(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.is_null())
+
+    def is_not_null(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.is_not_null())
+
+    def agg_min(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_min())
+
+    def agg_max(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_max())
+
+    def agg_mean(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_mean())
+
+    def agg_median(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_median())
+
+    def agg_sum(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_sum())
+
+    def agg_n_unique(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_n_unique())
+
+    def agg_first(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_first())
+
+    def agg_last(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_last())
+
+    def agg_list(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_list())
+
+    def agg_quantile(self, quantile: float) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_quantile(quantile))
+
+    def agg_groups(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_groups())
+
+    def agg_count(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_count())
+
+    def cast(self, data_type: &#34;DataType&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.cast(data_type))
+
+    def sort(self, reverse: bool) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.sort(reverse))
+
+    def shift(self, periods: int) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.shift(periods))
+
+    def fill_none(self, strategy: str) -&gt; &#34;Expr&#34;:
+        &#34;&#34;&#34;
+        Fill null values with a fill strategy.
+
+        Parameters
+        ----------
+        strategy
+               * &#34;backward&#34;
+               * &#34;forward&#34;
+               * &#34;min&#34;
+               * &#34;max&#34;
+               * &#34;mean&#34;
+        &#34;&#34;&#34;
+        return wrap_expr(self._pyexpr.fill_none(strategy))
+
+    def max(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.max())
+
+    def min(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.min())
+
+    def sum(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.sum())
+
+    def mean(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.mean())
+
+    def median(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.mean())
+
+    def is_unique(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.is_unique())
+
+    def is_duplicated(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.is_duplicated())
+
+    def quantile(self, quantile: float) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.quantile(quantile))
+
+    def str_lengths(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.str_lengths())
+
+    def str_contains(self, pattern: str) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.str_contains(pattern))
+
+    def str_replace(self, pattern: str, value: str) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.str_replace(pattern, value))
+
+    def str_replace_all(self, pattern: str, value: str) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.str_replace_all(pattern, value))
+
+    def apply(
+        self,
+        f: &#34;Union[UDF, Callable[[Series], Series]]&#34;,
+        output_type: Optional[&#34;DataType&#34;] = None,
+    ) -&gt; &#34;Expr&#34;:
+        if isinstance(f, UDF):
+            output_type = f.output_type
+            f = f.f
+        return wrap_expr(self._pyexpr.apply(f, output_type))
+
+
+class WhenThen:
+    def __init__(self, pywhenthen: &#34;PyWhenThen&#34;):
+        self._pywhenthen = pywhenthen
+
+    def otherwise(self, expr: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pywhenthen.otherwise(expr._pyexpr))
+
+
+class When:
+    def __init__(self, pywhen: &#34;PyWhen&#34;):
+        self._pywhen = pywhen
+
+    def then(self, expr: &#34;Expr&#34;) -&gt; WhenThen:
+        whenthen = self._pywhen.then(expr._pyexpr)
+        return WhenThen(whenthen)
+
+
+def when(expr: &#34;Expr&#34;) -&gt; When:
+    pw = pywhen(expr._pyexpr)
+    return When(pw)
+
+
+def col(name: str) -&gt; &#34;Expr&#34;:
+    return wrap_expr(pycol(name))
+
+
+def lit(value: Union[float, int]) -&gt; &#34;Expr&#34;:
+    return wrap_expr(pylit(value))
+
+
+class UDF:
+    def __init__(self, f: Callable[[Series], Series], output_type: &#34;DataType&#34;):
+        self.f = f
+        self.output_type = output_type
+
+
+def udf(f: Callable[[Series], Series], output_type: &#34;DataType&#34;):
+    return UDF(f, output_type)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pypolars.lazy.col"><code class="name flex">
+<span>def <span class="ident">col</span></span>(<span>name: str) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def col(name: str) -&gt; &#34;Expr&#34;:
+    return wrap_expr(pycol(name))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.lazy"><code class="name flex">
+<span>def <span class="ident">lazy</span></span>(<span>self) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def lazy(self) -&gt; &#34;LazyFrame&#34;:
+    return wrap_ldf(self._df.lazy())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.lit"><code class="name flex">
+<span>def <span class="ident">lit</span></span>(<span>value: Union[float, int]) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def lit(value: Union[float, int]) -&gt; &#34;Expr&#34;:
+    return wrap_expr(pylit(value))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.udf"><code class="name flex">
+<span>def <span class="ident">udf</span></span>(<span>f: Callable[[<a title="pypolars.series.Series" href="series.html#pypolars.series.Series">Series</a>], <a title="pypolars.series.Series" href="series.html#pypolars.series.Series">Series</a>], output_type: DataType)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def udf(f: Callable[[Series], Series], output_type: &#34;DataType&#34;):
+    return UDF(f, output_type)</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.when"><code class="name flex">
+<span>def <span class="ident">when</span></span>(<span>expr: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.When" href="#pypolars.lazy.When">When</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def when(expr: &#34;Expr&#34;) -&gt; When:
+    pw = pywhen(expr._pyexpr)
+    return When(pw)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pypolars.lazy.Expr"><code class="flex name class">
+<span>class <span class="ident">Expr</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Expr:
+    def __init__(self):
+        self._pyexpr = None
+
+    @staticmethod
+    def from_pyexpr(pyexpr: &#34;PyExpr&#34;) -&gt; &#34;Expr&#34;:
+        self = Expr.__new__(Expr)
+        self._pyexpr = pyexpr
+        return self
+
+    def __add__(self, other):
+        return wrap_expr(self._pyexpr + other._pyexpr)
+
+    def __sub__(self, other):
+        return wrap_expr(self._pyexpr - other._pyexpr)
+
+    def __mul__(self, other):
+        return wrap_expr(self._pyexpr * other._pyexpr)
+
+    def __truediv__(self, other):
+        return wrap_expr(self._pyexpr / other._pyexpr)
+
+    def __ge__(self, other):
+        return self.gt_eq(other)
+
+    def __le__(self, other):
+        return self.lt_eq(other)
+
+    def __eq__(self, other):
+        return self.eq(other)
+
+    def __ne__(self, other):
+        return self.neq(other)
+
+    def __lt__(self, other):
+        return self.lt(other)
+
+    def __gt__(self, other):
+        return self.gt(other)
+
+    def eq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.eq(other._pyexpr))
+
+    def neq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.neq(other._pyexpr))
+
+    def gt(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.gt(other._pyexpr))
+
+    def gt_eq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.gt_eq(other._pyexpr))
+
+    def lt_eq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.lt_eq(other._pyexpr))
+
+    def lt(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.lt(other._pyexpr))
+
+    def alias(self, name: str) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.alias(name))
+
+    def is_not(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.is_not())
+
+    def is_null(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.is_null())
+
+    def is_not_null(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.is_not_null())
+
+    def agg_min(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_min())
+
+    def agg_max(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_max())
+
+    def agg_mean(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_mean())
+
+    def agg_median(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_median())
+
+    def agg_sum(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_sum())
+
+    def agg_n_unique(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_n_unique())
+
+    def agg_first(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_first())
+
+    def agg_last(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_last())
+
+    def agg_list(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_list())
+
+    def agg_quantile(self, quantile: float) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_quantile(quantile))
+
+    def agg_groups(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_groups())
+
+    def agg_count(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.agg_count())
+
+    def cast(self, data_type: &#34;DataType&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.cast(data_type))
+
+    def sort(self, reverse: bool) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.sort(reverse))
+
+    def shift(self, periods: int) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.shift(periods))
+
+    def fill_none(self, strategy: str) -&gt; &#34;Expr&#34;:
+        &#34;&#34;&#34;
+        Fill null values with a fill strategy.
+
+        Parameters
+        ----------
+        strategy
+               * &#34;backward&#34;
+               * &#34;forward&#34;
+               * &#34;min&#34;
+               * &#34;max&#34;
+               * &#34;mean&#34;
+        &#34;&#34;&#34;
+        return wrap_expr(self._pyexpr.fill_none(strategy))
+
+    def max(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.max())
+
+    def min(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.min())
+
+    def sum(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.sum())
+
+    def mean(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.mean())
+
+    def median(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.mean())
+
+    def is_unique(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.is_unique())
+
+    def is_duplicated(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.is_duplicated())
+
+    def quantile(self, quantile: float) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.quantile(quantile))
+
+    def str_lengths(self) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.str_lengths())
+
+    def str_contains(self, pattern: str) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.str_contains(pattern))
+
+    def str_replace(self, pattern: str, value: str) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.str_replace(pattern, value))
+
+    def str_replace_all(self, pattern: str, value: str) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pyexpr.str_replace_all(pattern, value))
+
+    def apply(
+        self,
+        f: &#34;Union[UDF, Callable[[Series], Series]]&#34;,
+        output_type: Optional[&#34;DataType&#34;] = None,
+    ) -&gt; &#34;Expr&#34;:
+        if isinstance(f, UDF):
+            output_type = f.output_type
+            f = f.f
+        return wrap_expr(self._pyexpr.apply(f, output_type))</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="pypolars.lazy.Expr.from_pyexpr"><code class="name flex">
+<span>def <span class="ident">from_pyexpr</span></span>(<span>pyexpr: PyExpr) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_pyexpr(pyexpr: &#34;PyExpr&#34;) -&gt; &#34;Expr&#34;:
+    self = Expr.__new__(Expr)
+    self._pyexpr = pyexpr
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pypolars.lazy.Expr.agg_count"><code class="name flex">
+<span>def <span class="ident">agg_count</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_count(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_count())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.agg_first"><code class="name flex">
+<span>def <span class="ident">agg_first</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_first(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_first())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.agg_groups"><code class="name flex">
+<span>def <span class="ident">agg_groups</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_groups(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_groups())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.agg_last"><code class="name flex">
+<span>def <span class="ident">agg_last</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_last(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_last())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.agg_list"><code class="name flex">
+<span>def <span class="ident">agg_list</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_list(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_list())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.agg_max"><code class="name flex">
+<span>def <span class="ident">agg_max</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_max(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_max())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.agg_mean"><code class="name flex">
+<span>def <span class="ident">agg_mean</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_mean(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_mean())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.agg_median"><code class="name flex">
+<span>def <span class="ident">agg_median</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_median(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_median())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.agg_min"><code class="name flex">
+<span>def <span class="ident">agg_min</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_min(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_min())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.agg_n_unique"><code class="name flex">
+<span>def <span class="ident">agg_n_unique</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_n_unique(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_n_unique())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.agg_quantile"><code class="name flex">
+<span>def <span class="ident">agg_quantile</span></span>(<span>self, quantile: float) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_quantile(self, quantile: float) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_quantile(quantile))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.agg_sum"><code class="name flex">
+<span>def <span class="ident">agg_sum</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg_sum(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.agg_sum())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.alias"><code class="name flex">
+<span>def <span class="ident">alias</span></span>(<span>self, name: str) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def alias(self, name: str) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.alias(name))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.apply"><code class="name flex">
+<span>def <span class="ident">apply</span></span>(<span>self, f: Union[<a title="pypolars.lazy.UDF" href="#pypolars.lazy.UDF">UDF</a>, Callable[[Series], Series]], output_type: Union[ForwardRef('DataType'), NoneType] = None) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def apply(
+    self,
+    f: &#34;Union[UDF, Callable[[Series], Series]]&#34;,
+    output_type: Optional[&#34;DataType&#34;] = None,
+) -&gt; &#34;Expr&#34;:
+    if isinstance(f, UDF):
+        output_type = f.output_type
+        f = f.f
+    return wrap_expr(self._pyexpr.apply(f, output_type))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.cast"><code class="name flex">
+<span>def <span class="ident">cast</span></span>(<span>self, data_type: DataType) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cast(self, data_type: &#34;DataType&#34;) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.cast(data_type))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.eq"><code class="name flex">
+<span>def <span class="ident">eq</span></span>(<span>self, other: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def eq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.eq(other._pyexpr))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.fill_none"><code class="name flex">
+<span>def <span class="ident">fill_none</span></span>(<span>self, strategy: str) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fill null values with a fill strategy.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>strategy</code></strong></dt>
+<dd>
+<ul>
+<li>"backward"</li>
+<li>"forward"</li>
+<li>"min"</li>
+<li>"max"</li>
+<li>"mean"</li>
+</ul>
+</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fill_none(self, strategy: str) -&gt; &#34;Expr&#34;:
+    &#34;&#34;&#34;
+    Fill null values with a fill strategy.
+
+    Parameters
+    ----------
+    strategy
+           * &#34;backward&#34;
+           * &#34;forward&#34;
+           * &#34;min&#34;
+           * &#34;max&#34;
+           * &#34;mean&#34;
+    &#34;&#34;&#34;
+    return wrap_expr(self._pyexpr.fill_none(strategy))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.gt"><code class="name flex">
+<span>def <span class="ident">gt</span></span>(<span>self, other: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def gt(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.gt(other._pyexpr))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.gt_eq"><code class="name flex">
+<span>def <span class="ident">gt_eq</span></span>(<span>self, other: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def gt_eq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.gt_eq(other._pyexpr))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.is_duplicated"><code class="name flex">
+<span>def <span class="ident">is_duplicated</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_duplicated(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.is_duplicated())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.is_not"><code class="name flex">
+<span>def <span class="ident">is_not</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_not(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.is_not())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.is_not_null"><code class="name flex">
+<span>def <span class="ident">is_not_null</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_not_null(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.is_not_null())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.is_null"><code class="name flex">
+<span>def <span class="ident">is_null</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_null(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.is_null())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.is_unique"><code class="name flex">
+<span>def <span class="ident">is_unique</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_unique(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.is_unique())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.lt"><code class="name flex">
+<span>def <span class="ident">lt</span></span>(<span>self, other: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def lt(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.lt(other._pyexpr))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.lt_eq"><code class="name flex">
+<span>def <span class="ident">lt_eq</span></span>(<span>self, other: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def lt_eq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.lt_eq(other._pyexpr))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.max"><code class="name flex">
+<span>def <span class="ident">max</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def max(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.max())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.mean"><code class="name flex">
+<span>def <span class="ident">mean</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mean(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.mean())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.median"><code class="name flex">
+<span>def <span class="ident">median</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def median(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.mean())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.min"><code class="name flex">
+<span>def <span class="ident">min</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def min(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.min())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.neq"><code class="name flex">
+<span>def <span class="ident">neq</span></span>(<span>self, other: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def neq(self, other: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.neq(other._pyexpr))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.quantile"><code class="name flex">
+<span>def <span class="ident">quantile</span></span>(<span>self, quantile: float) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def quantile(self, quantile: float) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.quantile(quantile))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.shift"><code class="name flex">
+<span>def <span class="ident">shift</span></span>(<span>self, periods: int) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def shift(self, periods: int) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.shift(periods))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.sort"><code class="name flex">
+<span>def <span class="ident">sort</span></span>(<span>self, reverse: bool) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sort(self, reverse: bool) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.sort(reverse))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.str_contains"><code class="name flex">
+<span>def <span class="ident">str_contains</span></span>(<span>self, pattern: str) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def str_contains(self, pattern: str) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.str_contains(pattern))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.str_lengths"><code class="name flex">
+<span>def <span class="ident">str_lengths</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def str_lengths(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.str_lengths())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.str_replace"><code class="name flex">
+<span>def <span class="ident">str_replace</span></span>(<span>self, pattern: str, value: str) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def str_replace(self, pattern: str, value: str) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.str_replace(pattern, value))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.str_replace_all"><code class="name flex">
+<span>def <span class="ident">str_replace_all</span></span>(<span>self, pattern: str, value: str) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def str_replace_all(self, pattern: str, value: str) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.str_replace_all(pattern, value))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.Expr.sum"><code class="name flex">
+<span>def <span class="ident">sum</span></span>(<span>self) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sum(self) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pyexpr.sum())</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pypolars.lazy.LazyFrame"><code class="flex name class">
+<span>class <span class="ident">LazyFrame</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LazyFrame:
+    def __init__(self):
+        self._ldf = None
+
+    @staticmethod
+    def from_pyldf(ldf: &#34;PyLazyFrame&#34;) -&gt; &#34;LazyFrame&#34;:
+        self = LazyFrame.__new__(LazyFrame)
+        self._ldf = ldf
+        return self
+
+    def pipe(self, func: Callable, *args, **kwargs):
+        &#34;&#34;&#34;
+        Apply a function on Self
+
+        Parameters
+        ----------
+        func
+            Callable
+        args
+            Arguments
+        kwargs
+            Keyword arguments
+        &#34;&#34;&#34;
+        return func(self, *args, **kwargs)
+
+    def describe_plan(self) -&gt; str:
+        return self._ldf.describe_plan()
+
+    def describe_optimized_plan(self) -&gt; str:
+        return self._ldf.describe_optimized_plan()
+
+    def sort(self, by_column: str) -&gt; &#34;LazyFrame&#34;:
+        return wrap_ldf(self._ldf.sort(by_column))
+
+    def collect(
+        self,
+        type_coercion: bool = True,
+        predicate_pushdown: bool = True,
+        projection_pushdown: bool = True,
+    ) -&gt; DataFrame:
+        ldf = self._ldf.optimization_toggle(
+            type_coercion, predicate_pushdown, projection_pushdown
+        )
+        return wrap_df(ldf.collect())
+
+    def filter(self, predicate: &#34;Expr&#34;) -&gt; &#34;LazyFrame&#34;:
+        return wrap_ldf(self._ldf.filter(predicate._pyexpr))
+
+    def select(self, exprs: &#34;Expr&#34;) -&gt; &#34;LazyFrame&#34;:
+        exprs = _selection_to_pyexpr_list(exprs)
+        return wrap_ldf(self._ldf.select(exprs))
+
+    def groupby(self, by: Union[str, List[str]]) -&gt; LazyGroupBy:
+        &#34;&#34;&#34;
+        Start a groupby operation
+
+        Parameters
+        ----------
+        by
+            Column(s) to group by.
+        &#34;&#34;&#34;
+        if isinstance(by, str):
+            by = [by]
+        lgb = self._ldf.groupby(by)
+        return LazyGroupBy(lgb)
+
+    def join(
+        self,
+        ldf: &#34;LazyFrame&#34;,
+        left_on: &#34;Expr&#34;,
+        right_on: &#34;Expr&#34;,
+        how=&#34;inner&#34;,
+    ) -&gt; &#34;LazyFrame&#34;:
+        left_on = left_on._pyexpr
+        right_on = right_on._pyexpr
+        if how == &#34;inner&#34;:
+            inner = self._ldf.inner_join(ldf._ldf, left_on, right_on)
+        elif how == &#34;left&#34;:
+            inner = self._ldf.left_join(ldf._ldf, left_on, right_on)
+        elif how == &#34;outer&#34;:
+            inner = self._ldf.outer_join(ldf._ldf, left_on, right_on)
+        else:
+            return NotImplemented
+        return wrap_ldf(inner)
+
+    def with_columns(self, exprs: &#34;List[Expr]&#34;) -&gt; &#34;LazyFrame&#34;:
+        exprs = [e._pyexpr for e in exprs]
+        return wrap_ldf(self._ldf.with_columns(exprs))
+
+    def with_column(self, expr: &#34;Expr&#34;) -&gt; &#34;LazyFrame&#34;:
+        return self.with_columns([expr])
+
+    def reverse(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Reverse the DataFrame.
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.reverse())
+
+    def shift(self, periods: int):
+        &#34;&#34;&#34;
+        Shift the values by a given period and fill the parts that will be empty due to this operation
+        with `Nones`.
+
+        Parameters
+        ----------
+        periods
+            Number of places to shift (may be negative).
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.shift(periods))
+
+    def max(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their maximum value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.max())
+
+    def min(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their minimum value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.min())
+
+    def sum(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their sum value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.sum())
+
+    def mean(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their mean value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.mean())
+
+    def median(self) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their median value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.median())
+
+    def quantile(self, quantile: float) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Aggregate the columns in the DataFrame to their quantile value
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.quantile(quantile))
+
+    def explode(self, column: str) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Explode lists to long format
+        &#34;&#34;&#34;
+        return wrap_ldf(self._ldf.explode(column))
+
+    def drop_duplicates(
+        self, maintain_order: bool, subset: &#34;Optional[List[str]]&#34; = None
+    ) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Drop duplicate rows from this DataFrame.
+        Note that this fails if there is a column of type `List` in the DataFrame.
+        &#34;&#34;&#34;
+        if subset is not None and not isinstance(subset, list):
+            subset = [subset]
+        return wrap_ldf(self._ldf.drop_duplicates(maintain_order, subset))
+
+    def drop_nulls(self, subset: &#34;Optional[List[str]]&#34; = None) -&gt; &#34;LazyFrame&#34;:
+        &#34;&#34;&#34;
+        Drop rows with null values from this DataFrame.
+        &#34;&#34;&#34;
+        if subset is not None and not isinstance(subset, list):
+            subset = [subset]
+        return wrap_ldf(self._ldf.drop_nulls(subset))</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="pypolars.lazy.LazyFrame.from_pyldf"><code class="name flex">
+<span>def <span class="ident">from_pyldf</span></span>(<span>ldf: PyLazyFrame) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_pyldf(ldf: &#34;PyLazyFrame&#34;) -&gt; &#34;LazyFrame&#34;:
+    self = LazyFrame.__new__(LazyFrame)
+    self._ldf = ldf
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pypolars.lazy.LazyFrame.collect"><code class="name flex">
+<span>def <span class="ident">collect</span></span>(<span>self, type_coercion: bool = True, predicate_pushdown: bool = True, projection_pushdown: bool = True) ‑> <a title="pypolars.frame.DataFrame" href="frame.html#pypolars.frame.DataFrame">DataFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def collect(
+    self,
+    type_coercion: bool = True,
+    predicate_pushdown: bool = True,
+    projection_pushdown: bool = True,
+) -&gt; DataFrame:
+    ldf = self._ldf.optimization_toggle(
+        type_coercion, predicate_pushdown, projection_pushdown
+    )
+    return wrap_df(ldf.collect())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.describe_optimized_plan"><code class="name flex">
+<span>def <span class="ident">describe_optimized_plan</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def describe_optimized_plan(self) -&gt; str:
+    return self._ldf.describe_optimized_plan()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.describe_plan"><code class="name flex">
+<span>def <span class="ident">describe_plan</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def describe_plan(self) -&gt; str:
+    return self._ldf.describe_plan()</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.drop_duplicates"><code class="name flex">
+<span>def <span class="ident">drop_duplicates</span></span>(<span>self, maintain_order: bool, subset: Optional[List[str]] = None) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Drop duplicate rows from this DataFrame.
+Note that this fails if there is a column of type <code>List</code> in the DataFrame.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def drop_duplicates(
+    self, maintain_order: bool, subset: &#34;Optional[List[str]]&#34; = None
+) -&gt; &#34;LazyFrame&#34;:
+    &#34;&#34;&#34;
+    Drop duplicate rows from this DataFrame.
+    Note that this fails if there is a column of type `List` in the DataFrame.
+    &#34;&#34;&#34;
+    if subset is not None and not isinstance(subset, list):
+        subset = [subset]
+    return wrap_ldf(self._ldf.drop_duplicates(maintain_order, subset))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.drop_nulls"><code class="name flex">
+<span>def <span class="ident">drop_nulls</span></span>(<span>self, subset: Optional[List[str]] = None) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Drop rows with null values from this DataFrame.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def drop_nulls(self, subset: &#34;Optional[List[str]]&#34; = None) -&gt; &#34;LazyFrame&#34;:
+    &#34;&#34;&#34;
+    Drop rows with null values from this DataFrame.
+    &#34;&#34;&#34;
+    if subset is not None and not isinstance(subset, list):
+        subset = [subset]
+    return wrap_ldf(self._ldf.drop_nulls(subset))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.explode"><code class="name flex">
+<span>def <span class="ident">explode</span></span>(<span>self, column: str) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Explode lists to long format</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def explode(self, column: str) -&gt; &#34;LazyFrame&#34;:
+    &#34;&#34;&#34;
+    Explode lists to long format
+    &#34;&#34;&#34;
+    return wrap_ldf(self._ldf.explode(column))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.filter"><code class="name flex">
+<span>def <span class="ident">filter</span></span>(<span>self, predicate: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def filter(self, predicate: &#34;Expr&#34;) -&gt; &#34;LazyFrame&#34;:
+    return wrap_ldf(self._ldf.filter(predicate._pyexpr))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.groupby"><code class="name flex">
+<span>def <span class="ident">groupby</span></span>(<span>self, by: Union[str, List[str]]) ‑> <a title="pypolars.lazy.LazyGroupBy" href="#pypolars.lazy.LazyGroupBy">LazyGroupBy</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Start a groupby operation</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>by</code></strong></dt>
+<dd>Column(s) to group by.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def groupby(self, by: Union[str, List[str]]) -&gt; LazyGroupBy:
+    &#34;&#34;&#34;
+    Start a groupby operation
+
+    Parameters
+    ----------
+    by
+        Column(s) to group by.
+    &#34;&#34;&#34;
+    if isinstance(by, str):
+        by = [by]
+    lgb = self._ldf.groupby(by)
+    return LazyGroupBy(lgb)</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.join"><code class="name flex">
+<span>def <span class="ident">join</span></span>(<span>self, ldf: <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a>, left_on: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>, right_on: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>, how='inner') ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def join(
+    self,
+    ldf: &#34;LazyFrame&#34;,
+    left_on: &#34;Expr&#34;,
+    right_on: &#34;Expr&#34;,
+    how=&#34;inner&#34;,
+) -&gt; &#34;LazyFrame&#34;:
+    left_on = left_on._pyexpr
+    right_on = right_on._pyexpr
+    if how == &#34;inner&#34;:
+        inner = self._ldf.inner_join(ldf._ldf, left_on, right_on)
+    elif how == &#34;left&#34;:
+        inner = self._ldf.left_join(ldf._ldf, left_on, right_on)
+    elif how == &#34;outer&#34;:
+        inner = self._ldf.outer_join(ldf._ldf, left_on, right_on)
+    else:
+        return NotImplemented
+    return wrap_ldf(inner)</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.max"><code class="name flex">
+<span>def <span class="ident">max</span></span>(<span>self) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Aggregate the columns in the DataFrame to their maximum value</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def max(self) -&gt; &#34;LazyFrame&#34;:
+    &#34;&#34;&#34;
+    Aggregate the columns in the DataFrame to their maximum value
+    &#34;&#34;&#34;
+    return wrap_ldf(self._ldf.max())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.mean"><code class="name flex">
+<span>def <span class="ident">mean</span></span>(<span>self) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Aggregate the columns in the DataFrame to their mean value</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mean(self) -&gt; &#34;LazyFrame&#34;:
+    &#34;&#34;&#34;
+    Aggregate the columns in the DataFrame to their mean value
+    &#34;&#34;&#34;
+    return wrap_ldf(self._ldf.mean())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.median"><code class="name flex">
+<span>def <span class="ident">median</span></span>(<span>self) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Aggregate the columns in the DataFrame to their median value</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def median(self) -&gt; &#34;LazyFrame&#34;:
+    &#34;&#34;&#34;
+    Aggregate the columns in the DataFrame to their median value
+    &#34;&#34;&#34;
+    return wrap_ldf(self._ldf.median())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.min"><code class="name flex">
+<span>def <span class="ident">min</span></span>(<span>self) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Aggregate the columns in the DataFrame to their minimum value</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def min(self) -&gt; &#34;LazyFrame&#34;:
+    &#34;&#34;&#34;
+    Aggregate the columns in the DataFrame to their minimum value
+    &#34;&#34;&#34;
+    return wrap_ldf(self._ldf.min())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.pipe"><code class="name flex">
+<span>def <span class="ident">pipe</span></span>(<span>self, func: Callable, *args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Apply a function on Self</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>func</code></strong></dt>
+<dd>Callable</dd>
+<dt><strong><code>args</code></strong></dt>
+<dd>Arguments</dd>
+<dt><strong><code>kwargs</code></strong></dt>
+<dd>Keyword arguments</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pipe(self, func: Callable, *args, **kwargs):
+    &#34;&#34;&#34;
+    Apply a function on Self
+
+    Parameters
+    ----------
+    func
+        Callable
+    args
+        Arguments
+    kwargs
+        Keyword arguments
+    &#34;&#34;&#34;
+    return func(self, *args, **kwargs)</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.quantile"><code class="name flex">
+<span>def <span class="ident">quantile</span></span>(<span>self, quantile: float) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Aggregate the columns in the DataFrame to their quantile value</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def quantile(self, quantile: float) -&gt; &#34;LazyFrame&#34;:
+    &#34;&#34;&#34;
+    Aggregate the columns in the DataFrame to their quantile value
+    &#34;&#34;&#34;
+    return wrap_ldf(self._ldf.quantile(quantile))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.reverse"><code class="name flex">
+<span>def <span class="ident">reverse</span></span>(<span>self) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reverse the DataFrame.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reverse(self) -&gt; &#34;LazyFrame&#34;:
+    &#34;&#34;&#34;
+    Reverse the DataFrame.
+    &#34;&#34;&#34;
+    return wrap_ldf(self._ldf.reverse())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.select"><code class="name flex">
+<span>def <span class="ident">select</span></span>(<span>self, exprs: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def select(self, exprs: &#34;Expr&#34;) -&gt; &#34;LazyFrame&#34;:
+    exprs = _selection_to_pyexpr_list(exprs)
+    return wrap_ldf(self._ldf.select(exprs))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.shift"><code class="name flex">
+<span>def <span class="ident">shift</span></span>(<span>self, periods: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shift the values by a given period and fill the parts that will be empty due to this operation
+with <code>Nones</code>.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>periods</code></strong></dt>
+<dd>Number of places to shift (may be negative).</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def shift(self, periods: int):
+    &#34;&#34;&#34;
+    Shift the values by a given period and fill the parts that will be empty due to this operation
+    with `Nones`.
+
+    Parameters
+    ----------
+    periods
+        Number of places to shift (may be negative).
+    &#34;&#34;&#34;
+    return wrap_ldf(self._ldf.shift(periods))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.sort"><code class="name flex">
+<span>def <span class="ident">sort</span></span>(<span>self, by_column: str) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sort(self, by_column: str) -&gt; &#34;LazyFrame&#34;:
+    return wrap_ldf(self._ldf.sort(by_column))</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.sum"><code class="name flex">
+<span>def <span class="ident">sum</span></span>(<span>self) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Aggregate the columns in the DataFrame to their sum value</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sum(self) -&gt; &#34;LazyFrame&#34;:
+    &#34;&#34;&#34;
+    Aggregate the columns in the DataFrame to their sum value
+    &#34;&#34;&#34;
+    return wrap_ldf(self._ldf.sum())</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.with_column"><code class="name flex">
+<span>def <span class="ident">with_column</span></span>(<span>self, expr: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_column(self, expr: &#34;Expr&#34;) -&gt; &#34;LazyFrame&#34;:
+    return self.with_columns([expr])</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.LazyFrame.with_columns"><code class="name flex">
+<span>def <span class="ident">with_columns</span></span>(<span>self, exprs: List[<a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>]) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_columns(self, exprs: &#34;List[Expr]&#34;) -&gt; &#34;LazyFrame&#34;:
+    exprs = [e._pyexpr for e in exprs]
+    return wrap_ldf(self._ldf.with_columns(exprs))</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pypolars.lazy.LazyGroupBy"><code class="flex name class">
+<span>class <span class="ident">LazyGroupBy</span></span>
+<span>(</span><span>lgb: PyLazyGroupBy)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LazyGroupBy:
+    def __init__(self, lgb: &#34;PyLazyGroupBy&#34;):
+        self.lgb = lgb
+
+    def agg(self, aggs: &#34;Union[List[Expr], Expr]&#34;) -&gt; &#34;LazyFrame&#34;:
+        aggs = _selection_to_pyexpr_list(aggs)
+        return wrap_ldf(self.lgb.agg(aggs))</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pypolars.lazy.LazyGroupBy.agg"><code class="name flex">
+<span>def <span class="ident">agg</span></span>(<span>self, aggs: Union[List[<a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>], <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>]) ‑> <a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def agg(self, aggs: &#34;Union[List[Expr], Expr]&#34;) -&gt; &#34;LazyFrame&#34;:
+    aggs = _selection_to_pyexpr_list(aggs)
+    return wrap_ldf(self.lgb.agg(aggs))</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pypolars.lazy.UDF"><code class="flex name class">
+<span>class <span class="ident">UDF</span></span>
+<span>(</span><span>f: Callable[[<a title="pypolars.series.Series" href="series.html#pypolars.series.Series">Series</a>], <a title="pypolars.series.Series" href="series.html#pypolars.series.Series">Series</a>], output_type: DataType)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UDF:
+    def __init__(self, f: Callable[[Series], Series], output_type: &#34;DataType&#34;):
+        self.f = f
+        self.output_type = output_type</code></pre>
+</details>
+</dd>
+<dt id="pypolars.lazy.When"><code class="flex name class">
+<span>class <span class="ident">When</span></span>
+<span>(</span><span>pywhen: PyWhen)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class When:
+    def __init__(self, pywhen: &#34;PyWhen&#34;):
+        self._pywhen = pywhen
+
+    def then(self, expr: &#34;Expr&#34;) -&gt; WhenThen:
+        whenthen = self._pywhen.then(expr._pyexpr)
+        return WhenThen(whenthen)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pypolars.lazy.When.then"><code class="name flex">
+<span>def <span class="ident">then</span></span>(<span>self, expr: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.WhenThen" href="#pypolars.lazy.WhenThen">WhenThen</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def then(self, expr: &#34;Expr&#34;) -&gt; WhenThen:
+    whenthen = self._pywhen.then(expr._pyexpr)
+    return WhenThen(whenthen)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pypolars.lazy.WhenThen"><code class="flex name class">
+<span>class <span class="ident">WhenThen</span></span>
+<span>(</span><span>pywhenthen: PyWhenThen)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class WhenThen:
+    def __init__(self, pywhenthen: &#34;PyWhenThen&#34;):
+        self._pywhenthen = pywhenthen
+
+    def otherwise(self, expr: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+        return wrap_expr(self._pywhenthen.otherwise(expr._pyexpr))</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pypolars.lazy.WhenThen.otherwise"><code class="name flex">
+<span>def <span class="ident">otherwise</span></span>(<span>self, expr: <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a>) ‑> <a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def otherwise(self, expr: &#34;Expr&#34;) -&gt; &#34;Expr&#34;:
+    return wrap_expr(self._pywhenthen.otherwise(expr._pyexpr))</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pypolars" href="index.html">pypolars</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pypolars.lazy.col" href="#pypolars.lazy.col">col</a></code></li>
+<li><code><a title="pypolars.lazy.lazy" href="#pypolars.lazy.lazy">lazy</a></code></li>
+<li><code><a title="pypolars.lazy.lit" href="#pypolars.lazy.lit">lit</a></code></li>
+<li><code><a title="pypolars.lazy.udf" href="#pypolars.lazy.udf">udf</a></code></li>
+<li><code><a title="pypolars.lazy.when" href="#pypolars.lazy.when">when</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pypolars.lazy.Expr" href="#pypolars.lazy.Expr">Expr</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pypolars.lazy.Expr.agg_count" href="#pypolars.lazy.Expr.agg_count">agg_count</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.agg_first" href="#pypolars.lazy.Expr.agg_first">agg_first</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.agg_groups" href="#pypolars.lazy.Expr.agg_groups">agg_groups</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.agg_last" href="#pypolars.lazy.Expr.agg_last">agg_last</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.agg_list" href="#pypolars.lazy.Expr.agg_list">agg_list</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.agg_max" href="#pypolars.lazy.Expr.agg_max">agg_max</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.agg_mean" href="#pypolars.lazy.Expr.agg_mean">agg_mean</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.agg_median" href="#pypolars.lazy.Expr.agg_median">agg_median</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.agg_min" href="#pypolars.lazy.Expr.agg_min">agg_min</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.agg_n_unique" href="#pypolars.lazy.Expr.agg_n_unique">agg_n_unique</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.agg_quantile" href="#pypolars.lazy.Expr.agg_quantile">agg_quantile</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.agg_sum" href="#pypolars.lazy.Expr.agg_sum">agg_sum</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.alias" href="#pypolars.lazy.Expr.alias">alias</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.apply" href="#pypolars.lazy.Expr.apply">apply</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.cast" href="#pypolars.lazy.Expr.cast">cast</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.eq" href="#pypolars.lazy.Expr.eq">eq</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.fill_none" href="#pypolars.lazy.Expr.fill_none">fill_none</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.from_pyexpr" href="#pypolars.lazy.Expr.from_pyexpr">from_pyexpr</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.gt" href="#pypolars.lazy.Expr.gt">gt</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.gt_eq" href="#pypolars.lazy.Expr.gt_eq">gt_eq</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.is_duplicated" href="#pypolars.lazy.Expr.is_duplicated">is_duplicated</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.is_not" href="#pypolars.lazy.Expr.is_not">is_not</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.is_not_null" href="#pypolars.lazy.Expr.is_not_null">is_not_null</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.is_null" href="#pypolars.lazy.Expr.is_null">is_null</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.is_unique" href="#pypolars.lazy.Expr.is_unique">is_unique</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.lt" href="#pypolars.lazy.Expr.lt">lt</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.lt_eq" href="#pypolars.lazy.Expr.lt_eq">lt_eq</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.max" href="#pypolars.lazy.Expr.max">max</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.mean" href="#pypolars.lazy.Expr.mean">mean</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.median" href="#pypolars.lazy.Expr.median">median</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.min" href="#pypolars.lazy.Expr.min">min</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.neq" href="#pypolars.lazy.Expr.neq">neq</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.quantile" href="#pypolars.lazy.Expr.quantile">quantile</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.shift" href="#pypolars.lazy.Expr.shift">shift</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.sort" href="#pypolars.lazy.Expr.sort">sort</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.str_contains" href="#pypolars.lazy.Expr.str_contains">str_contains</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.str_lengths" href="#pypolars.lazy.Expr.str_lengths">str_lengths</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.str_replace" href="#pypolars.lazy.Expr.str_replace">str_replace</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.str_replace_all" href="#pypolars.lazy.Expr.str_replace_all">str_replace_all</a></code></li>
+<li><code><a title="pypolars.lazy.Expr.sum" href="#pypolars.lazy.Expr.sum">sum</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pypolars.lazy.LazyFrame" href="#pypolars.lazy.LazyFrame">LazyFrame</a></code></h4>
+<ul class="">
+<li><code><a title="pypolars.lazy.LazyFrame.collect" href="#pypolars.lazy.LazyFrame.collect">collect</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.describe_optimized_plan" href="#pypolars.lazy.LazyFrame.describe_optimized_plan">describe_optimized_plan</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.describe_plan" href="#pypolars.lazy.LazyFrame.describe_plan">describe_plan</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.drop_duplicates" href="#pypolars.lazy.LazyFrame.drop_duplicates">drop_duplicates</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.drop_nulls" href="#pypolars.lazy.LazyFrame.drop_nulls">drop_nulls</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.explode" href="#pypolars.lazy.LazyFrame.explode">explode</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.filter" href="#pypolars.lazy.LazyFrame.filter">filter</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.from_pyldf" href="#pypolars.lazy.LazyFrame.from_pyldf">from_pyldf</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.groupby" href="#pypolars.lazy.LazyFrame.groupby">groupby</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.join" href="#pypolars.lazy.LazyFrame.join">join</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.max" href="#pypolars.lazy.LazyFrame.max">max</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.mean" href="#pypolars.lazy.LazyFrame.mean">mean</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.median" href="#pypolars.lazy.LazyFrame.median">median</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.min" href="#pypolars.lazy.LazyFrame.min">min</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.pipe" href="#pypolars.lazy.LazyFrame.pipe">pipe</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.quantile" href="#pypolars.lazy.LazyFrame.quantile">quantile</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.reverse" href="#pypolars.lazy.LazyFrame.reverse">reverse</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.select" href="#pypolars.lazy.LazyFrame.select">select</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.shift" href="#pypolars.lazy.LazyFrame.shift">shift</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.sort" href="#pypolars.lazy.LazyFrame.sort">sort</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.sum" href="#pypolars.lazy.LazyFrame.sum">sum</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.with_column" href="#pypolars.lazy.LazyFrame.with_column">with_column</a></code></li>
+<li><code><a title="pypolars.lazy.LazyFrame.with_columns" href="#pypolars.lazy.LazyFrame.with_columns">with_columns</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pypolars.lazy.LazyGroupBy" href="#pypolars.lazy.LazyGroupBy">LazyGroupBy</a></code></h4>
+<ul class="">
+<li><code><a title="pypolars.lazy.LazyGroupBy.agg" href="#pypolars.lazy.LazyGroupBy.agg">agg</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pypolars.lazy.UDF" href="#pypolars.lazy.UDF">UDF</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pypolars.lazy.When" href="#pypolars.lazy.When">When</a></code></h4>
+<ul class="">
+<li><code><a title="pypolars.lazy.When.then" href="#pypolars.lazy.When.then">then</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pypolars.lazy.WhenThen" href="#pypolars.lazy.WhenThen">WhenThen</a></code></h4>
+<ul class="">
+<li><code><a title="pypolars.lazy.WhenThen.otherwise" href="#pypolars.lazy.WhenThen.otherwise">otherwise</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>

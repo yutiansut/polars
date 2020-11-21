@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["polars"] = [{"text":"impl&lt;'a&gt; IntoParallelIterator for &amp;'a Utf8Chunked","synthetic":false,"types":[]},{"text":"impl&lt;'a&gt; IntoParallelIterator for NoNull&lt;&amp;'a Utf8Chunked&gt;","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
