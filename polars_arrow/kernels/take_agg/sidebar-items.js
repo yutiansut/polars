@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["take_agg_no_null_primitive_iter_unchecked","take_agg_primitive_iter_unchecked","take_agg_primitive_iter_unchecked_count_nulls","take_agg_utf8_iter_unchecked","take_agg_utf8_iter_unchecked_no_null"]};

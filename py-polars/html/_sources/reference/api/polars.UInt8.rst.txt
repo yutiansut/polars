@@ -1,0 +1,22 @@
+﻿polars.UInt8
+============
+
+.. currentmodule:: polars
+
+.. autoclass:: UInt8
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~UInt8.__init__
+   
+   
+
+   
+   
+   

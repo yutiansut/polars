@@ -1,0 +1,22 @@
+﻿polars.DataType
+===============
+
+.. currentmodule:: polars
+
+.. autoclass:: DataType
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DataType.__init__
+   
+   
+
+   
+   
+   

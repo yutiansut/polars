@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"attr":["multiversion","target"],"macro":["are_cpu_features_detected"]};

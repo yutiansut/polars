@@ -1,0 +1,22 @@
+﻿polars.Binary
+=============
+
+.. currentmodule:: polars
+
+.. autoclass:: Binary
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Binary.__init__
+   
+   
+
+   
+   
+   

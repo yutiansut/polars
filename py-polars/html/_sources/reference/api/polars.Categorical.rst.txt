@@ -1,0 +1,22 @@
+﻿polars.Categorical
+==================
+
+.. currentmodule:: polars
+
+.. autoclass:: Categorical
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Categorical.__init__
+   
+   
+
+   
+   
+   
