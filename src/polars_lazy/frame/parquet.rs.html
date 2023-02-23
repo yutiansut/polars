@@ -133,8 +133,6 @@
 <a href="#133" id="133">133</a>
 <a href="#134" id="134">134</a>
 <a href="#135" id="135">135</a>
-<a href="#136" id="136">136</a>
-<a href="#137" id="137">137</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::path::{Path, PathBuf};
 
 <span class="kw">use </span>polars_core::cloud::CloudOptions;
@@ -153,6 +151,7 @@
     <span class="kw">pub </span>row_count: <span class="prelude-ty">Option</span>&lt;RowCount&gt;,
     <span class="kw">pub </span>low_memory: bool,
     <span class="kw">pub </span>cloud_options: <span class="prelude-ty">Option</span>&lt;CloudOptions&gt;,
+    <span class="kw">pub </span>use_statistics: bool,
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>ScanArgsParquet {
@@ -165,6 +164,7 @@
             row_count: <span class="prelude-val">None</span>,
             low_memory: <span class="bool-val">false</span>,
             cloud_options: <span class="prelude-val">None</span>,
+            use_statistics: <span class="bool-val">true</span>,
         }
     }
 }
@@ -194,6 +194,7 @@
             <span class="self">self</span>.args.rechunk,
             <span class="self">self</span>.args.low_memory,
             <span class="self">self</span>.args.cloud_options,
+            <span class="self">self</span>.args.use_statistics,
         )<span class="question-mark">?
         </span>.build()
         .into();
@@ -229,17 +230,12 @@
         <span class="self">self</span>.args.cloud_options.as_ref()
     }
 
-    <span class="kw">fn </span>concat_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, lfs: Vec&lt;LazyFrame&gt;) -&gt; PolarsResult&lt;LazyFrame&gt; {
-        <span class="kw">let </span>args = <span class="kw-2">&amp;</span><span class="self">self</span>.args;
-        concat_impl(<span class="kw-2">&amp;</span>lfs, args.rechunk, <span class="bool-val">true</span>, <span class="bool-val">true</span>).map(|<span class="kw-2">mut </span>lf| {
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(n_rows) = args.n_rows {
-                lf = lf.slice(<span class="number">0</span>, n_rows <span class="kw">as </span>IdxSize)
-            };
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(rc) = args.row_count.clone() {
-                lf = lf.with_row_count(<span class="kw-2">&amp;</span>rc.name, <span class="prelude-val">Some</span>(rc.offset))
-            };
-            lf
-        })
+    <span class="kw">fn </span>n_rows(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+        <span class="self">self</span>.args.n_rows
+    }
+
+    <span class="kw">fn </span>row_count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>RowCount&gt; {
+        <span class="self">self</span>.args.row_count.as_ref()
     }
 }
 

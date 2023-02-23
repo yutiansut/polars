@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["PolarsError"],"type":["Result"]};
+window.SIDEBAR_ITEMS = {"enum":["ArrowError","ErrString","PolarsError"],"type":["PolarsResult"]};

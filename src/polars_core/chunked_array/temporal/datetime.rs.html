@@ -531,12 +531,12 @@
                 <span class="kw">let </span>chunks = <span class="self">self
                     </span>.downcast_iter()
                     .map(|arr| {
-                        <span class="prelude-val">Ok</span>(replace_timezone(
+                        replace_timezone(
                             arr,
                             <span class="self">self</span>.time_unit().to_arrow(),
                             to.to_string(),
                             from.to_string(),
-                        )<span class="question-mark">?</span>)
+                        )
                     })
                     .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
                 <span class="kw">let </span>out = <span class="kw">unsafe </span>{ ChunkedArray::from_chunks(<span class="self">self</span>.name(), chunks) };
@@ -546,12 +546,12 @@
                 <span class="kw">let </span>chunks = <span class="self">self
                     </span>.downcast_iter()
                     .map(|arr| {
-                        <span class="prelude-val">Ok</span>(replace_timezone(
+                        replace_timezone(
                             arr,
                             <span class="self">self</span>.time_unit().to_arrow(),
                             <span class="string">&quot;UTC&quot;</span>.to_string(),
                             from.to_string(),
-                        )<span class="question-mark">?</span>)
+                        )
                     })
                     .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
                 <span class="kw">let </span>out = <span class="kw">unsafe </span>{ ChunkedArray::from_chunks(<span class="self">self</span>.name(), chunks) };
@@ -561,12 +561,12 @@
                 <span class="kw">let </span>chunks = <span class="self">self
                     </span>.downcast_iter()
                     .map(|arr| {
-                        <span class="prelude-val">Ok</span>(replace_timezone(
+                        replace_timezone(
                             arr,
                             <span class="self">self</span>.time_unit().to_arrow(),
                             to.to_string(),
                             <span class="string">&quot;UTC&quot;</span>.to_string(),
-                        )<span class="question-mark">?</span>)
+                        )
                     })
                     .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
                 <span class="kw">let </span>out = <span class="kw">unsafe </span>{ ChunkedArray::from_chunks(<span class="self">self</span>.name(), chunks) };

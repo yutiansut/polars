@@ -4,20 +4,20 @@
         &amp;'a self,
         idx: I,
         opt_value: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;A&gt;
-    ) -&gt; <a class="type" href="../../error/type.PolarsResult.html" title="type polars_core::error::PolarsResult">PolarsResult</a>&lt;Self&gt;
+    ) -&gt; <a class="type" href="../../prelude/type.PolarsResult.html" title="type polars_core::prelude::PolarsResult">PolarsResult</a>&lt;Self&gt;
        <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a></span>;
 <span class="item-spacer"></span>    fn <a href="#tymethod.set_at_idx_with" class="fn">set_at_idx_with</a>&lt;I: <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.IntoIterator.html" title="trait core::iter::traits::collect::IntoIterator">IntoIterator</a>&lt;Item = <a class="type" href="../../prelude/type.IdxSize.html" title="type polars_core::prelude::IdxSize">IdxSize</a>&gt;, F&gt;(
         &amp;'a self,
         idx: I,
         f: F
-    ) -&gt; <a class="type" href="../../error/type.PolarsResult.html" title="type polars_core::error::PolarsResult">PolarsResult</a>&lt;Self&gt;
+    ) -&gt; <a class="type" href="../../prelude/type.PolarsResult.html" title="type polars_core::prelude::PolarsResult">PolarsResult</a>&lt;Self&gt;
        <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,
              F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>(<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;A&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;B&gt;</span>;
 <span class="item-spacer"></span>    fn <a href="#tymethod.set" class="fn">set</a>(
         &amp;'a self,
         mask: &amp;<a class="type" href="../../datatypes/type.BooleanChunked.html" title="type polars_core::datatypes::BooleanChunked">BooleanChunked</a>,
         opt_value: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;A&gt;
-    ) -&gt; <a class="type" href="../../error/type.PolarsResult.html" title="type polars_core::error::PolarsResult">PolarsResult</a>&lt;Self&gt;
+    ) -&gt; <a class="type" href="../../prelude/type.PolarsResult.html" title="type polars_core::prelude::PolarsResult">PolarsResult</a>&lt;Self&gt;
        <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a></span>;
 }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Create a <code>ChunkedArray</code> with new values by index or by boolean mask.
 Note that these operations clone data. This is however the only way we can modify at mask or
@@ -26,7 +26,7 @@ index level as the underlying Arrow arrays are immutable.</p>
     &amp;'a self,
     idx: I,
     opt_value: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;A&gt;
-) -&gt; <a class="type" href="../../error/type.PolarsResult.html" title="type polars_core::error::PolarsResult">PolarsResult</a>&lt;Self&gt;<span class="where fmt-newline">where
+) -&gt; <a class="type" href="../../prelude/type.PolarsResult.html" title="type polars_core::prelude::PolarsResult">PolarsResult</a>&lt;Self&gt;<span class="where fmt-newline">where
     Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</span></h4></section></summary><div class="docblock"><p>Set the values at indexes <code>idx</code> to some optional value <code>Option&lt;T&gt;</code>.</p>
 <h5 id="example"><a href="#example">Example</a></h5>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>ca = UInt32Chunked::new(<span class="string">&quot;a&quot;</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
@@ -37,7 +37,7 @@ index level as the underlying Arrow arrays are immutable.</p>
     &amp;'a self,
     idx: I,
     f: F
-) -&gt; <a class="type" href="../../error/type.PolarsResult.html" title="type polars_core::error::PolarsResult">PolarsResult</a>&lt;Self&gt;<span class="where fmt-newline">where
+) -&gt; <a class="type" href="../../prelude/type.PolarsResult.html" title="type polars_core::prelude::PolarsResult">PolarsResult</a>&lt;Self&gt;<span class="where fmt-newline">where
     Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,
     F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>(<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;A&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;B&gt;,</span></h4></section></summary><div class="docblock"><p>Set the values at indexes <code>idx</code> by applying a closure to these values.</p>
 <h5 id="example-1"><a href="#example-1">Example</a></h5>
@@ -49,7 +49,7 @@ index level as the underlying Arrow arrays are immutable.</p>
     &amp;'a self,
     mask: &amp;<a class="type" href="../../datatypes/type.BooleanChunked.html" title="type polars_core::datatypes::BooleanChunked">BooleanChunked</a>,
     opt_value: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;A&gt;
-) -&gt; <a class="type" href="../../error/type.PolarsResult.html" title="type polars_core::error::PolarsResult">PolarsResult</a>&lt;Self&gt;<span class="where fmt-newline">where
+) -&gt; <a class="type" href="../../prelude/type.PolarsResult.html" title="type polars_core::prelude::PolarsResult">PolarsResult</a>&lt;Self&gt;<span class="where fmt-newline">where
     Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</span></h4></section></summary><div class="docblock"><p>Set the values where the mask evaluates to <code>true</code> to some optional value <code>Option&lt;T&gt;</code>.</p>
 <h5 id="example-2"><a href="#example-2">Example</a></h5>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>ca = Int32Chunked::new(<span class="string">&quot;a&quot;</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);

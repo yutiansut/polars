@@ -79,6 +79,7 @@
 <a href="#79" id="79">79</a>
 <a href="#80" id="80">80</a>
 <a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_core::cloud::CloudOptions;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -124,6 +125,7 @@
             .with_row_count(mem::take(<span class="kw-2">&amp;mut </span><span class="self">self</span>.options.row_count))
             .set_rechunk(<span class="self">self</span>.options.rechunk)
             .set_low_memory(<span class="self">self</span>.options.low_memory)
+            .use_statistics(<span class="self">self</span>.options.use_statistics)
             ._finish_with_scan_ops(predicate, projection.as_ref().map(|v| v.as_ref()))
     }
 }

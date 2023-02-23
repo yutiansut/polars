@@ -298,6 +298,36 @@
 <a href="#298" id="298">298</a>
 <a href="#299" id="299">299</a>
 <a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::io::Write;
 
 <span class="kw">use </span>arrow::array::Array;
@@ -398,6 +428,8 @@
     </span>row_group_size: <span class="prelude-ty">Option</span>&lt;usize&gt;,
     <span class="doccomment">/// if `None` will be 1024^2 bytes
     </span>data_pagesize_limit: <span class="prelude-ty">Option</span>&lt;usize&gt;,
+    <span class="doccomment">/// Serialize columns in parallel
+    </span>parallel: bool,
 }
 
 <span class="kw">impl</span>&lt;W&gt; ParquetWriter&lt;W&gt;
@@ -415,6 +447,7 @@
             statistics: <span class="bool-val">false</span>,
             row_group_size: <span class="prelude-val">None</span>,
             data_pagesize_limit: <span class="prelude-val">None</span>,
+            parallel: <span class="bool-val">true</span>,
         }
     }
 
@@ -446,6 +479,12 @@
         <span class="self">self
     </span>}
 
+    <span class="doccomment">/// Serialize columns in parallel
+    </span><span class="kw">pub fn </span>set_parallel(<span class="kw-2">mut </span><span class="self">self</span>, parallel: bool) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.parallel = parallel;
+        <span class="self">self
+    </span>}
+
     <span class="kw">fn </span>materialize_options(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; WriteOptions {
         WriteOptions {
             write_statistics: <span class="self">self</span>.statistics,
@@ -469,6 +508,7 @@
             parquet_schema,
             encodings,
             options,
+            parallel: <span class="self">self</span>.parallel,
         })
     }
 
@@ -495,12 +535,14 @@
     parquet_schema: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>SchemaDescriptor,
     encodings: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[Vec&lt;Encoding&gt;],
     options: WriteOptions,
+    parallel: bool,
 ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="prelude-ty">Result</span>&lt;RowGroupIter&lt;<span class="lifetime">&#39;a</span>, ArrowError&gt;, ArrowError&gt;&gt; + <span class="lifetime">&#39;a </span>{
     <span class="kw">let </span>rb_iter = df.iter_chunks();
     rb_iter.filter_map(<span class="kw">move </span>|batch| <span class="kw">match </span>batch.len() {
         <span class="number">0 </span>=&gt; <span class="prelude-val">None</span>,
         <span class="kw">_ </span>=&gt; {
-            <span class="kw">let </span>row_group = create_serializer(batch, parquet_schema.fields(), encodings, options);
+            <span class="kw">let </span>row_group =
+                create_serializer(batch, parquet_schema.fields(), encodings, options, parallel);
 
             <span class="prelude-val">Some</span>(row_group)
         }
@@ -529,6 +571,7 @@
     parquet_schema: SchemaDescriptor,
     encodings: Vec&lt;Vec&lt;Encoding&gt;&gt;,
     options: WriteOptions,
+    parallel: bool,
 }
 
 <span class="kw">impl</span>&lt;W: Write&gt; BatchedWriter&lt;W&gt; {
@@ -537,8 +580,13 @@
     /// # Panics
     /// The caller must ensure the chunks in the given [`DataFrame`] are aligned.
     </span><span class="kw">pub fn </span>write_batch(<span class="kw-2">&amp;mut </span><span class="self">self</span>, df: <span class="kw-2">&amp;</span>DataFrame) -&gt; PolarsResult&lt;()&gt; {
-        <span class="kw">let </span>row_group_iter =
-            prepare_rg_iter(df, <span class="kw-2">&amp;</span><span class="self">self</span>.parquet_schema, <span class="kw-2">&amp;</span><span class="self">self</span>.encodings, <span class="self">self</span>.options);
+        <span class="kw">let </span>row_group_iter = prepare_rg_iter(
+            df,
+            <span class="kw-2">&amp;</span><span class="self">self</span>.parquet_schema,
+            <span class="kw-2">&amp;</span><span class="self">self</span>.encodings,
+            <span class="self">self</span>.options,
+            <span class="self">self</span>.parallel,
+        );
         <span class="kw">for </span>group <span class="kw">in </span>row_group_iter {
             <span class="self">self</span>.writer.write(group<span class="question-mark">?</span>)<span class="question-mark">?</span>;
         }
@@ -557,42 +605,54 @@
     fields: <span class="kw-2">&amp;</span>[ParquetType],
     encodings: <span class="kw-2">&amp;</span>[Vec&lt;Encoding&gt;],
     options: WriteOptions,
+    parallel: bool,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;RowGroupIter&lt;<span class="lifetime">&#39;a</span>, ArrowError&gt;, ArrowError&gt; {
-    <span class="kw">let </span>columns = POOL.install(|| {
-        batch
-            .columns()
-            .par_iter()
-            .zip(fields)
-            .zip(encodings)
-            .flat_map(<span class="kw">move </span>|((array, type_), encoding)| {
-                <span class="kw">let </span>encoded_columns =
-                    array_to_columns(array, type_.clone(), options, encoding).unwrap();
+    <span class="kw">let </span>func = <span class="kw">move </span>|((array, type_), encoding): ((<span class="kw-2">&amp;</span>ArrayRef, <span class="kw-2">&amp;</span>ParquetType), <span class="kw-2">&amp;</span>Vec&lt;Encoding&gt;)| {
+        <span class="kw">let </span>encoded_columns = array_to_columns(array, type_.clone(), options, encoding).unwrap();
 
-                encoded_columns
-                    .into_iter()
-                    .map(|encoded_pages| {
-                        <span class="comment">// iterator over pages
-                        </span><span class="kw">let </span>pages = DynStreamingIterator::new(
-                            Compressor::new_from_vec(
-                                encoded_pages.map(|result| {
-                                    result.map_err(|e| {
-                                        ParquetError::FeatureNotSupported(<span class="macro">format!</span>(
-                                            <span class="string">&quot;reraised in polars: {e}&quot;</span>,
-                                        ))
-                                    })
-                                }),
-                                options.compression,
-                                <span class="macro">vec!</span>[],
-                            )
-                            .map_err(|e| ArrowError::External(<span class="macro">format!</span>(<span class="string">&quot;{e}&quot;</span>), Box::new(e))),
-                        );
+        encoded_columns
+            .into_iter()
+            .map(|encoded_pages| {
+                <span class="comment">// iterator over pages
+                </span><span class="kw">let </span>pages = DynStreamingIterator::new(
+                    Compressor::new_from_vec(
+                        encoded_pages.map(|result| {
+                            result.map_err(|e| {
+                                ParquetError::FeatureNotSupported(<span class="macro">format!</span>(
+                                    <span class="string">&quot;reraised in polars: {e}&quot;</span>,
+                                ))
+                            })
+                        }),
+                        options.compression,
+                        <span class="macro">vec!</span>[],
+                    )
+                    .map_err(|e| ArrowError::External(<span class="macro">format!</span>(<span class="string">&quot;{e}&quot;</span>), Box::new(e))),
+                );
 
-                        <span class="prelude-val">Ok</span>(pages)
-                    })
-                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+                <span class="prelude-val">Ok</span>(pages)
             })
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
-    });
+    };
+
+    <span class="kw">let </span>columns = <span class="kw">if </span>parallel {
+        POOL.install(|| {
+            batch
+                .columns()
+                .par_iter()
+                .zip(fields)
+                .zip(encodings)
+                .flat_map(func)
+                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+        })
+    } <span class="kw">else </span>{
+        batch
+            .columns()
+            .iter()
+            .zip(fields)
+            .zip(encodings)
+            .flat_map(func)
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+    };
 
     <span class="kw">let </span>row_group = DynIter::new(columns.into_iter());
 

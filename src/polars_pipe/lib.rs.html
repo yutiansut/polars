@@ -12,6 +12,11 @@
 <a href="#12" id="12">12</a>
 <a href="#13" id="13">13</a>
 <a href="#14" id="14">14</a>
+<a href="#15" id="15">15</a>
+<a href="#16" id="16">16</a>
+<a href="#17" id="17">17</a>
+<a href="#18" id="18">18</a>
+<a href="#19" id="19">19</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;compile&quot;</span>)]
 </span><span class="kw">mod </span>executors;
 <span class="attr">#[cfg(feature = <span class="string">&quot;compile&quot;</span>)]
@@ -21,10 +26,15 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;compile&quot;</span>)]
 </span><span class="kw">pub mod </span>pipeline;
 
-<span class="comment">// ideal chunk size we strive to
-</span><span class="attr">#[cfg(feature = <span class="string">&quot;compile&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>CHUNK_SIZE: usize = <span class="number">50_000</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;compile&quot;</span>)]
 </span><span class="kw">pub use </span>operators::SExecutionContext;
+
+<span class="doccomment">/// ideal chunk size we strive to have
+/// scale the chunk size depending on the number of
+/// columns. With 10 columns we use a chunk size of 40_000
+</span><span class="attr">#[cfg(feature = <span class="string">&quot;compile&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>chunk_size(n_cols: usize) -&gt; usize {
+    std::cmp::max(<span class="number">400_000 </span>/ n_cols, <span class="number">1000</span>)
+}
 </code></pre></div>
 </section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="polars_pipe" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (065852def 2023-02-13)" data-search-js="search-abe1d547ad11c273.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

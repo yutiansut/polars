@@ -95,11 +95,6 @@
 <a href="#95" id="95">95</a>
 <a href="#96" id="96">96</a>
 <a href="#97" id="97">97</a>
-<a href="#98" id="98">98</a>
-<a href="#99" id="99">99</a>
-<a href="#100" id="100">100</a>
-<a href="#101" id="101">101</a>
-<a href="#102" id="102">102</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::path::{Path, PathBuf};
 
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -182,17 +177,12 @@
         <span class="self">self
     </span>}
 
-    <span class="kw">fn </span>concat_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, lfs: Vec&lt;LazyFrame&gt;) -&gt; PolarsResult&lt;LazyFrame&gt; {
-        <span class="kw">let </span>args = <span class="kw-2">&amp;</span><span class="self">self</span>.args;
-        concat_impl(<span class="kw-2">&amp;</span>lfs, args.rechunk, <span class="bool-val">true</span>, <span class="bool-val">true</span>).map(|<span class="kw-2">mut </span>lf| {
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(n_rows) = args.n_rows {
-                lf = lf.slice(<span class="number">0</span>, n_rows <span class="kw">as </span>IdxSize)
-            };
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(rc) = args.row_count.clone() {
-                lf = lf.with_row_count(<span class="kw-2">&amp;</span>rc.name, <span class="prelude-val">Some</span>(rc.offset))
-            };
-            lf
-        })
+    <span class="kw">fn </span>n_rows(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+        <span class="self">self</span>.args.n_rows
+    }
+
+    <span class="kw">fn </span>row_count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>RowCount&gt; {
+        <span class="self">self</span>.args.row_count.as_ref()
     }
 }
 

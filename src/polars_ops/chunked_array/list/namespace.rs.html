@@ -647,6 +647,8 @@
 <a href="#647" id="647">647</a>
 <a href="#648" id="648">648</a>
 <a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::convert::TryFrom;
 <span class="kw">use </span>std::fmt::Write;
 
@@ -965,6 +967,8 @@
             .map(|arr| sublist_get(arr, idx))
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         Series::try_from((ca.name(), chunks))
+            .unwrap()
+            .cast(<span class="kw-2">&amp;</span>ca.inner_dtype())
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;list_take&quot;</span>)]

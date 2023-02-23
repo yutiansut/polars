@@ -110,11 +110,31 @@
 <a href="#110" id="110">110</a>
 <a href="#111" id="111">111</a>
 <a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::path::{Path, PathBuf};
 
 <span class="kw">use </span>polars_core::cloud::CloudOptions;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span>polars_io::is_cloud_url;
+<span class="kw">use </span>polars_io::{is_cloud_url, RowCount};
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
@@ -174,14 +194,27 @@
                 ));
             }
 
-            <span class="self">self</span>.concat_impl(lfs)
+            <span class="kw">let </span><span class="kw-2">mut </span>lf = <span class="self">self</span>.concat_impl(lfs)<span class="question-mark">?</span>;
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(n_rows) = <span class="self">self</span>.n_rows() {
+                lf = lf.slice(<span class="number">0</span>, n_rows <span class="kw">as </span>IdxSize)
+            };
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(rc) = <span class="self">self</span>.row_count() {
+                lf = lf.with_row_count(<span class="kw-2">&amp;</span>rc.name, <span class="prelude-val">Some</span>(rc.offset))
+            };
+
+            <span class="prelude-val">Ok</span>(lf)
         } <span class="kw">else </span>{
             <span class="self">self</span>.finish_no_glob()
         }
     }
 
     <span class="doccomment">/// Recommended concatenation of [LazyFrame]s from many input files.
-    </span><span class="kw">fn </span>concat_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, lfs: Vec&lt;LazyFrame&gt;) -&gt; PolarsResult&lt;LazyFrame&gt;;
+    ///
+    /// This method should not take into consideration [LazyFileListReader::n_rows]
+    /// nor [LazyFileListReader::row_count].
+    </span><span class="kw">fn </span>concat_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, lfs: Vec&lt;LazyFrame&gt;) -&gt; PolarsResult&lt;LazyFrame&gt; {
+        concat_impl(<span class="kw-2">&amp;</span>lfs, <span class="self">self</span>.rechunk(), <span class="bool-val">true</span>, <span class="bool-val">true</span>)
+    }
 
     <span class="doccomment">/// Get the final [LazyFrame].
     /// This method assumes, that path is *not* a glob.
@@ -204,6 +237,13 @@
     <span class="doccomment">/// Rechunk the memory to contiguous chunks when parsing is done.
     </span><span class="attr">#[must_use]
     </span><span class="kw">fn </span>with_rechunk(<span class="self">self</span>, toggle: bool) -&gt; <span class="self">Self</span>;
+
+    <span class="doccomment">/// Try to stop parsing when `n` rows are parsed. During multithreaded parsing the upper bound `n` cannot
+    /// be guaranteed.
+    </span><span class="kw">fn </span>n_rows(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt;;
+
+    <span class="doccomment">/// Add a `row_count` column.
+    </span><span class="kw">fn </span>row_count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>RowCount&gt;;
 
     <span class="doccomment">/// [CloudOptions] used to list files.
     </span><span class="kw">fn </span>cloud_options(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>CloudOptions&gt; {

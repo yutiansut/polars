@@ -748,6 +748,8 @@
 <a href="#748" id="748">748</a>
 <a href="#749" id="749">749</a>
 <a href="#750" id="750">750</a>
+<a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::io::{Read, Seek};
 <span class="kw">use </span>std::ops::Deref;
 <span class="kw">use </span>std::path::PathBuf;
@@ -875,6 +877,7 @@
         rechunk: bool,
         low_memory: bool,
         cloud_options: <span class="prelude-ty">Option</span>&lt;CloudOptions&gt;,
+        use_statistics: bool,
     ) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
         <span class="kw">use </span>polars_io::{is_cloud_url, SerReader <span class="kw">as _</span>};
 
@@ -920,6 +923,7 @@
                 rechunk,
                 file_counter: Default::default(),
                 low_memory,
+                use_statistics,
             },
             cloud_options,
         }

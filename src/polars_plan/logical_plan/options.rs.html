@@ -305,6 +305,7 @@
 <a href="#305" id="305">305</a>
 <a href="#306" id="306">306</a>
 <a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::path::PathBuf;
 
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -359,6 +360,7 @@
     <span class="kw">pub </span>row_count: <span class="prelude-ty">Option</span>&lt;RowCount&gt;,
     <span class="kw">pub </span>file_counter: FileCount,
     <span class="kw">pub </span>low_memory: bool,
+    <span class="kw">pub </span>use_statistics: bool,
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;parquet&quot;</span>)]

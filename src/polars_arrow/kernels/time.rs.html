@@ -101,7 +101,7 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono::{NaiveDateTime, TimeZone};
 
-<span class="kw">use </span><span class="kw">crate</span>::error::{PolarsError, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span><span class="kw">crate</span>::error::{PolarsError, PolarsResult};
 <span class="kw">use </span><span class="kw">crate</span>::prelude::ArrayRef;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -159,7 +159,7 @@
     tu: TimeUnit,
     from: String,
     to: String,
-) -&gt; <span class="prelude-ty">Result</span>&lt;ArrayRef&gt; {
+) -&gt; PolarsResult&lt;ArrayRef&gt; {
     <span class="kw">match </span>from.parse::&lt;chrono_tz::Tz&gt;() {
         <span class="prelude-val">Ok</span>(from_tz) =&gt; <span class="kw">match </span>to.parse::&lt;chrono_tz::Tz&gt;() {
             <span class="prelude-val">Ok</span>(to_tz) =&gt; <span class="prelude-val">Ok</span>(convert_to_timestamp(from_tz, to_tz, arr, tu)),

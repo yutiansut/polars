@@ -10,7 +10,7 @@
 <span class="item-spacer"></span>    fn <a href="#tymethod.take" class="fn">take</a>&lt;I, INulls&gt;(
         &amp;self,
         indices: <a class="enum" href="enum.TakeIdx.html" title="enum polars_core::chunked_array::ops::TakeIdx">TakeIdx</a>&lt;'_, I, INulls&gt;
-    ) -&gt; <a class="type" href="../../error/type.PolarsResult.html" title="type polars_core::error::PolarsResult">PolarsResult</a>&lt;Self&gt;
+    ) -&gt; <a class="type" href="../../prelude/type.PolarsResult.html" title="type polars_core::prelude::PolarsResult">PolarsResult</a>&lt;Self&gt;
        <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,
              I: <a class="trait" href="trait.TakeIterator.html" title="trait polars_core::chunked_array::ops::TakeIterator">TakeIterator</a>,
              INulls: <a class="trait" href="trait.TakeIteratorNulls.html" title="trait polars_core::chunked_array::ops::TakeIteratorNulls">TakeIteratorNulls</a></span>;
@@ -24,7 +24,7 @@
     INulls: <a class="trait" href="trait.TakeIteratorNulls.html" title="trait polars_core::chunked_array::ops::TakeIteratorNulls">TakeIteratorNulls</a>,</span></h4></section></summary><div class="docblock"><p>Take values from ChunkedArray by index.</p>
 <h5 id="safety"><a href="#safety">Safety</a></h5>
 <p>Doesn’t do any bound checking.</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="tymethod.take" class="method"><a class="srclink rightside" href="../../../src/polars_core/chunked_array/ops/mod.rs.html#215-219">source</a><h4 class="code-header">fn <a href="#tymethod.take" class="fn">take</a>&lt;I, INulls&gt;(&amp;self, indices: <a class="enum" href="enum.TakeIdx.html" title="enum polars_core::chunked_array::ops::TakeIdx">TakeIdx</a>&lt;'_, I, INulls&gt;) -&gt; <a class="type" href="../../error/type.PolarsResult.html" title="type polars_core::error::PolarsResult">PolarsResult</a>&lt;Self&gt;<span class="where fmt-newline">where
+</div></details><details class="toggle method-toggle" open><summary><section id="tymethod.take" class="method"><a class="srclink rightside" href="../../../src/polars_core/chunked_array/ops/mod.rs.html#215-219">source</a><h4 class="code-header">fn <a href="#tymethod.take" class="fn">take</a>&lt;I, INulls&gt;(&amp;self, indices: <a class="enum" href="enum.TakeIdx.html" title="enum polars_core::chunked_array::ops::TakeIdx">TakeIdx</a>&lt;'_, I, INulls&gt;) -&gt; <a class="type" href="../../prelude/type.PolarsResult.html" title="type polars_core::prelude::PolarsResult">PolarsResult</a>&lt;Self&gt;<span class="where fmt-newline">where
     Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,
     I: <a class="trait" href="trait.TakeIterator.html" title="trait polars_core::chunked_array::ops::TakeIterator">TakeIterator</a>,
     INulls: <a class="trait" href="trait.TakeIteratorNulls.html" title="trait polars_core::chunked_array::ops::TakeIteratorNulls">TakeIteratorNulls</a>,</span></h4></section></summary><div class="docblock"><p>Take values from ChunkedArray by index.
