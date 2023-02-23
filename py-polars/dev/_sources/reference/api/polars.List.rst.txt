@@ -1,0 +1,28 @@
+﻿polars.List
+===========
+
+.. currentmodule:: polars
+
+.. autoclass:: List
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~List.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~List.inner
+   
+   
