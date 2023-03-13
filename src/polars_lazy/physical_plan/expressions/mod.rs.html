@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/physical_plan/expressions/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-1def573a4779b29b.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_lazy/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/physical_plan/expressions/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_lazy/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -586,69 +586,6 @@
 <a href="#586" id="586">586</a>
 <a href="#587" id="587">587</a>
 <a href="#588" id="588">588</a>
-<a href="#589" id="589">589</a>
-<a href="#590" id="590">590</a>
-<a href="#591" id="591">591</a>
-<a href="#592" id="592">592</a>
-<a href="#593" id="593">593</a>
-<a href="#594" id="594">594</a>
-<a href="#595" id="595">595</a>
-<a href="#596" id="596">596</a>
-<a href="#597" id="597">597</a>
-<a href="#598" id="598">598</a>
-<a href="#599" id="599">599</a>
-<a href="#600" id="600">600</a>
-<a href="#601" id="601">601</a>
-<a href="#602" id="602">602</a>
-<a href="#603" id="603">603</a>
-<a href="#604" id="604">604</a>
-<a href="#605" id="605">605</a>
-<a href="#606" id="606">606</a>
-<a href="#607" id="607">607</a>
-<a href="#608" id="608">608</a>
-<a href="#609" id="609">609</a>
-<a href="#610" id="610">610</a>
-<a href="#611" id="611">611</a>
-<a href="#612" id="612">612</a>
-<a href="#613" id="613">613</a>
-<a href="#614" id="614">614</a>
-<a href="#615" id="615">615</a>
-<a href="#616" id="616">616</a>
-<a href="#617" id="617">617</a>
-<a href="#618" id="618">618</a>
-<a href="#619" id="619">619</a>
-<a href="#620" id="620">620</a>
-<a href="#621" id="621">621</a>
-<a href="#622" id="622">622</a>
-<a href="#623" id="623">623</a>
-<a href="#624" id="624">624</a>
-<a href="#625" id="625">625</a>
-<a href="#626" id="626">626</a>
-<a href="#627" id="627">627</a>
-<a href="#628" id="628">628</a>
-<a href="#629" id="629">629</a>
-<a href="#630" id="630">630</a>
-<a href="#631" id="631">631</a>
-<a href="#632" id="632">632</a>
-<a href="#633" id="633">633</a>
-<a href="#634" id="634">634</a>
-<a href="#635" id="635">635</a>
-<a href="#636" id="636">636</a>
-<a href="#637" id="637">637</a>
-<a href="#638" id="638">638</a>
-<a href="#639" id="639">639</a>
-<a href="#640" id="640">640</a>
-<a href="#641" id="641">641</a>
-<a href="#642" id="642">642</a>
-<a href="#643" id="643">643</a>
-<a href="#644" id="644">644</a>
-<a href="#645" id="645">645</a>
-<a href="#646" id="646">646</a>
-<a href="#647" id="647">647</a>
-<a href="#648" id="648">648</a>
-<a href="#649" id="649">649</a>
-<a href="#650" id="650">650</a>
-<a href="#651" id="651">651</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>aggregation;
 <span class="kw">mod </span>alias;
 <span class="kw">mod </span>apply;
@@ -678,9 +615,6 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>count::<span class="kw-2">*</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>filter::<span class="kw-2">*</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>literal::<span class="kw-2">*</span>;
-<span class="kw">use </span>polars_arrow::export::arrow::array::ListArray;
-<span class="kw">use </span>polars_arrow::export::arrow::offset::Offsets;
-<span class="kw">use </span>polars_arrow::trusted_len::PushUnchecked;
 <span class="kw">use </span>polars_arrow::utils::CustomIterTools;
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -739,8 +673,6 @@
     /// this one should be used when the length has changed. Note that
     /// the series should be aggregated state or else it will panic.
     </span>WithSeriesLen,
-    <span class="comment">// Same as WithSeriesLen, but now take a series given by the caller
-    </span>WithSeriesLenOwned(Series),
 }
 
 <span class="attr">#[cfg_attr(debug_assertions, derive(Debug))]
@@ -806,10 +738,6 @@
                 <span class="kw">let </span>s = <span class="self">self</span>.series().clone();
                 <span class="self">self</span>.det_groups_from_list(<span class="kw-2">&amp;</span>s);
             }
-            UpdateGroups::WithSeriesLenOwned(<span class="kw-2">ref </span>s) =&gt; {
-                <span class="kw">let </span>s = s.clone();
-                <span class="self">self</span>.det_groups_from_list(<span class="kw-2">&amp;</span>s);
-            }
         }
         <span class="kw-2">&amp;</span><span class="self">self</span>.groups
     }
@@ -837,19 +765,10 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_aggregated(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         !<span class="self">self</span>.is_not_aggregated()
     }
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_aggregated_flat(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="macro">matches!</span>(<span class="self">self</span>.state, AggState::AggregatedFlat(<span class="kw">_</span>))
-    }
+
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_literal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="macro">matches!</span>(<span class="self">self</span>.state, AggState::Literal(<span class="kw">_</span>))
     }
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>combine_groups(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: AggregationContext) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
-        <span class="kw">if let </span>(Cow::Borrowed(<span class="kw">_</span>), Cow::Owned(a)) = (<span class="kw-2">&amp;</span><span class="self">self</span>.groups, other.groups) {
-            <span class="self">self</span>.groups = Cow::Owned(a);
-        };
-        <span class="self">self
-    </span>}
 
     <span class="doccomment">/// # Arguments
     /// - `aggregated` sets if the Series is a list due to aggregation (could also be a list because its
@@ -1001,13 +920,12 @@
                     } <span class="kw">else </span>{
                         String::new()
                     };
-
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                        <span class="macro">format!</span>(<span class="string">r#&quot;The aggregation expression {}did produce a different number of elements than
-the number of groups. This likely is an invalid expression.
-Number of groups: {}
-Number of elements: {}&quot;#</span>, fmt_expr, <span class="self">self</span>.groups.len(), series.len()).into()
-                    ));
+                    <span class="macro">polars_bail!</span>(
+                        ComputeError:
+                        <span class="string">&quot;aggregation expression &#39;{}&#39; produced a different number of elements: {} \
+                        than the number of groups: {} (this is likely invalid)&quot;</span>,
+                        fmt_expr, series.len(), <span class="self">self</span>.groups.len(),
+                    );
                 }
                 AggState::AggregatedList(series)
             }
@@ -1090,50 +1008,6 @@ Number of elements: {}&quot;#</span>, fmt_expr, <span class="self">self</span>.g
                 s.new_from_index(<span class="number">0</span>, rows)
             }
             <span class="kw">_ </span>=&gt; <span class="self">self</span>.aggregated(),
-        }
-    }
-
-    <span class="doccomment">/// Different from aggregated, in arity operations we expect literals to expand to the size of the
-    /// group
-    /// eg:
-    ///
-    /// lit(9) in groups [[1, 1], [2, 2, 2]]
-    /// becomes: [[9, 9], [9, 9, 9]]
-    ///
-    /// where in [`Self::aggregated`] this becomes [9, 9]
-    ///
-    /// this is because comparisons need to create mask that have a correct length.
-    </span><span class="kw">fn </span>aggregated_arity_operation(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; Series {
-        <span class="kw">if let </span>AggState::Literal(s) = <span class="self">self</span>.agg_state() {
-            <span class="comment">// stop borrow;
-            </span><span class="kw">let </span>s = s.clone();
-            <span class="kw">let </span>groups = <span class="self">self</span>.groups();
-
-            <span class="kw">let </span><span class="kw-2">mut </span>offsets = Vec::with_capacity(groups.len() + <span class="number">1</span>);
-
-            <span class="kw">let </span><span class="kw-2">mut </span>last_offset = <span class="number">0i64</span>;
-            offsets.push(last_offset);
-            <span class="kw">for </span>g <span class="kw">in </span>groups.iter() {
-                last_offset += g.len() <span class="kw">as </span>i64;
-                <span class="comment">// safety:
-                // we allocated enough
-                </span><span class="kw">unsafe </span>{ offsets.push_unchecked(last_offset) };
-            }
-            <span class="kw">let </span>values = s.new_from_index(<span class="number">0</span>, last_offset <span class="kw">as </span>usize);
-            <span class="kw">let </span>values = values.array_ref(<span class="number">0</span>).clone();
-            <span class="comment">// Safety:
-            // offsets are monotonically increasing
-            </span><span class="kw">let </span>arr = <span class="kw">unsafe </span>{
-                ListArray::&lt;i64&gt;::new(
-                    DataType::List(Box::new(s.dtype().clone())).to_arrow(),
-                    Offsets::new_unchecked(offsets).into(),
-                    values,
-                    <span class="prelude-val">None</span>,
-                )
-            };
-            Series::try_from((s.name(), Box::new(arr) <span class="kw">as </span>ArrayRef)).unwrap()
-        } <span class="kw">else </span>{
-            <span class="self">self</span>.aggregated()
         }
     }
 
@@ -1301,4 +1175,4 @@ Number of elements: {}&quot;#</span>, fmt_expr, <span class="self">self</span>.g
     ) -&gt; PolarsResult&lt;Series&gt;;
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (065852def 2023-02-13)" data-search-js="search-abe1d547ad11c273.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

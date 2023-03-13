@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-io/src/csv/parser.rs`."><title>parser.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-1def573a4779b29b.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_io/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-io/src/csv/parser.rs`."><title>parser.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_io/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -555,137 +555,13 @@
 <a href="#555" id="555">555</a>
 <a href="#556" id="556">556</a>
 <a href="#557" id="557">557</a>
-<a href="#558" id="558">558</a>
-<a href="#559" id="559">559</a>
-<a href="#560" id="560">560</a>
-<a href="#561" id="561">561</a>
-<a href="#562" id="562">562</a>
-<a href="#563" id="563">563</a>
-<a href="#564" id="564">564</a>
-<a href="#565" id="565">565</a>
-<a href="#566" id="566">566</a>
-<a href="#567" id="567">567</a>
-<a href="#568" id="568">568</a>
-<a href="#569" id="569">569</a>
-<a href="#570" id="570">570</a>
-<a href="#571" id="571">571</a>
-<a href="#572" id="572">572</a>
-<a href="#573" id="573">573</a>
-<a href="#574" id="574">574</a>
-<a href="#575" id="575">575</a>
-<a href="#576" id="576">576</a>
-<a href="#577" id="577">577</a>
-<a href="#578" id="578">578</a>
-<a href="#579" id="579">579</a>
-<a href="#580" id="580">580</a>
-<a href="#581" id="581">581</a>
-<a href="#582" id="582">582</a>
-<a href="#583" id="583">583</a>
-<a href="#584" id="584">584</a>
-<a href="#585" id="585">585</a>
-<a href="#586" id="586">586</a>
-<a href="#587" id="587">587</a>
-<a href="#588" id="588">588</a>
-<a href="#589" id="589">589</a>
-<a href="#590" id="590">590</a>
-<a href="#591" id="591">591</a>
-<a href="#592" id="592">592</a>
-<a href="#593" id="593">593</a>
-<a href="#594" id="594">594</a>
-<a href="#595" id="595">595</a>
-<a href="#596" id="596">596</a>
-<a href="#597" id="597">597</a>
-<a href="#598" id="598">598</a>
-<a href="#599" id="599">599</a>
-<a href="#600" id="600">600</a>
-<a href="#601" id="601">601</a>
-<a href="#602" id="602">602</a>
-<a href="#603" id="603">603</a>
-<a href="#604" id="604">604</a>
-<a href="#605" id="605">605</a>
-<a href="#606" id="606">606</a>
-<a href="#607" id="607">607</a>
-<a href="#608" id="608">608</a>
-<a href="#609" id="609">609</a>
-<a href="#610" id="610">610</a>
-<a href="#611" id="611">611</a>
-<a href="#612" id="612">612</a>
-<a href="#613" id="613">613</a>
-<a href="#614" id="614">614</a>
-<a href="#615" id="615">615</a>
-<a href="#616" id="616">616</a>
-<a href="#617" id="617">617</a>
-<a href="#618" id="618">618</a>
-<a href="#619" id="619">619</a>
-<a href="#620" id="620">620</a>
-<a href="#621" id="621">621</a>
-<a href="#622" id="622">622</a>
-<a href="#623" id="623">623</a>
-<a href="#624" id="624">624</a>
-<a href="#625" id="625">625</a>
-<a href="#626" id="626">626</a>
-<a href="#627" id="627">627</a>
-<a href="#628" id="628">628</a>
-<a href="#629" id="629">629</a>
-<a href="#630" id="630">630</a>
-<a href="#631" id="631">631</a>
-<a href="#632" id="632">632</a>
-<a href="#633" id="633">633</a>
-<a href="#634" id="634">634</a>
-<a href="#635" id="635">635</a>
-<a href="#636" id="636">636</a>
-<a href="#637" id="637">637</a>
-<a href="#638" id="638">638</a>
-<a href="#639" id="639">639</a>
-<a href="#640" id="640">640</a>
-<a href="#641" id="641">641</a>
-<a href="#642" id="642">642</a>
-<a href="#643" id="643">643</a>
-<a href="#644" id="644">644</a>
-<a href="#645" id="645">645</a>
-<a href="#646" id="646">646</a>
-<a href="#647" id="647">647</a>
-<a href="#648" id="648">648</a>
-<a href="#649" id="649">649</a>
-<a href="#650" id="650">650</a>
-<a href="#651" id="651">651</a>
-<a href="#652" id="652">652</a>
-<a href="#653" id="653">653</a>
-<a href="#654" id="654">654</a>
-<a href="#655" id="655">655</a>
-<a href="#656" id="656">656</a>
-<a href="#657" id="657">657</a>
-<a href="#658" id="658">658</a>
-<a href="#659" id="659">659</a>
-<a href="#660" id="660">660</a>
-<a href="#661" id="661">661</a>
-<a href="#662" id="662">662</a>
-<a href="#663" id="663">663</a>
-<a href="#664" id="664">664</a>
-<a href="#665" id="665">665</a>
-<a href="#666" id="666">666</a>
-<a href="#667" id="667">667</a>
-<a href="#668" id="668">668</a>
-<a href="#669" id="669">669</a>
-<a href="#670" id="670">670</a>
-<a href="#671" id="671">671</a>
-<a href="#672" id="672">672</a>
-<a href="#673" id="673">673</a>
-<a href="#674" id="674">674</a>
-<a href="#675" id="675">675</a>
-<a href="#676" id="676">676</a>
-<a href="#677" id="677">677</a>
-<a href="#678" id="678">678</a>
-<a href="#679" id="679">679</a>
-<a href="#680" id="680">680</a>
-<a href="#681" id="681">681</a>
-<a href="#682" id="682">682</a>
 </pre><pre class="rust"><code><span class="kw">use </span>memchr::memchr2_iter;
-<span class="kw">use </span>num::traits::Pow;
+<span class="kw">use </span>num_traits::Pow;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">super</span>::buffer::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::csv::read::NullValuesCompiled;
+<span class="kw">use </span><span class="kw">crate</span>::csv::splitfields::SplitFields;
 
 <span class="doccomment">/// Skip the utf-8 Byte Order Mark.
 /// credits to csv-core
@@ -790,9 +666,6 @@
             <span class="comment">// don&#39;t count the fields
             </span>(<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="prelude-val">None</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Some</span>(total_pos + pos),
             <span class="comment">// // no new line found, check latest line (without eol) for number of fields
-            // (None, Some(expected_fields)) if { count_fields(new_input) == expected_fields } =&gt; {
-            //     return Some(total_pos + pos)
-            // }
             </span><span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
         }
     }
@@ -985,50 +858,6 @@
     }
 }
 
-<span class="doccomment">/// An adapted version of std::iter::Split.
-/// This exists solely because we cannot split the lines naively as
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>SplitFields&lt;<span class="lifetime">&#39;a</span>&gt; {
-    v: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
-    delimiter: u8,
-    finished: bool,
-    quote_char: u8,
-    quoting: bool,
-    eol_char: u8,
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; SplitFields&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(
-        slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
-        delimiter: u8,
-        quote_char: <span class="prelude-ty">Option</span>&lt;u8&gt;,
-        eol_char: u8,
-    ) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            v: slice,
-            delimiter,
-            finished: <span class="bool-val">false</span>,
-            quote_char: quote_char.unwrap_or(<span class="string">b&#39;&quot;&#39;</span>),
-            quoting: quote_char.is_some(),
-            eol_char,
-        }
-    }
-
-    <span class="kw">unsafe fn </span>finish_eol(<span class="kw-2">&amp;mut </span><span class="self">self</span>, need_escaping: bool, idx: usize) -&gt; <span class="prelude-ty">Option</span>&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8], bool)&gt; {
-        <span class="self">self</span>.finished = <span class="bool-val">true</span>;
-        <span class="macro">debug_assert!</span>(idx &lt;= <span class="self">self</span>.v.len());
-        <span class="prelude-val">Some</span>((<span class="self">self</span>.v.get_unchecked(..idx), need_escaping))
-    }
-
-    <span class="kw">fn </span>finish(<span class="kw-2">&amp;mut </span><span class="self">self</span>, need_escaping: bool) -&gt; <span class="prelude-ty">Option</span>&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8], bool)&gt; {
-        <span class="self">self</span>.finished = <span class="bool-val">true</span>;
-        <span class="prelude-val">Some</span>((<span class="self">self</span>.v, need_escaping))
-    }
-
-    <span class="kw">fn </span>eof_oel(<span class="kw-2">&amp;</span><span class="self">self</span>, current_ch: u8) -&gt; bool {
-        current_ch == <span class="self">self</span>.delimiter || current_ch == <span class="self">self</span>.eol_char
-    }
-}
-
 <span class="attr">#[inline]
 </span><span class="kw">fn </span>find_quoted(bytes: <span class="kw-2">&amp;</span>[u8], quote_char: u8, needle: u8) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>in_field = <span class="bool-val">false</span>;
@@ -1051,87 +880,6 @@
     }
     <span class="prelude-val">None
 </span>}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Iterator <span class="kw">for </span>SplitFields&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="comment">// the bool is used to indicate that it requires escaping
-    </span><span class="kw">type </span>Item = (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8], bool);
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8], bool)&gt; {
-        <span class="kw">if </span><span class="self">self</span>.v.is_empty() || <span class="self">self</span>.finished {
-            <span class="kw">return </span><span class="prelude-val">None</span>;
-        }
-
-        <span class="kw">let </span><span class="kw-2">mut </span>needs_escaping = <span class="bool-val">false</span>;
-        <span class="comment">// There can be strings with delimiters:
-        // &quot;Street, City&quot;,
-
-        // Safety:
-        // we have checked bounds
-        </span><span class="kw">let </span>pos = <span class="kw">if </span><span class="self">self</span>.quoting &amp;&amp; <span class="kw">unsafe </span>{ <span class="kw-2">*</span><span class="self">self</span>.v.get_unchecked(<span class="number">0</span>) } == <span class="self">self</span>.quote_char {
-            needs_escaping = <span class="bool-val">true</span>;
-            <span class="comment">// There can be pair of double-quotes within string.
-            // Each of the embedded double-quote characters must be represented
-            // by a pair of double-quote characters:
-            // e.g. 1997,Ford,E350,&quot;Super, &quot;&quot;luxurious&quot;&quot; truck&quot;,20020
-
-            // denotes if we are in a string field, started with a quote
-            </span><span class="kw">let </span><span class="kw-2">mut </span>in_field = <span class="bool-val">false</span>;
-
-            <span class="kw">let </span><span class="kw-2">mut </span>idx = <span class="number">0u32</span>;
-            <span class="kw">let </span><span class="kw-2">mut </span>current_idx = <span class="number">0u32</span>;
-            <span class="comment">// micro optimizations
-            </span><span class="attr">#[allow(clippy::explicit_counter_loop)]
-            </span><span class="kw">for </span><span class="kw-2">&amp;</span>c <span class="kw">in </span><span class="self">self</span>.v.iter() {
-                <span class="kw">if </span>c == <span class="self">self</span>.quote_char {
-                    <span class="comment">// toggle between string field enclosure
-                    //      if we encounter a starting &#39;&quot;&#39; -&gt; in_field = true;
-                    //      if we encounter a closing &#39;&quot;&#39; -&gt; in_field = false;
-                    </span>in_field = !in_field;
-                }
-
-                <span class="kw">if </span>!in_field &amp;&amp; <span class="self">self</span>.eof_oel(c) {
-                    <span class="kw">if </span>c == <span class="self">self</span>.eol_char {
-                        <span class="comment">// safety
-                        // we are in bounds
-                        </span><span class="kw">return unsafe </span>{ <span class="self">self</span>.finish_eol(needs_escaping, current_idx <span class="kw">as </span>usize) };
-                    }
-                    idx = current_idx;
-                    <span class="kw">break</span>;
-                }
-                current_idx += <span class="number">1</span>;
-            }
-
-            <span class="kw">if </span>idx == <span class="number">0 </span>{
-                <span class="kw">return </span><span class="self">self</span>.finish(needs_escaping);
-            }
-
-            idx <span class="kw">as </span>usize
-        } <span class="kw">else </span>{
-            <span class="kw">match </span>memchr::memchr2(<span class="self">self</span>.delimiter, <span class="self">self</span>.eol_char, <span class="self">self</span>.v) {
-                <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="self">self</span>.finish(needs_escaping),
-                <span class="prelude-val">Some</span>(idx) =&gt; <span class="kw">unsafe </span>{
-                    <span class="comment">// Safety:
-                    // idx was just found
-                    </span><span class="kw">if </span><span class="kw-2">*</span><span class="self">self</span>.v.get_unchecked(idx) == <span class="self">self</span>.eol_char {
-                        <span class="kw">return </span><span class="self">self</span>.finish_eol(needs_escaping, idx);
-                    } <span class="kw">else </span>{
-                        idx
-                    }
-                },
-            }
-        };
-
-        <span class="kw">unsafe </span>{
-            <span class="macro">debug_assert!</span>(pos &lt;= <span class="self">self</span>.v.len());
-            <span class="comment">// safety
-            // we are in bounds
-            </span><span class="kw">let </span>ret = <span class="prelude-val">Some</span>((<span class="self">self</span>.v.get_unchecked(..pos), needs_escaping));
-            <span class="self">self</span>.v = <span class="self">self</span>.v.get_unchecked(pos + <span class="number">1</span>..);
-            ret
-        }
-    }
-}
 
 <span class="attr">#[inline]
 </span><span class="kw">fn </span>skip_this_line(bytes: <span class="kw-2">&amp;</span>[u8], quote: <span class="prelude-ty">Option</span>&lt;u8&gt;, eol_char: u8) -&gt; <span class="kw-2">&amp;</span>[u8] {
@@ -1168,8 +916,9 @@
     buffers: <span class="kw-2">&amp;mut </span>[Buffer&lt;<span class="lifetime">&#39;a</span>&gt;],
     ignore_errors: bool,
     n_lines: usize,
-    <span class="comment">// length or original schema
+    <span class="comment">// length of original schema
     </span>schema_len: usize,
+    schema: <span class="kw-2">&amp;</span>Schema,
 ) -&gt; PolarsResult&lt;usize&gt; {
     <span class="macro">assert!</span>(
         !projection.is_empty(),
@@ -1227,13 +976,12 @@
                     <span class="kw">break</span>;
                 }
                 <span class="prelude-val">Some</span>((<span class="kw-2">mut </span>field, needs_escaping)) =&gt; {
-                    idx += <span class="number">1</span>;
                     <span class="kw">let </span>field_len = field.len();
 
                     <span class="comment">// +1 is the split character that is consumed by the iterator.
                     </span>read_sol += field_len + <span class="number">1</span>;
 
-                    <span class="kw">if </span>(idx - <span class="number">1</span>) == next_projected <span class="kw">as </span>u32 {
+                    <span class="kw">if </span>idx == next_projected <span class="kw">as </span>u32 {
                         <span class="comment">// the iterator is finished when it encounters a `\n`
                         // this could be preceded by a &#39;\r&#39;
                         </span><span class="kw">if </span>field_len &gt; <span class="number">0 </span>&amp;&amp; field[field_len - <span class="number">1</span>] == <span class="string">b&#39;\r&#39; </span>{
@@ -1266,22 +1014,23 @@
                                 .map_err(|<span class="kw">_</span>| {
                                     <span class="kw">let </span>bytes_offset = offset + field.as_ptr() <span class="kw">as </span>usize - start;
                                     <span class="kw">let </span>unparsable = String::from_utf8_lossy(field);
-                                    PolarsError::ComputeError(
-                                        <span class="macro">format!</span>(
-                                            <span class="string">&quot;Could not parse `{}` as dtype {:?} at column {}.\n\
-                                            The current offset in the file is {} bytes.\n\
-                                            \n\
-                                            Consider specifying the correct dtype, increasing\n\
-                                            the number of records used to infer the schema,\n\
-                                            enabling the `ignore_errors` flag, or adding\n\
-                                            `{}` to the `null_values` list.&quot;</span>,
-                                            <span class="kw-2">&amp;</span>unparsable,
-                                            buf.dtype(),
-                                            idx,
-                                            bytes_offset,
-                                            <span class="kw-2">&amp;</span>unparsable,
-                                        )
-                                        .into(),
+                                    <span class="kw">let </span>column_name = schema.get_index(idx <span class="kw">as </span>usize).unwrap().<span class="number">0</span>;
+                                    <span class="macro">polars_err!</span>(
+                                        ComputeError:
+                                        <span class="string">&quot;Could not parse `{}` as dtype `{}` at column &#39;{}&#39; (column number {}).\n\
+                                        The current offset in the file is {} bytes.\n\
+                                        \n\
+                                        You might want to try:\n\
+                                        - increasing `infer_schema_length` (e.g. `infer_schema_length=10000`),\n\
+                                        - specifying correct dtype with the `dtypes` argument\n\
+                                        - setting `ignore_errors` to `True`,\n\
+                                        - adding `{}` to the `null_values` list.&quot;</span>,
+                                        <span class="kw-2">&amp;</span>unparsable,
+                                        buf.dtype(),
+                                        column_name,
+                                        idx + <span class="number">1</span>,
+                                        bytes_offset,
+                                        <span class="kw-2">&amp;</span>unparsable,
                                     )
                                 })<span class="question-mark">?</span>;
                         }
@@ -1305,6 +1054,7 @@
                             }
                         }
                     }
+                    idx += <span class="number">1</span>;
                 }
             }
         }
@@ -1363,4 +1113,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_io" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (065852def 2023-02-13)" data-search-js="search-abe1d547ad11c273.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_io" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

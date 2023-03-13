@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["_struct_arithmetic"],"mod":["checked"],"trait":["LhsNumOps","NumOpsDispatch"]};
+window.SIDEBAR_ITEMS = {"fn":["_struct_arithmetic"],"mod":["checked"],"trait":["LhsNumOps","NumOpsDispatch","NumOpsDispatchInner"]};

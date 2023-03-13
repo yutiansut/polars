@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/chunked_array/list/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-1def573a4779b29b.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_core/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/chunked_array/list/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_core/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -58,6 +58,27 @@
 <a href="#58" id="58">58</a>
 <a href="#59" id="59">59</a>
 <a href="#60" id="60">60</a>
+<a href="#61" id="61">61</a>
+<a href="#62" id="62">62</a>
+<a href="#63" id="63">63</a>
+<a href="#64" id="64">64</a>
+<a href="#65" id="65">65</a>
+<a href="#66" id="66">66</a>
+<a href="#67" id="67">67</a>
+<a href="#68" id="68">68</a>
+<a href="#69" id="69">69</a>
+<a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
+<a href="#72" id="72">72</a>
+<a href="#73" id="73">73</a>
+<a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Special list utility methods
 </span><span class="kw">mod </span>iterator;
 
@@ -90,33 +111,54 @@
         fld.coerce(DataType::List(Box::new(inner_dtype)))
     }
 
-    <span class="kw">pub fn </span>apply_to_inner(
+    <span class="doccomment">/// Get the inner values as `Series`, ignoring the list offsets.
+    </span><span class="kw">pub fn </span>get_inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Series {
+        <span class="kw">let </span>ca = <span class="self">self</span>.rechunk();
+        <span class="kw">let </span>inner_dtype = <span class="self">self</span>.inner_dtype().to_arrow();
+        <span class="kw">let </span>arr = ca.downcast_iter().next().unwrap();
+        <span class="kw">unsafe </span>{
+            Series::try_from_arrow_unchecked(
+                <span class="self">self</span>.name(),
+                <span class="macro">vec!</span>[(<span class="kw-2">*</span>arr.values()).clone()],
+                <span class="kw-2">&amp;</span>inner_dtype,
+            )
+            .unwrap()
+        }
+    }
+
+    <span class="doccomment">/// Ignore the list indices and apply `func` to the inner type as `Series`.
+    </span><span class="kw">pub fn </span>apply_to_inner(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         func: <span class="kw-2">&amp;</span><span class="kw">dyn </span>Fn(Series) -&gt; PolarsResult&lt;Series&gt;,
     ) -&gt; PolarsResult&lt;ListChunked&gt; {
-        <span class="kw">let </span>ca = <span class="self">self</span>.rechunk();
-        <span class="kw">let </span>arr = ca.downcast_iter().next().unwrap();
-        <span class="kw">let </span>elements = Series::try_from((<span class="string">&quot;&quot;</span>, arr.values().clone())).unwrap();
+        <span class="comment">// generated Series will have wrong length otherwise.
+        </span><span class="kw">let </span>ca = <span class="self">self</span>.rechunk();
+        <span class="kw">let </span>inner_dtype = <span class="self">self</span>.inner_dtype().to_arrow();
 
-        <span class="kw">let </span>expected_len = elements.len();
-        <span class="kw">let </span>out: Series = func(elements)<span class="question-mark">?</span>;
-        <span class="kw">if </span>out.len() != expected_len {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;The function should apply only elementwise Instead it has removed elements&quot;</span>.into(),
-            ));
-        }
-        <span class="kw">let </span>out = out.rechunk();
-        <span class="kw">let </span>values = out.chunks()[<span class="number">0</span>].clone();
+        <span class="kw">let </span>chunks = ca.downcast_iter().map(|arr| {
+            <span class="kw">let </span>elements = <span class="kw">unsafe </span>{ Series::try_from_arrow_unchecked(<span class="self">self</span>.name(), <span class="macro">vec!</span>[(<span class="kw-2">*</span>arr.values()).clone()], <span class="kw-2">&amp;</span>inner_dtype).unwrap() } ;
 
-        <span class="kw">let </span>inner_dtype = LargeListArray::default_datatype(out.dtype().to_arrow());
-        <span class="kw">let </span>arr = LargeListArray::new(
-            inner_dtype,
-            (<span class="kw-2">*</span>arr.offsets()).clone(),
-            values,
-            arr.validity().cloned(),
-        );
-        <span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(ListChunked::from_chunks(<span class="self">self</span>.name(), <span class="macro">vec!</span>[Box::new(arr)])) }
+            <span class="kw">let </span>expected_len = elements.len();
+            <span class="kw">let </span>out: Series = func(elements)<span class="question-mark">?</span>;
+            <span class="macro">polars_ensure!</span>(
+                out.len() == expected_len,
+                ComputeError: <span class="string">&quot;the function should apply element-wise, it removed elements instead&quot;
+            </span>);
+            <span class="kw">let </span>out = out.rechunk();
+            <span class="kw">let </span>values = out.chunks()[<span class="number">0</span>].clone();
+
+            <span class="kw">let </span>inner_dtype = LargeListArray::default_datatype(out.dtype().to_arrow());
+            <span class="kw">let </span>arr = LargeListArray::new(
+                inner_dtype,
+                (<span class="kw-2">*</span>arr.offsets()).clone(),
+                values,
+                arr.validity().cloned(),
+            );
+            <span class="prelude-val">Ok</span>(Box::new(arr) <span class="kw">as </span>ArrayRef)
+        }).collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
+
+        <span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(ListChunked::from_chunks(<span class="self">self</span>.name(), chunks)) }
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (065852def 2023-02-13)" data-search-js="search-abe1d547ad11c273.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/series/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-1def573a4779b29b.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_core/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/series/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_core/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1082,32 +1082,6 @@
 <a href="#1082" id="1082">1082</a>
 <a href="#1083" id="1083">1083</a>
 <a href="#1084" id="1084">1084</a>
-<a href="#1085" id="1085">1085</a>
-<a href="#1086" id="1086">1086</a>
-<a href="#1087" id="1087">1087</a>
-<a href="#1088" id="1088">1088</a>
-<a href="#1089" id="1089">1089</a>
-<a href="#1090" id="1090">1090</a>
-<a href="#1091" id="1091">1091</a>
-<a href="#1092" id="1092">1092</a>
-<a href="#1093" id="1093">1093</a>
-<a href="#1094" id="1094">1094</a>
-<a href="#1095" id="1095">1095</a>
-<a href="#1096" id="1096">1096</a>
-<a href="#1097" id="1097">1097</a>
-<a href="#1098" id="1098">1098</a>
-<a href="#1099" id="1099">1099</a>
-<a href="#1100" id="1100">1100</a>
-<a href="#1101" id="1101">1101</a>
-<a href="#1102" id="1102">1102</a>
-<a href="#1103" id="1103">1103</a>
-<a href="#1104" id="1104">1104</a>
-<a href="#1105" id="1105">1105</a>
-<a href="#1106" id="1106">1106</a>
-<a href="#1107" id="1107">1107</a>
-<a href="#1108" id="1108">1108</a>
-<a href="#1109" id="1109">1109</a>
-<a href="#1110" id="1110">1110</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Type agnostic columnar data structure.
 </span><span class="kw">pub use </span><span class="kw">crate</span>::prelude::ChunkCompare;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -1133,7 +1107,7 @@
 <span class="kw">use </span>arrow::compute::aggregate::estimated_bytes_size;
 <span class="kw">pub use </span>from::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>iterator::SeriesIter;
-<span class="kw">use </span>num::NumCast;
+<span class="kw">use </span>num_traits::NumCast;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>series_trait::{IsSorted, <span class="kw-2">*</span>};
 
@@ -1268,6 +1242,10 @@
         Series::full_null(name, <span class="number">0</span>, dtype)
     }
 
+    <span class="kw">pub fn </span>clear(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Series {
+        Series::new_empty(<span class="self">self</span>.name(), <span class="self">self</span>.dtype())
+    }
+
     <span class="attr">#[doc(hidden)]
     #[cfg(feature = <span class="string">&quot;private&quot;</span>)]
     </span><span class="kw">pub fn </span>_get_inner_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>SeriesTrait {
@@ -1338,6 +1316,10 @@
 
     <span class="doccomment">/// Cast `[Series]` to another `[DataType]`
     </span><span class="kw">pub fn </span>cast(<span class="kw-2">&amp;</span><span class="self">self</span>, dtype: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
+        <span class="comment">// best leave as is.
+        </span><span class="kw">if </span><span class="macro">matches!</span>(dtype, DataType::Unknown) {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="self">self</span>.clone());
+        }
         <span class="kw">match </span><span class="self">self</span>.<span class="number">0</span>.cast(dtype) {
             <span class="prelude-val">Ok</span>(out) =&gt; <span class="prelude-val">Ok</span>(out),
             <span class="prelude-val">Err</span>(err) =&gt; {
@@ -1428,13 +1410,7 @@
         <span class="kw">match </span><span class="self">self</span>.dtype() {
             DataType::List(<span class="kw">_</span>) =&gt; <span class="self">self</span>.list().unwrap().explode(),
             DataType::Utf8 =&gt; <span class="self">self</span>.utf8().unwrap().explode(),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;explode not supported for Series with dtype {:?}&quot;</span>,
-                    <span class="self">self</span>.dtype()
-                )
-                .into(),
-            )),
+            <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(opq = explode, <span class="self">self</span>.dtype()),
         }
     }
 
@@ -1443,13 +1419,7 @@
         <span class="kw">match </span><span class="self">self</span>.dtype() {
             DataType::Float32 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f32().unwrap().is_nan()),
             DataType::Float64 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f64().unwrap().is_nan()),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;&#39;is_nan&#39; not supported for series with dtype {:?}&quot;</span>,
-                    <span class="self">self</span>.dtype()
-                )
-                .into(),
-            )),
+            <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(opq = is_nan, <span class="self">self</span>.dtype()),
         }
     }
 
@@ -1458,13 +1428,7 @@
         <span class="kw">match </span><span class="self">self</span>.dtype() {
             DataType::Float32 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f32().unwrap().is_not_nan()),
             DataType::Float64 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f64().unwrap().is_not_nan()),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;&#39;is_not_nan&#39; not supported for series with dtype {:?}&quot;</span>,
-                    <span class="self">self</span>.dtype()
-                )
-                .into(),
-            )),
+            <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(opq = is_not_nan, <span class="self">self</span>.dtype()),
         }
     }
 
@@ -1473,13 +1437,7 @@
         <span class="kw">match </span><span class="self">self</span>.dtype() {
             DataType::Float32 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f32().unwrap().is_finite()),
             DataType::Float64 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f64().unwrap().is_finite()),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;&#39;is_finite&#39; not supported for series with dtype {:?}&quot;</span>,
-                    <span class="self">self</span>.dtype()
-                )
-                .into(),
-            )),
+            <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(opq = is_finite, <span class="self">self</span>.dtype()),
         }
     }
 
@@ -1488,13 +1446,7 @@
         <span class="kw">match </span><span class="self">self</span>.dtype() {
             DataType::Float32 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f32().unwrap().is_infinite()),
             DataType::Float64 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f64().unwrap().is_infinite()),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;&#39;is_infinite&#39; not supported for series with dtype {:?}&quot;</span>,
-                    <span class="self">self</span>.dtype()
-                )
-                .into(),
-            )),
+            <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(opq = is_infinite, <span class="self">self</span>.dtype()),
         }
     }
 
@@ -1797,12 +1749,16 @@
             <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
             <span class="kw">match </span><span class="self">self</span>.dtype() {
                 Boolean =&gt; <span class="self">self</span>.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap().product(),
-                Int8 | UInt8 | Int16 | UInt16 =&gt; {
+                Int8 | UInt8 | Int16 | UInt16 | Int32 | UInt32 =&gt; {
                     <span class="kw">let </span>s = <span class="self">self</span>.cast(<span class="kw-2">&amp;</span>Int64).unwrap();
                     s.product()
                 }
                 Int64 =&gt; {
                     <span class="kw">let </span>ca = <span class="self">self</span>.i64().unwrap();
+                    ca.prod_as_series()
+                }
+                UInt64 =&gt; {
+                    <span class="kw">let </span>ca = <span class="self">self</span>.u64().unwrap();
                     ca.prod_as_series()
                 }
                 Float32 =&gt; {
@@ -1838,17 +1794,13 @@
         <span class="kw">if </span>null_count != s.null_count() {
             <span class="kw">let </span>failure_mask = !<span class="self">self</span>.is_null() &amp; s.is_null();
             <span class="kw">let </span>failures = <span class="self">self</span>.filter_threaded(<span class="kw-2">&amp;</span>failure_mask, <span class="bool-val">false</span>)<span class="question-mark">?</span>.unique()<span class="question-mark">?</span>;
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;Strict conversion from {:?} to {:?} failed for values {}. \
-                    If you were trying to cast Utf8 to Date, Time, or Datetime, \
-                    consider using `strptime`.&quot;</span>,
-                    <span class="self">self</span>.dtype(),
-                    dtype,
-                    failures.fmt_list(),
-                )
-                .into(),
-            ))
+            <span class="macro">polars_bail!</span>(
+                ComputeError:
+                <span class="string">&quot;strict conversion from `{}` to `{}` failed for value(s) {}; \
+                if you were trying to cast Utf8 to temporal dtypes, consider using `strptime`&quot;</span>,
+                <span class="self">self</span>.dtype(), dtype, failures.fmt_list(),
+
+            );
         } <span class="kw">else </span>{
             <span class="prelude-val">Ok</span>(s)
         }
@@ -1955,11 +1907,7 @@
             UInt8 | UInt16 | UInt32 | UInt64 =&gt; <span class="self">self</span>.clone(),
             Float32 =&gt; a.f32().unwrap().abs().into_series(),
             Float64 =&gt; a.f64().unwrap().abs().into_series(),
-            dt =&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-                    <span class="macro">format!</span>(<span class="string">&quot;abs not supported for series of type {dt:?}&quot;</span>).into(),
-                ));
-            }
+            dt =&gt; <span class="macro">polars_bail!</span>(opq = abs, dt),
         };
         <span class="prelude-val">Ok</span>(out)
     }
@@ -2219,4 +2167,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (065852def 2023-02-13)" data-search-js="search-abe1d547ad11c273.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

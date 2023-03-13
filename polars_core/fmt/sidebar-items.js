@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["FloatFmt"],"fn":["set_float_fmt"],"struct":["PlTzAware"]};
+window.SIDEBAR_ITEMS = {"enum":["FloatFmt"],"fn":["fmt_decimal","set_float_fmt"],"struct":["PlTzAware"]};

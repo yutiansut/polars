@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"trait":["NumOpsDispatchChecked"]};
+window.SIDEBAR_ITEMS = {"trait":["NumOpsDispatchChecked","NumOpsDispatchCheckedInner"]};

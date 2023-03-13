@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-io/src/csv/write_impl.rs`."><title>write_impl.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-1def573a4779b29b.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_io/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-io/src/csv/write_impl.rs`."><title>write_impl.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_io/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -334,16 +334,32 @@
 <a href="#334" id="334">334</a>
 <a href="#335" id="335">335</a>
 <a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::io::Write;
 
-<span class="kw">use </span>arrow::temporal_conversions;
+<span class="attr">#[cfg(any(
+    feature = <span class="string">&quot;dtype-date&quot;</span>,
+    feature = <span class="string">&quot;dtype-time&quot;</span>,
+    feature = <span class="string">&quot;dtype-datetime&quot;
+</span>))]
+</span><span class="kw">use </span>arrow::temporal_conversions;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono::TimeZone;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono_tz::Tz;
 <span class="kw">use </span>lexical_core::{FormattedSize, ToLexical};
 <span class="kw">use </span>memchr::{memchr, memchr2};
-<span class="kw">use </span>polars_core::error::PolarsError::ComputeError;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::series::SeriesIter;
 <span class="kw">use </span>polars_core::POOL;
@@ -392,7 +408,7 @@
     f: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;,
     value: AnyValue,
     options: <span class="kw-2">&amp;</span>SerializeOptions,
-    datetime_format: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
+    <span class="attr">#[allow(unused_variables)] </span>datetime_format: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
 ) -&gt; PolarsResult&lt;()&gt; {
     <span class="kw">match </span>value {
         AnyValue::Null =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span>options.null),
@@ -461,24 +477,23 @@
                 <span class="prelude-val">Some</span>(fmt) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, date.format(fmt)),
             }
         }
-        <span class="kw-2">ref </span>dt =&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-            <span class="macro">format!</span>(<span class="string">&quot;DataType: {dt} not supported in writing to csv&quot;</span>).into(),
-        ))<span class="question-mark">?</span>,
+        <span class="kw-2">ref </span>dt =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;datatype {} cannot be written to csv&quot;</span>, dt),
     }
     .map_err(|err| <span class="kw">match </span>value {
-        AnyValue::Datetime(<span class="kw">_</span>, <span class="kw">_</span>, tz) =&gt; {
+        <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
+        </span>AnyValue::Datetime(<span class="kw">_</span>, <span class="kw">_</span>, tz) =&gt; {
             <span class="comment">// If this is a datetime, then datetime_format was either set or inferred.
-            </span><span class="kw">let </span>datetime_format = datetime_format.unwrap();
-            <span class="kw">match </span>tz {
-                <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; PolarsError::ComputeError(
-                    <span class="macro">format!</span>(<span class="string">&quot;Cannot format DateTime with format &#39;{datetime_format}&#39;.&quot;</span>).into(),
-                ),
-                <span class="prelude-val">None </span>=&gt; PolarsError::ComputeError(
-                    <span class="macro">format!</span>(<span class="string">&quot;Cannot format NaiveDateTime with format &#39;{datetime_format}&#39;.&quot;</span>).into(),
-                ),
-            }
+            </span><span class="kw">let </span>datetime_format = datetime_format.unwrap_or_default();
+            <span class="kw">let </span>type_name = <span class="kw">if </span>tz.is_some() {
+                <span class="string">&quot;DateTime&quot;
+            </span>} <span class="kw">else </span>{
+                <span class="string">&quot;NaiveDateTime&quot;
+            </span>};
+            <span class="macro">polars_err!</span>(
+                ComputeError: <span class="string">&quot;cannot format {} with format &#39;{}&#39;&quot;</span>, type_name, datetime_format,
+            )
         }
-        <span class="kw">_ </span>=&gt; PolarsError::ComputeError(<span class="macro">format!</span>(<span class="string">&quot;Error writing value {value}: {:?}&quot;</span>, err).into()),
+        <span class="kw">_ </span>=&gt; <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;error writing value {}: {}&quot;</span>, value, err),
     })
 }
 
@@ -539,14 +554,17 @@
             </span>DataType::Struct(<span class="kw">_</span>) =&gt; <span class="bool-val">true</span>,
             <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
         };
-        <span class="kw">if </span>nested {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(ComputeError(<span class="macro">format!</span>(<span class="string">&quot;CSV format does not support nested data. Consider using a different data format. Got: &#39;{}&#39;&quot;</span>, s.dtype()).into()));
-        }
+        <span class="macro">polars_ensure!</span>(
+            !nested,
+            ComputeError: <span class="string">&quot;CSV format does not support nested data&quot;</span>,
+        );
     }
 
     <span class="comment">// check that the double quote is valid utf8
-    </span>std::str::from_utf8(<span class="kw-2">&amp;</span>[options.quote, options.quote])
-        .map_err(|<span class="kw">_</span>| PolarsError::ComputeError(<span class="string">&quot;quote char leads invalid utf8&quot;</span>.into()))<span class="question-mark">?</span>;
+    </span><span class="macro">polars_ensure!</span>(
+        std::str::from_utf8(<span class="kw-2">&amp;</span>[options.quote, options.quote]).is_ok(),
+        ComputeError: <span class="string">&quot;quote char results in invalid utf-8&quot;</span>,
+    );
     <span class="kw">let </span>delimiter = char::from(options.delimiter);
 
     <span class="kw">let </span>formats: <span class="prelude-ty">Option</span>&lt;Vec&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;&gt;&gt; = <span class="kw">match </span><span class="kw-2">&amp;</span>options.datetime_format {
@@ -587,14 +605,20 @@
         <span class="kw">let </span>par_iter = (<span class="number">0</span>..n_threads).into_par_iter().map(|thread_no| {
             <span class="kw">let </span>thread_offset = thread_no * chunk_size;
             <span class="kw">let </span>total_offset = n_rows_finished + thread_offset;
-            <span class="kw">let </span>df = df.slice(total_offset <span class="kw">as </span>i64, chunk_size);
+            <span class="kw">let </span><span class="kw-2">mut </span>df = df.slice(total_offset <span class="kw">as </span>i64, chunk_size);
+            <span class="comment">// the `series.iter` needs rechunked series.
+            // we don&#39;t do this on the whole as this probably needs much less rechunking
+            // so will be faster.
+            // and allows writing `pl.concat([df] * 100, rechunk=False).write_csv()` as the rechunk
+            // would go OOM
+            </span>df.as_single_chunk();
             <span class="kw">let </span>cols = df.get_columns();
 
             <span class="comment">// Safety:
             // the bck thinks the lifetime is bounded to write_buffer_pool, but at the time we return
             // the vectors the buffer pool, the series have already been removed from the buffers
             // in other words, the lifetime does not leave this scope
-            </span><span class="kw">let </span>cols = <span class="kw">unsafe </span>{ std::mem::transmute::&lt;<span class="kw-2">&amp;</span>Vec&lt;Series&gt;, <span class="kw-2">&amp;</span>Vec&lt;Series&gt;&gt;(cols) };
+            </span><span class="kw">let </span>cols = <span class="kw">unsafe </span>{ std::mem::transmute::&lt;<span class="kw-2">&amp;</span>[Series], <span class="kw-2">&amp;</span>[Series]&gt;(cols) };
             <span class="kw">let </span><span class="kw-2">mut </span>write_buffer = write_buffer_pool.get();
 
             <span class="comment">// don&#39;t use df.empty, won&#39;t work if there are columns.
@@ -671,4 +695,4 @@
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_io" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (065852def 2023-02-13)" data-search-js="search-abe1d547ad11c273.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_io" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
