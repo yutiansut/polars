@@ -1,6 +1,0 @@
-﻿polars.internals.lazyframe.groupby.LazyGroupBy.tail
-===================================================
-
-.. currentmodule:: polars.internals.lazyframe.groupby
-
-.. automethod:: LazyGroupBy.tail

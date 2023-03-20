@@ -21,6 +21,7 @@ These functions are available from the polars module root and can be used as exp
    coalesce
    concat_list
    concat_str
+   corr
    count
    cov
    cumfold

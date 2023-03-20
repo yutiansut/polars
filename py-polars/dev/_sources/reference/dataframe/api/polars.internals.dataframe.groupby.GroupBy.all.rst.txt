@@ -1,6 +1,0 @@
-﻿polars.internals.dataframe.groupby.GroupBy.all
-==============================================
-
-.. currentmodule:: polars.internals.dataframe.groupby
-
-.. automethod:: GroupBy.all

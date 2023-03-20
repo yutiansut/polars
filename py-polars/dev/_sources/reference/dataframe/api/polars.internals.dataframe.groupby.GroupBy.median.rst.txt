@@ -1,6 +1,0 @@
-﻿polars.internals.dataframe.groupby.GroupBy.median
-=================================================
-
-.. currentmodule:: polars.internals.dataframe.groupby
-
-.. automethod:: GroupBy.median

@@ -1,6 +1,0 @@
-﻿polars.internals.lazyframe.groupby.LazyGroupBy.first
-====================================================
-
-.. currentmodule:: polars.internals.lazyframe.groupby
-
-.. automethod:: LazyGroupBy.first

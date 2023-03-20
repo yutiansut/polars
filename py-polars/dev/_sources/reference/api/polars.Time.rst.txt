@@ -14,6 +14,7 @@
    .. autosummary::
    
       ~Time.__init__
+      ~Time.base_type
    
    
 

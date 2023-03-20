@@ -1,6 +1,0 @@
-﻿polars.internals.dataframe.groupby.GroupBy.max
-==============================================
-
-.. currentmodule:: polars.internals.dataframe.groupby
-
-.. automethod:: GroupBy.max

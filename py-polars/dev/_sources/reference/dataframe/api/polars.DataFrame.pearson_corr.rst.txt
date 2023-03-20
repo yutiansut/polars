@@ -1,6 +1,0 @@
-﻿polars.DataFrame.pearson\_corr
-==============================
-
-.. currentmodule:: polars
-
-.. automethod:: DataFrame.pearson_corr

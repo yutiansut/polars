@@ -1,6 +1,0 @@
-﻿polars.internals.dataframe.groupby.GroupBy.n\_unique
-====================================================
-
-.. currentmodule:: polars.internals.dataframe.groupby
-
-.. automethod:: GroupBy.n_unique
