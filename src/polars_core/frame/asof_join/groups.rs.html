@@ -960,6 +960,9 @@
 <a href="#960" id="960">960</a>
 <a href="#961" id="961">961</a>
 <a href="#962" id="962">962</a>
+<a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::fmt::Debug;
 <span class="kw">use </span>std::hash::Hash;
 <span class="kw">use </span>std::ops::Sub;
@@ -1615,15 +1618,18 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>left_by = <span class="self">self</span>.select(left_by)<span class="question-mark">?</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>right_by = other.select(right_by)<span class="question-mark">?</span>;
-        <span class="kw">for </span>(l, r) <span class="kw">in </span>left_by
-            .get_columns_mut()
-            .iter_mut()
-            .zip(right_by.get_columns_mut().iter_mut())
-        {
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
-            </span>_check_categorical_src(l.dtype(), r.dtype())<span class="question-mark">?</span>;
-            <span class="kw-2">*</span>l = l.to_physical_repr().into_owned();
-            <span class="kw-2">*</span>r = r.to_physical_repr().into_owned();
+
+        <span class="kw">unsafe </span>{
+            <span class="kw">for </span>(l, r) <span class="kw">in </span>left_by
+                .get_columns_mut()
+                .iter_mut()
+                .zip(right_by.get_columns_mut().iter_mut())
+            {
+                <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
+                </span>_check_categorical_src(l.dtype(), r.dtype())<span class="question-mark">?</span>;
+                <span class="kw-2">*</span>l = l.to_physical_repr().into_owned();
+                <span class="kw-2">*</span>r = r.to_physical_repr().into_owned();
+            }
         }
 
         <span class="kw">let </span>left_by_s = left_by.get_columns()[<span class="number">0</span>].to_physical_repr().into_owned();

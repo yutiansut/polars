@@ -1106,7 +1106,7 @@
 <span class="kw">use </span>ahash::RandomState;
 <span class="kw">use </span>arrow::compute::aggregate::estimated_bytes_size;
 <span class="kw">pub use </span>from::<span class="kw-2">*</span>;
-<span class="kw">pub use </span>iterator::SeriesIter;
+<span class="kw">pub use </span>iterator::{SeriesIter, SeriesPhysIter};
 <span class="kw">use </span>num_traits::NumCast;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>series_trait::{IsSorted, <span class="kw-2">*</span>};
@@ -2112,7 +2112,7 @@
     </span><span class="kw">fn </span>new_series_from_empty_structs() {
         <span class="kw">let </span>dtype = DataType::Struct(<span class="macro">vec!</span>[]);
         <span class="kw">let </span>empties = <span class="macro">vec!</span>[AnyValue::StructOwned(Box::new((<span class="macro">vec!</span>[], <span class="macro">vec!</span>[]))); <span class="number">3</span>];
-        <span class="kw">let </span>s = Series::from_any_values_and_dtype(<span class="string">&quot;&quot;</span>, <span class="kw-2">&amp;</span>empties, <span class="kw-2">&amp;</span>dtype).unwrap();
+        <span class="kw">let </span>s = Series::from_any_values_and_dtype(<span class="string">&quot;&quot;</span>, <span class="kw-2">&amp;</span>empties, <span class="kw-2">&amp;</span>dtype, <span class="bool-val">false</span>).unwrap();
         <span class="macro">assert_eq!</span>(s.len(), <span class="number">3</span>);
     }
     <span class="attr">#[test]

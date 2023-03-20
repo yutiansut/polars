@@ -232,7 +232,7 @@
 
                 lst.into_iter()
                     .map(|s| {
-                        s.and_then(|s| {
+                        s.and_then(|s| <span class="kw">unsafe </span>{
                             df_container.get_columns_mut().push(s);
                             <span class="kw">let </span>out = phys_expr.evaluate(<span class="kw-2">&amp;</span>df_container, <span class="kw-2">&amp;</span>state);
                             df_container.get_columns_mut().clear();

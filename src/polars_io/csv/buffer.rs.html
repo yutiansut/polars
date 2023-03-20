@@ -805,7 +805,7 @@
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;dtype-datetime&quot;</span>, feature = <span class="string">&quot;dtype-date&quot;</span>))]
 </span><span class="kw">use </span>polars_time::chunkedarray::utf8::Pattern;
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;dtype-datetime&quot;</span>, feature = <span class="string">&quot;dtype-date&quot;</span>))]
-</span><span class="kw">use </span>polars_time::prelude::utf8::infer::{infer_pattern_single, DatetimeInfer};
+</span><span class="kw">use </span>polars_time::prelude::utf8::infer::{infer_pattern_single, DatetimeInfer, StrpTimeParser};
 
 <span class="kw">use </span><span class="kw">crate</span>::csv::parser::{is_whitespace, skip_whitespace};
 <span class="kw">use </span><span class="kw">crate</span>::csv::read_impl::RunningSize;
@@ -1247,7 +1247,7 @@
 </span><span class="kw">impl</span>&lt;T&gt; ParsedBuffer <span class="kw">for </span>DatetimeField&lt;T&gt;
 <span class="kw">where
     </span>T: PolarsNumericType,
-    DatetimeInfer&lt;T::Native&gt;: TryFrom&lt;Pattern&gt;,
+    DatetimeInfer&lt;T::Native&gt;: TryFrom&lt;Pattern&gt; + StrpTimeParser&lt;T::Native&gt;,
 {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>parse_bytes(

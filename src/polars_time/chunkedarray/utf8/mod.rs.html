@@ -546,6 +546,9 @@
 <a href="#546" id="546">546</a>
 <a href="#547" id="547">547</a>
 <a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
 </pre><pre class="rust"><code><span class="kw">pub mod </span>infer;
 <span class="kw">mod </span>patterns;
 <span class="kw">mod </span>strptime;
@@ -558,6 +561,7 @@
 </span><span class="kw">use </span><span class="kw">crate</span>::chunkedarray::date::naive_date_to_date;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::chunkedarray::time::time_to_time64ns;
+<span class="kw">use </span><span class="kw">crate</span>::prelude::utf8::strptime::StrpTimeState;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
 </span><span class="kw">fn </span>time_pattern&lt;F, K&gt;(val: <span class="kw-2">&amp;</span>str, convert: F) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt;
@@ -863,10 +867,11 @@
 
         <span class="comment">// we can use the fast parser
         </span><span class="kw">let </span><span class="kw-2">mut </span>ca: Int32Chunked = <span class="kw">if let </span><span class="prelude-val">Some</span>(fmt_len) = strptime::fmt_len(fmt.as_bytes()) {
-            <span class="kw">let </span>convert = |s: <span class="kw-2">&amp;</span>str| {
+            <span class="kw">let </span><span class="kw-2">mut </span>strptime_cache = StrpTimeState::default();
+            <span class="kw">let </span><span class="kw-2">mut </span>convert = |s: <span class="kw-2">&amp;</span>str| {
                 <span class="comment">// Safety:
                 // fmt_len is correct, it was computed with this `fmt` str.
-                </span><span class="kw">match unsafe </span>{ strptime::parse(s.as_bytes(), fmt.as_bytes(), fmt_len) } {
+                </span><span class="kw">match unsafe </span>{ strptime_cache.parse(s.as_bytes(), fmt.as_bytes(), fmt_len) } {
                     <span class="comment">// fallback to chrono
                     </span><span class="prelude-val">None </span>=&gt; NaiveDate::parse_from_str(s, <span class="kw-2">&amp;</span>fmt).ok(),
                     <span class="prelude-val">Some</span>(ndt) =&gt; <span class="prelude-val">Some</span>(ndt.date()),
@@ -1025,10 +1030,11 @@
             </span><span class="kw">let </span><span class="kw-2">mut </span>ca: Int64Chunked = <span class="kw">if let </span><span class="prelude-val">Some</span>(fmt_len) =
                 <span class="self">self</span>::strptime::fmt_len(fmt.as_bytes())
             {
-                <span class="kw">let </span>convert = |s: <span class="kw-2">&amp;</span>str| {
+                <span class="kw">let </span><span class="kw-2">mut </span>strptime_cache = StrpTimeState::default();
+                <span class="kw">let </span><span class="kw-2">mut </span>convert = |s: <span class="kw-2">&amp;</span>str| {
                     <span class="comment">// Safety:
                     // fmt_len is correct, it was computed with this `fmt` str.
-                    </span><span class="kw">match unsafe </span>{ <span class="self">self</span>::strptime::parse(s.as_bytes(), fmt.as_bytes(), fmt_len) } {
+                    </span><span class="kw">match unsafe </span>{ strptime_cache.parse(s.as_bytes(), fmt.as_bytes(), fmt_len) } {
                         <span class="prelude-val">None </span>=&gt; transform(s, <span class="kw-2">&amp;</span>fmt),
                         <span class="prelude-val">Some</span>(ndt) =&gt; <span class="prelude-val">Some</span>(func(ndt)),
                     }

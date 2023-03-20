@@ -579,6 +579,8 @@
 <a href="#579" id="579">579</a>
 <a href="#580" id="580">580</a>
 <a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::convert::TryFrom;
 
 <span class="kw">use </span>arrow::compute::cast::utf8_to_large_utf8;
@@ -597,6 +599,8 @@
 </span><span class="kw">use </span><span class="kw">crate</span>::chunked_array::object::extension::polars_extension::PolarsExtension;
 <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::chunked_array::object::extension::EXTENSION_NAME;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::config::decimal_is_active;
 <span class="kw">use </span><span class="kw">crate</span>::config::verbose;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
@@ -931,7 +935,7 @@
                     <span class="kw">let </span>chunks =
                         cast_chunks(<span class="kw-2">&amp;</span>chunks, <span class="kw-2">&amp;</span>DataType::Decimal(precision, <span class="prelude-val">Some</span>(scale)), <span class="bool-val">false</span>)
                             .unwrap();
-                    <span class="kw">if </span>std::env::var(<span class="string">&quot;POLARS_ACTIVATE_DECIMAL&quot;</span>).is_ok() {
+                    <span class="kw">if </span>decimal_is_active() {
                         <span class="prelude-val">Ok</span>(Int128Chunked::from_chunks(name, chunks)
                             .into_decimal_unchecked(precision, scale)
                             .into_series())

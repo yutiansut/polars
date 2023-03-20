@@ -280,6 +280,24 @@
 <a href="#280" id="280">280</a>
 <a href="#281" id="281">281</a>
 <a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Much more opinionated, but also much faster strptrime than the one given in Chrono.
 //!
 </span><span class="kw">use </span>atoi::FromRadix10;
@@ -334,111 +352,124 @@
         .replace(<span class="string">&quot;%F&quot;</span>, <span class="string">&quot;%Y-%m-%d&quot;</span>)
 }
 
-<span class="attr">#[inline]
-</span><span class="comment">// # Safety
-// Caller must ensure that fmt adheres to the fmt rules of chrono and `fmt_len` is correct.
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">unsafe fn </span>parse(val: <span class="kw-2">&amp;</span>[u8], fmt: <span class="kw-2">&amp;</span>[u8], fmt_len: u16) -&gt; <span class="prelude-ty">Option</span>&lt;NaiveDateTime&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>negative = <span class="bool-val">false</span>;
-    <span class="kw">if </span>val.starts_with(<span class="string">b&quot;-&quot;</span>) &amp;&amp; fmt.starts_with(<span class="string">b&quot;%Y&quot;</span>) {
-        offset = <span class="number">1</span>;
-        negative = <span class="bool-val">true</span>;
-    }
-    <span class="kw">if </span>val.len() - offset != (fmt_len <span class="kw">as </span>usize) {
-        <span class="kw">return </span><span class="prelude-val">None</span>;
-    }
+<span class="attr">#[derive(Default, Clone)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>StrpTimeState {}
 
-    <span class="kw">const </span>ESCAPE: u8 = <span class="string">b&#39;%&#39;</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>year: i32 = <span class="number">1</span>;
-    <span class="comment">// minimal day/month is always 1
-    // otherwise chrono may panic.
-    </span><span class="kw">let </span><span class="kw-2">mut </span>month: u32 = <span class="number">1</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>day: u32 = <span class="number">1</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>hour: u32 = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>min: u32 = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>sec: u32 = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>nano: u32 = <span class="number">0</span>;
-
-    <span class="kw">let </span><span class="kw-2">mut </span>fmt_iter = fmt.iter();
-
-    <span class="kw">while let </span><span class="prelude-val">Some</span>(fmt_b) = fmt_iter.next() {
-        <span class="macro">debug_assert!</span>(offset &lt; val.len());
-        <span class="kw">let </span>b = <span class="kw-2">*</span>val.get_unchecked(offset);
-        <span class="kw">if </span><span class="kw-2">*</span>fmt_b == ESCAPE {
-            <span class="kw">match </span>fmt_iter.next().expect(<span class="string">&quot;invalid fmt&quot;</span>) {
-                <span class="string">b&#39;Y&#39; </span>=&gt; {
-                    (year, offset) = update_and_parse(<span class="number">4</span>, offset, val)<span class="question-mark">?</span>;
-                    <span class="kw">if </span>negative {
-                        year <span class="kw-2">*</span>= -<span class="number">1
-                    </span>}
-                }
-                <span class="string">b&#39;m&#39; </span>=&gt; {
-                    (month, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;b&#39; </span>=&gt; {
-                    (month, offset) = parse_month_abbrev(val, offset)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;d&#39; </span>=&gt; {
-                    (day, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;H&#39; </span>=&gt; {
-                    (hour, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;M&#39; </span>=&gt; {
-                    (min, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;S&#39; </span>=&gt; {
-                    (sec, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;y&#39; </span>=&gt; {
-                    <span class="kw">let </span>new_offset = offset + <span class="number">2</span>;
-                    <span class="kw">let </span>bytes = val.get_unchecked_release(offset..new_offset);
-
-                    <span class="kw">let </span>(decade, parsed) = i32::from_radix_10(bytes);
-                    <span class="kw">if </span>parsed == <span class="number">0 </span>{
-                        <span class="kw">return </span><span class="prelude-val">None</span>;
-                    }
-
-                    <span class="kw">if </span>decade &lt; <span class="number">50 </span>{
-                        year = <span class="number">2000 </span>+ decade;
-                    } <span class="kw">else </span>{
-                        year = <span class="number">1900 </span>+ decade;
-                    }
-                    offset = new_offset;
-                }
-                <span class="string">b&#39;9&#39; </span>=&gt; {
-                    (nano, offset) = update_and_parse(<span class="number">9</span>, offset, val)<span class="question-mark">?</span>;
-                    <span class="kw">break</span>;
-                }
-                <span class="string">b&#39;6&#39; </span>=&gt; {
-                    (nano, offset) = update_and_parse(<span class="number">6</span>, offset, val)<span class="question-mark">?</span>;
-                    nano <span class="kw-2">*</span>= <span class="number">1000</span>;
-                    <span class="kw">break</span>;
-                }
-                <span class="string">b&#39;3&#39; </span>=&gt; {
-                    (nano, offset) = update_and_parse(<span class="number">3</span>, offset, val)<span class="question-mark">?</span>;
-                    nano <span class="kw-2">*</span>= <span class="number">1_000_000</span>;
-                    <span class="kw">break</span>;
-                }
-                <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
-            }
+<span class="kw">impl </span>StrpTimeState {
+    <span class="attr">#[inline]
+    </span><span class="comment">// # Safety
+    // Caller must ensure that fmt adheres to the fmt rules of chrono and `fmt_len` is correct.
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">unsafe fn </span>parse(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        val: <span class="kw-2">&amp;</span>[u8],
+        fmt: <span class="kw-2">&amp;</span>[u8],
+        fmt_len: u16,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;NaiveDateTime&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>negative = <span class="bool-val">false</span>;
+        <span class="kw">if </span>val.starts_with(<span class="string">b&quot;-&quot;</span>) &amp;&amp; fmt.starts_with(<span class="string">b&quot;%Y&quot;</span>) {
+            offset = <span class="number">1</span>;
+            negative = <span class="bool-val">true</span>;
         }
-        <span class="comment">// consume
-        </span><span class="kw">else if </span>b == <span class="kw-2">*</span>fmt_b {
-            offset += <span class="number">1</span>;
-        } <span class="kw">else </span>{
+        <span class="kw">if </span>val.len() - offset != (fmt_len <span class="kw">as </span>usize) {
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
+
+        <span class="kw">const </span>ESCAPE: u8 = <span class="string">b&#39;%&#39;</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>year: i32 = <span class="number">1</span>;
+        <span class="comment">// minimal day/month is always 1
+        // otherwise chrono may panic.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>month: u32 = <span class="number">1</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>day: u32 = <span class="number">1</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>hour: u32 = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>min: u32 = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>sec: u32 = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>nano: u32 = <span class="number">0</span>;
+
+        <span class="kw">let </span><span class="kw-2">mut </span>fmt_iter = fmt.iter();
+
+        <span class="kw">while let </span><span class="prelude-val">Some</span>(fmt_b) = fmt_iter.next() {
+            <span class="macro">debug_assert!</span>(offset &lt; val.len());
+            <span class="kw">let </span>b = <span class="kw-2">*</span>val.get_unchecked(offset);
+            <span class="kw">if </span><span class="kw-2">*</span>fmt_b == ESCAPE {
+                <span class="comment">// Safety: we must ensure we provide valid patterns
+                </span><span class="kw">let </span>next = fmt_iter.next();
+                <span class="macro">debug_assert!</span>(next.is_some());
+                <span class="kw">match </span>next.unwrap_unchecked() {
+                    <span class="string">b&#39;Y&#39; </span>=&gt; {
+                        (year, offset) = update_and_parse(<span class="number">4</span>, offset, val)<span class="question-mark">?</span>;
+                        <span class="kw">if </span>negative {
+                            year <span class="kw-2">*</span>= -<span class="number">1
+                        </span>}
+                    }
+                    <span class="string">b&#39;m&#39; </span>=&gt; {
+                        (month, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;b&#39; </span>=&gt; {
+                        (month, offset) = parse_month_abbrev(val, offset)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;d&#39; </span>=&gt; {
+                        (day, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;H&#39; </span>=&gt; {
+                        (hour, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;M&#39; </span>=&gt; {
+                        (min, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;S&#39; </span>=&gt; {
+                        (sec, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;y&#39; </span>=&gt; {
+                        <span class="kw">let </span>new_offset = offset + <span class="number">2</span>;
+                        <span class="kw">let </span>bytes = val.get_unchecked_release(offset..new_offset);
+
+                        <span class="kw">let </span>(decade, parsed) = i32::from_radix_10(bytes);
+                        <span class="kw">if </span>parsed == <span class="number">0 </span>{
+                            <span class="kw">return </span><span class="prelude-val">None</span>;
+                        }
+
+                        <span class="kw">if </span>decade &lt; <span class="number">50 </span>{
+                            year = <span class="number">2000 </span>+ decade;
+                        } <span class="kw">else </span>{
+                            year = <span class="number">1900 </span>+ decade;
+                        }
+                        offset = new_offset;
+                    }
+                    <span class="string">b&#39;9&#39; </span>=&gt; {
+                        (nano, offset) = update_and_parse(<span class="number">9</span>, offset, val)<span class="question-mark">?</span>;
+                        <span class="kw">break</span>;
+                    }
+                    <span class="string">b&#39;6&#39; </span>=&gt; {
+                        (nano, offset) = update_and_parse(<span class="number">6</span>, offset, val)<span class="question-mark">?</span>;
+                        nano <span class="kw-2">*</span>= <span class="number">1000</span>;
+                        <span class="kw">break</span>;
+                    }
+                    <span class="string">b&#39;3&#39; </span>=&gt; {
+                        (nano, offset) = update_and_parse(<span class="number">3</span>, offset, val)<span class="question-mark">?</span>;
+                        nano <span class="kw-2">*</span>= <span class="number">1_000_000</span>;
+                        <span class="kw">break</span>;
+                    }
+                    <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+                }
+            }
+            <span class="comment">// consume
+            </span><span class="kw">else if </span>b == <span class="kw-2">*</span>fmt_b {
+                offset += <span class="number">1</span>;
+            } <span class="kw">else </span>{
+                <span class="kw">return </span><span class="prelude-val">None</span>;
+            }
+        }
+        <span class="comment">// all values processed
+        </span><span class="kw">if </span>offset == val.len() {
+            NaiveDate::from_ymd_opt(year, month, day)
+                .and_then(|nd| nd.and_hms_nano_opt(hour, min, sec, nano))
+        }
+        <span class="comment">// remaining values did not match pattern
+        </span><span class="kw">else </span>{
+            <span class="prelude-val">None
+        </span>}
     }
-    <span class="comment">// all values processed
-    </span><span class="kw">if </span>offset == val.len() {
-        NaiveDate::from_ymd_opt(year, month, day)
-            .and_then(|nd| nd.and_hms_nano_opt(hour, min, sec, nano))
-    }
-    <span class="comment">// remaining values did not match pattern
-    </span><span class="kw">else </span>{
-        <span class="prelude-val">None
-    </span>}
 }
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>fmt_len(fmt: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;u16&gt; {
@@ -558,7 +589,12 @@
 
         <span class="kw">for </span>(val, fmt, len, expected) <span class="kw">in </span>patterns {
             <span class="macro">assert_eq!</span>(fmt_len(fmt.as_bytes()).unwrap(), len);
-            <span class="kw">unsafe </span>{ <span class="macro">assert_eq!</span>(parse(val.as_bytes(), fmt.as_bytes(), len), expected) };
+            <span class="kw">unsafe </span>{
+                <span class="macro">assert_eq!</span>(
+                    StrpTimeState::default().parse(val.as_bytes(), fmt.as_bytes(), len),
+                    expected
+                )
+            };
         }
     }
 }

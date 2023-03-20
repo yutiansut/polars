@@ -160,6 +160,8 @@
 <a href="#160" id="160">160</a>
 <a href="#161" id="161">161</a>
 <a href="#162" id="162">162</a>
+<a href="#163" id="163">163</a>
+<a href="#164" id="164">164</a>
 </pre><pre class="rust"><code><span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -312,6 +314,8 @@
                     <span class="macro">panic!</span>(<span class="string">&quot;activate the &#39;object&#39; feature to be able to load POLARS_EXTENSION_TYPE&quot;</span>)
                 }
             }
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+            </span>ArrowDataType::Decimal(precision, scale) =&gt; DataType::Decimal(<span class="prelude-val">Some</span>(<span class="kw-2">*</span>precision), <span class="prelude-val">Some</span>(<span class="kw-2">*</span>scale)),
             dt =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Arrow datatype {dt:?} not supported by Polars. You probably need to activate that data-type feature.&quot;</span>),
         }
     }

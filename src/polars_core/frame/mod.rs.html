@@ -3641,6 +3641,9 @@
 <a href="#3641" id="3641">3641</a>
 <a href="#3642" id="3642">3642</a>
 <a href="#3643" id="3643">3643</a>
+<a href="#3644" id="3644">3644</a>
+<a href="#3645" id="3645">3645</a>
+<a href="#3646" id="3646">3646</a>
 </pre><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -4167,7 +4170,10 @@
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;private&quot;</span>)]
     #[inline]
-    </span><span class="kw">pub fn </span>get_columns_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Vec&lt;Series&gt; {
+    </span><span class="doccomment">/// Get mutable access to the underlying columns.
+    /// # Safety
+    /// The caller must ensure the length of all [`Series`] remains equal.
+    </span><span class="kw">pub unsafe fn </span>get_columns_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Vec&lt;Series&gt; {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.columns
     }
 

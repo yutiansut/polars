@@ -157,6 +157,9 @@
 <a href="#157" id="157">157</a>
 <a href="#158" id="158">158</a>
 <a href="#159" id="159">159</a>
+<a href="#160" id="160">160</a>
+<a href="#161" id="161">161</a>
+<a href="#162" id="162">162</a>
 </pre><pre class="rust"><code><span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -262,16 +265,19 @@
         names: <span class="kw-2">&amp;</span>[SmartString],
     ) -&gt; PolarsResult&lt;DataFrame&gt; {
         <span class="kw">let </span>(<span class="kw-2">mut </span>l_df, r_df) = <span class="self">self</span>.cross_join_dfs(other, <span class="prelude-val">None</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
-        l_df.get_columns_mut().extend_from_slice(<span class="kw-2">&amp;</span>r_df.columns);
 
-        l_df.get_columns_mut()
-            .iter_mut()
-            .zip(names)
-            .for_each(|(s, name)| {
-                <span class="kw">if </span>s.name() != name {
-                    s.rename(name);
-                }
-            });
+        <span class="kw">unsafe </span>{
+            l_df.get_columns_mut().extend_from_slice(<span class="kw-2">&amp;</span>r_df.columns);
+
+            l_df.get_columns_mut()
+                .iter_mut()
+                .zip(names)
+                .for_each(|(s, name)| {
+                    <span class="kw">if </span>s.name() != name {
+                        s.rename(name);
+                    }
+                });
+        }
         <span class="prelude-val">Ok</span>(l_df)
     }
 

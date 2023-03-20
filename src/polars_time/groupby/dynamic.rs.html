@@ -849,29 +849,11 @@
 <a href="#849" id="849">849</a>
 <a href="#850" id="850">850</a>
 <a href="#851" id="851">851</a>
-<a href="#852" id="852">852</a>
-<a href="#853" id="853">853</a>
-<a href="#854" id="854">854</a>
-<a href="#855" id="855">855</a>
-<a href="#856" id="856">856</a>
-<a href="#857" id="857">857</a>
-<a href="#858" id="858">858</a>
-<a href="#859" id="859">859</a>
-<a href="#860" id="860">860</a>
-<a href="#861" id="861">861</a>
-<a href="#862" id="862">862</a>
-<a href="#863" id="863">863</a>
-<a href="#864" id="864">864</a>
-<a href="#865" id="865">865</a>
-<a href="#866" id="866">866</a>
-<a href="#867" id="867">867</a>
-<a href="#868" id="868">868</a>
-<a href="#869" id="869">869</a>
-<a href="#870" id="870">870</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::utils::CustomIterTools;
 <span class="kw">use </span>polars_core::export::rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>polars_core::series::IsSorted;
 <span class="kw">use </span>polars_core::POOL;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
@@ -968,7 +950,7 @@
         by: Vec&lt;Series&gt;,
         options: <span class="kw-2">&amp;</span>RollingGroupOptions,
     ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, GroupsProxy)&gt; {
-        <span class="kw">let </span>time = <span class="self">self</span>.<span class="number">0</span>.column(<span class="kw-2">&amp;</span>options.index_column)<span class="question-mark">?</span>;
+        <span class="kw">let </span>time = <span class="self">self</span>.<span class="number">0</span>.column(<span class="kw-2">&amp;</span>options.index_column)<span class="question-mark">?</span>.clone();
         <span class="kw">let </span>time_type = time.dtype();
 
         <span class="kw">if </span>time.null_count() &gt; <span class="number">0 </span>{
@@ -1073,7 +1055,7 @@
 
     <span class="kw">fn </span>impl_groupby_dynamic(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        dt: Series,
+        <span class="kw-2">mut </span>dt: Series,
         <span class="kw-2">mut </span>by: Vec&lt;Series&gt;,
         options: <span class="kw-2">&amp;</span>DynamicGroupOptions,
         tu: TimeUnit,
@@ -1082,15 +1064,13 @@
         <span class="kw">if </span>dt.is_empty() {
             <span class="kw">return </span>dt.cast(time_type).map(|s| (s, by, GroupsProxy::default()));
         }
+        <span class="comment">// a requirement for the index
+        // so we can set this such that downstream code has this info
+        </span>dt.set_sorted_flag(IsSorted::Ascending);
 
         <span class="kw">let </span>w = Window::new(options.every, options.period, options.offset);
         <span class="kw">let </span>dt = dt.datetime().unwrap();
         <span class="kw">let </span>tz = dt.time_zone();
-        <span class="kw">let </span>dt = <span class="kw">match </span>tz {
-            <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-            </span><span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; dt.replace_time_zone(<span class="prelude-val">None</span>)<span class="question-mark">?</span>,
-            <span class="kw">_ </span>=&gt; dt.clone(),
-        };
 
         <span class="kw">let </span><span class="kw-2">mut </span>lower_bound = <span class="prelude-val">None</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>upper_bound = <span class="prelude-val">None</span>;
@@ -1128,6 +1108,7 @@
                 ts,
                 options.closed_window,
                 tu,
+                tz,
                 include_lower_bound,
                 include_upper_bound,
                 options.start_by,
@@ -1159,6 +1140,7 @@
                                     ts,
                                     options.closed_window,
                                     tu,
+                                    tz,
                                     include_lower_bound,
                                     include_upper_bound,
                                     options.start_by,
@@ -1188,6 +1170,7 @@
                                     ts,
                                     options.closed_window,
                                     tu,
+                                    tz,
                                     include_lower_bound,
                                     include_upper_bound,
                                     options.start_by,
@@ -1222,6 +1205,7 @@
                                     ts,
                                     options.closed_window,
                                     tu,
+                                    tz,
                                     include_lower_bound,
                                     include_upper_bound,
                                     options.start_by,
@@ -1243,6 +1227,7 @@
                                     ts,
                                     options.closed_window,
                                     tu,
+                                    tz,
                                     include_lower_bound,
                                     include_upper_bound,
                                     options.start_by,
@@ -1259,7 +1244,7 @@
             }
         };
 
-        <span class="kw">let </span>dt = <span class="kw">unsafe </span>{ dt.into_series().agg_first(<span class="kw-2">&amp;</span>groups) };
+        <span class="kw">let </span>dt = <span class="kw">unsafe </span>{ dt.clone().into_series().agg_first(<span class="kw-2">&amp;</span>groups) };
         <span class="kw">let </span><span class="kw-2">mut </span>dt = dt.datetime().unwrap().as_ref().clone();
         <span class="kw">for </span>key <span class="kw">in </span>by.iter_mut() {
             <span class="kw-2">*</span>key = <span class="kw">unsafe </span>{ key.agg_first(<span class="kw-2">&amp;</span>groups) };
@@ -1275,43 +1260,17 @@
 
         <span class="kw">if let </span>(<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(lower), <span class="prelude-val">Some</span>(higher)) = (options.include_boundaries, lower, upper_bound)
         {
-            <span class="kw">match </span>tz {
-                <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-                </span><span class="prelude-val">Some</span>(tz) =&gt; by.push(
-                    lower
-                        .into_datetime(tu, <span class="prelude-val">None</span>)
-                        .replace_time_zone(<span class="prelude-val">Some</span>(tz))<span class="question-mark">?
-                        </span>.into_series(),
-                ),
-                <span class="kw">_ </span>=&gt; by.push(lower.into_datetime(tu, <span class="prelude-val">None</span>).into_series()),
-            };
-            <span class="kw">let </span>s = <span class="kw">match </span>tz {
-                <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-                </span><span class="prelude-val">Some</span>(tz) =&gt; Int64Chunked::new_vec(UP_NAME, higher)
-                    .into_datetime(tu, <span class="prelude-val">None</span>)
-                    .replace_time_zone(<span class="prelude-val">Some</span>(tz))<span class="question-mark">?
-                    </span>.into_series(),
-                <span class="kw">_ </span>=&gt; Int64Chunked::new_vec(UP_NAME, higher)
-                    .into_datetime(tu, <span class="prelude-val">None</span>)
-                    .into_series(),
-            };
+            by.push(lower.into_datetime(tu, tz.clone()).into_series());
+            <span class="kw">let </span>s = Int64Chunked::new_vec(UP_NAME, higher)
+                .into_datetime(tu, tz.clone())
+                .into_series();
             by.push(s);
         }
 
-        <span class="kw">match </span>tz {
-            <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-            </span><span class="prelude-val">Some</span>(tz) =&gt; dt
-                .into_datetime(tu, <span class="prelude-val">None</span>)
-                .replace_time_zone(<span class="prelude-val">Some</span>(tz))<span class="question-mark">?
-                </span>.into_series()
-                .cast(time_type)
-                .map(|s| (s, by, groups)),
-            <span class="kw">_ </span>=&gt; dt
-                .into_datetime(tu, <span class="prelude-val">None</span>)
-                .into_series()
-                .cast(time_type)
-                .map(|s| (s, by, groups)),
-        }
+        dt.into_datetime(tu, <span class="prelude-val">None</span>)
+            .into_series()
+            .cast(time_type)
+            .map(|s| (s, by, groups))
     }
 
     <span class="doccomment">/// Returns: time_keys, keys, groupsproxy
@@ -1324,6 +1283,9 @@
         time_type: <span class="kw-2">&amp;</span>DataType,
     ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, GroupsProxy)&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>dt = dt.rechunk();
+        <span class="comment">// a requirement for the index
+        // so we can set this such that downstream code has this info
+        </span>dt.set_sorted_flag(IsSorted::Ascending);
 
         <span class="kw">let </span>groups = <span class="kw">if </span>by.is_empty() {
             <span class="kw">let </span>dt = dt.datetime().unwrap();

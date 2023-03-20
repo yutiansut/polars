@@ -19,6 +19,9 @@
 <a href="#19" id="19">19</a>
 <a href="#20" id="20">20</a>
 <a href="#21" id="21">21</a>
+<a href="#22" id="22">22</a>
+<a href="#23" id="23">23</a>
+<a href="#24" id="24">24</a>
 </pre><pre class="rust"><code><span class="attr">#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 </span><span class="kw">pub mod </span>chunkedarray;
 <span class="kw">mod </span>date_range;
@@ -28,8 +31,10 @@
 <span class="kw">pub mod </span>series;
 <span class="kw">mod </span>truncate;
 <span class="kw">mod </span>upsample;
+<span class="kw">mod </span>utils;
 <span class="kw">mod </span>windows;
 
+<span class="kw">use </span>chrono::FixedOffset;
 <span class="kw">pub use </span>date_range::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;dtype-date&quot;</span>, feature = <span class="string">&quot;dtype-datetime&quot;</span>))]
 </span><span class="kw">pub use </span>groupby::dynamic::<span class="kw-2">*</span>;
@@ -40,5 +45,6 @@
 <span class="kw">pub use </span>windows::duration::Duration;
 <span class="kw">pub use </span>windows::groupby::ClosedWindow;
 <span class="kw">pub use </span>windows::window::Window;
+<span class="kw">pub const </span>NO_TIMEZONE: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>FixedOffset&gt; = <span class="prelude-val">None</span>;
 </code></pre></div>
 </section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

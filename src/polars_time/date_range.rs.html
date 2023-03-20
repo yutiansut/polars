@@ -56,11 +56,44 @@
 <a href="#56" id="56">56</a>
 <a href="#57" id="57">57</a>
 <a href="#58" id="58">58</a>
-</pre><pre class="rust"><code><span class="kw">use </span>chrono::{Datelike, NaiveDateTime};
+<a href="#59" id="59">59</a>
+<a href="#60" id="60">60</a>
+<a href="#61" id="61">61</a>
+<a href="#62" id="62">62</a>
+<a href="#63" id="63">63</a>
+<a href="#64" id="64">64</a>
+<a href="#65" id="65">65</a>
+<a href="#66" id="66">66</a>
+<a href="#67" id="67">67</a>
+<a href="#68" id="68">68</a>
+<a href="#69" id="69">69</a>
+<a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
+<a href="#72" id="72">72</a>
+<a href="#73" id="73">73</a>
+<a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
+<a href="#84" id="84">84</a>
+<a href="#85" id="85">85</a>
+<a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+</pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
+<span class="kw">use </span>chrono::{Datelike, NaiveDateTime};
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::series::IsSorted;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
+<span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::utils::localize_timestamp;
 
 <span class="kw">pub fn </span>in_nanoseconds_window(ndt: <span class="kw-2">&amp;</span>NaiveDateTime) -&gt; bool {
     <span class="comment">// ~584 year around 1970
@@ -78,18 +111,43 @@
     tu: TimeUnit,
     _tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
 ) -&gt; PolarsResult&lt;DatetimeChunked&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>out = Int64Chunked::new_vec(name, date_range_vec(start, stop, every, closed, tu))
-        .into_datetime(tu, <span class="prelude-val">None</span>);
-
-    <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(tz) = _tz {
-        out = out.replace_time_zone(<span class="prelude-val">Some</span>(tz))<span class="question-mark">?
-    </span>}
     <span class="kw">let </span>s = <span class="kw">if </span>start &gt; stop {
         IsSorted::Descending
     } <span class="kw">else </span>{
         IsSorted::Ascending
     };
+    <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="kw">match </span>_tz {
+        <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+        </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;chrono_tz::Tz&gt;() {
+            <span class="prelude-val">Ok</span>(tz) =&gt; {
+                <span class="kw">let </span>start = localize_timestamp(start, tu, tz);
+                <span class="kw">let </span>stop = localize_timestamp(stop, tu, tz);
+                Int64Chunked::new_vec(
+                    name,
+                    date_range_vec(start<span class="question-mark">?</span>, stop<span class="question-mark">?</span>, every, closed, tu, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz))<span class="question-mark">?</span>,
+                )
+                .into_datetime(tu, _tz.cloned())
+            }
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
+                <span class="prelude-val">Ok</span>(tz) =&gt; {
+                    <span class="kw">let </span>start = localize_timestamp(start, tu, tz);
+                    <span class="kw">let </span>stop = localize_timestamp(stop, tu, tz);
+                    Int64Chunked::new_vec(
+                        name,
+                        date_range_vec(start<span class="question-mark">?</span>, stop<span class="question-mark">?</span>, every, closed, tu, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz))<span class="question-mark">?</span>,
+                    )
+                    .into_datetime(tu, _tz.cloned())
+                }
+                <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;unable to parse time zone: {}&quot;</span>, tz),
+            },
+        },
+        <span class="kw">_ </span>=&gt; Int64Chunked::new_vec(
+            name,
+            date_range_vec(start, stop, every, closed, tu, NO_TIMEZONE)<span class="question-mark">?</span>,
+        )
+        .into_datetime(tu, <span class="prelude-val">None</span>),
+    };
+
     out.set_sorted_flag(s);
     <span class="prelude-val">Ok</span>(out)
 }

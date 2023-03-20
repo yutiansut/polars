@@ -1148,6 +1148,7 @@
 <a href="#1148" id="1148">1148</a>
 <a href="#1149" id="1149">1149</a>
 <a href="#1150" id="1150">1150</a>
+<a href="#1151" id="1151">1151</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">&quot;fmt&quot;</span>, feature = <span class="string">&quot;fmt_no_tty&quot;</span>))]
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::fmt;
@@ -1237,7 +1238,7 @@
                 <span class="kw">if </span>v == v_trunc {
                     <span class="macro">write!</span>(f, <span class="string">&quot;\t{}\n&quot;</span>, v)<span class="question-mark">?</span>;
                 } <span class="kw">else </span>{
-                    <span class="macro">write!</span>(f, <span class="string">&quot;\t{}...\n&quot;</span>, v_trunc)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;\t{}…\n&quot;</span>, v_trunc)<span class="question-mark">?</span>;
                 }
             } <span class="kw">else </span>{
                 <span class="macro">write!</span>(f, <span class="string">&quot;\t{}\n&quot;</span>, v)<span class="question-mark">?</span>;
@@ -1251,7 +1252,7 @@
                     write_fn(v, <span class="macro-nonterminal">$f</span>)<span class="question-mark">?</span>;
                 }
             }
-            <span class="macro">write!</span>(<span class="macro-nonterminal">$f</span>, <span class="string">&quot;\t...\n&quot;</span>)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(<span class="macro-nonterminal">$f</span>, <span class="string">&quot;\t…\n&quot;</span>)<span class="question-mark">?</span>;
             <span class="kw">if </span>limit &gt; <span class="number">1 </span>{
                 <span class="kw">for </span>i <span class="kw">in </span>(<span class="macro-nonterminal">$a</span>.len() - (limit + <span class="number">1</span>) / <span class="number">2</span>)..<span class="macro-nonterminal">$a</span>.len() {
                     <span class="kw">let </span>v = <span class="macro-nonterminal">$a</span>.get_any_value(i).unwrap();
@@ -1357,7 +1358,7 @@
                     <span class="prelude-val">Some</span>(val) =&gt; <span class="macro">writeln!</span>(f, <span class="string">&quot;\t{val}&quot;</span>)<span class="question-mark">?</span>,
                 };
             }
-            <span class="macro">writeln!</span>(f, <span class="string">&quot;\t...&quot;</span>)<span class="question-mark">?</span>;
+            <span class="macro">writeln!</span>(f, <span class="string">&quot;\t…&quot;</span>)<span class="question-mark">?</span>;
             <span class="kw">for </span>i <span class="kw">in </span>(<span class="number">0</span>..limit / <span class="number">2</span>).rev() {
                 <span class="kw">match </span>taker.get(<span class="self">self</span>.len() - i - <span class="number">1</span>) {
                     <span class="prelude-val">None </span>=&gt; <span class="macro">writeln!</span>(f, <span class="string">&quot;\tnull&quot;</span>)<span class="question-mark">?</span>,
@@ -1485,7 +1486,7 @@
     <span class="kw">if </span>v == v_trunc {
         v.to_string()
     } <span class="kw">else </span>{
-        <span class="macro">format!</span>(<span class="string">&quot;{v_trunc}...&quot;</span>)
+        <span class="macro">format!</span>(<span class="string">&quot;{v_trunc}…&quot;</span>)
     }
 }
 
@@ -1502,7 +1503,7 @@
         row_str.push(make_str_val(v, str_truncate));
     }
     <span class="kw">if </span>reduce_columns {
-        row_str.push(<span class="string">&quot;...&quot;</span>.to_string());
+        row_str.push(<span class="string">&quot;…&quot;</span>.to_string());
     }
     <span class="kw">for </span>v <span class="kw">in </span>row[row.len() - n_last..].iter() {
         row_str.push(make_str_val(v, str_truncate));
@@ -1592,8 +1593,8 @@
                 constraints.push(tbl_lower_bounds(l));
             }
             <span class="kw">if </span>reduce_columns {
-                names.push(<span class="string">&quot;...&quot;</span>.into());
-                constraints.push(tbl_lower_bounds(<span class="number">5</span>));
+                names.push(<span class="string">&quot;…&quot;</span>.into());
+                constraints.push(tbl_lower_bounds(<span class="number">3</span>));
             }
             <span class="kw">for </span>field <span class="kw">in </span>fields[<span class="self">self</span>.width() - n_last..].iter() {
                 <span class="kw">let </span>(s, l) = field_to_str(field);
@@ -1640,7 +1641,7 @@
                             .collect();
                         rows.push(prepare_row(row, n_first, n_last, str_truncate));
                     }
-                    <span class="kw">let </span>dots = rows[<span class="number">0</span>].iter().map(|<span class="kw">_</span>| <span class="string">&quot;...&quot;</span>.to_string()).collect();
+                    <span class="kw">let </span>dots = rows[<span class="number">0</span>].iter().map(|<span class="kw">_</span>| <span class="string">&quot;…&quot;</span>.to_string()).collect();
                     rows.push(dots);
                     <span class="kw">if </span>max_n_rows &gt; <span class="number">1 </span>{
                         <span class="kw">for </span>i <span class="kw">in </span>(height - (max_n_rows + <span class="number">1</span>) / <span class="number">2</span>)..height {
@@ -1668,7 +1669,7 @@
                     }
                 }
             } <span class="kw">else if </span>height &gt; <span class="number">0 </span>{
-                <span class="kw">let </span>dots: Vec&lt;String&gt; = <span class="self">self</span>.columns.iter().map(|<span class="kw">_</span>| <span class="string">&quot;...&quot;</span>.to_string()).collect();
+                <span class="kw">let </span>dots: Vec&lt;String&gt; = <span class="self">self</span>.columns.iter().map(|<span class="kw">_</span>| <span class="string">&quot;…&quot;</span>.to_string()).collect();
                 table.add_row(dots);
             }
 
@@ -1753,6 +1754,7 @@
 }
 
 <span class="kw">const </span>SCIENTIFIC_BOUND: f64 = <span class="number">999999.0</span>;
+
 <span class="kw">fn </span>fmt_float&lt;T: Num + NumCast&gt;(f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;, width: usize, v: T) -&gt; fmt::Result {
     <span class="kw">let </span>v: f64 = NumCast::from(v).unwrap();
     <span class="kw">if </span><span class="macro">matches!</span>(get_float_fmt(), FloatFmt::Full) {
@@ -2004,7 +2006,7 @@
                 <span class="macro-nonterminal">$self</span>.get_any_value(<span class="number">2</span>).unwrap()
             ),
             <span class="kw">_ </span>=&gt; <span class="macro">format!</span>(
-                <span class="string">&quot;[{}, {}, ... {}]&quot;</span>,
+                <span class="string">&quot;[{}, {}, … {}]&quot;</span>,
                 <span class="macro-nonterminal">$self</span>.get_any_value(<span class="number">0</span>).unwrap(),
                 <span class="macro-nonterminal">$self</span>.get_any_value(<span class="number">1</span>).unwrap(),
                 <span class="macro-nonterminal">$self</span>.get_any_value(<span class="macro-nonterminal">$self</span>.len() - <span class="number">1</span>).unwrap()

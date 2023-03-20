@@ -116,6 +116,10 @@
 <a href="#116" id="116">116</a>
 <a href="#117" id="117">117</a>
 <a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="attr">#[allow(clippy::ptr_arg)]
@@ -223,15 +227,19 @@
     /// This will not be checked by the borrowchecker.
     </span><span class="kw">pub unsafe fn </span>mmap_slice(name: <span class="kw-2">&amp;</span>str, values: <span class="kw-2">&amp;</span>[T::Native]) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>arr = arrow::ffi::mmap::slice(values);
-        <span class="kw">let </span>arr = Box::new(arr);
-        <span class="kw">let </span><span class="kw-2">mut </span>out = ChunkedArray {
-            field: Arc::new(Field::new(name, T::get_dtype())),
-            chunks: <span class="macro">vec!</span>[arr],
-            phantom: PhantomData,
-            ..Default::default()
-        };
-        out.compute_len();
-        out
+        <span class="self">Self</span>::from_chunks(name, <span class="macro">vec!</span>[Box::new(arr)])
+    }
+}
+
+<span class="kw">impl </span>BooleanChunked {
+    <span class="doccomment">/// Create a temporary [`ChunkedArray`] from a slice.
+    ///
+    /// # Safety
+    /// The lifetime will be bound to the lifetime of the slice.
+    /// This will not be checked by the borrowchecker.
+    </span><span class="kw">pub unsafe fn </span>mmap_slice(name: <span class="kw-2">&amp;</span>str, values: <span class="kw-2">&amp;</span>[u8], offset: usize, len: usize) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>arr = arrow::ffi::mmap::bitmap(values, offset, len).unwrap();
+        BooleanChunked::from_chunks(name, <span class="macro">vec!</span>[Box::new(arr)])
     }
 }
 </code></pre></div>

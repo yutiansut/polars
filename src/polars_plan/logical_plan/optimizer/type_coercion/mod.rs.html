@@ -524,6 +524,11 @@
 <a href="#524" id="524">524</a>
 <a href="#525" id="525">525</a>
 <a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>binary;
 
 <span class="kw">use </span>std::borrow::Cow;
@@ -873,6 +878,8 @@
                 <span class="macro">unpack!</span>(early_escape(<span class="kw-2">&amp;</span>type_left, <span class="kw-2">&amp;</span>type_other));
 
                 <span class="kw">let </span>casted_expr = <span class="kw">match </span>(<span class="kw-2">&amp;</span>type_left, <span class="kw-2">&amp;</span>type_other) {
+                    <span class="comment">// types are equal, do nothing
+                    </span>(a, b) <span class="kw">if </span>a == b =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
                     <span class="comment">// cast both local and global string cache
                     // note that there might not yet be a rev
                     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -883,6 +890,9 @@
                             <span class="comment">// does not matter
                             </span>strict: <span class="bool-val">false</span>,
                         }
+                    }
+                    (dt, DataType::Utf8) =&gt; {
+                        <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;cannot compare {:?} to {:?} type in &#39;is_in&#39; operation&quot;</span>, dt, type_other)
                     }
                     (DataType::List(<span class="kw">_</span>), <span class="kw">_</span>) | (<span class="kw">_</span>, DataType::List(<span class="kw">_</span>)) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
                     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
@@ -898,7 +908,7 @@
                             </span>strict: <span class="bool-val">false</span>,
                         }
                     }
-                    <span class="comment">// types are equal, do nothing
+                    <span class="comment">// do nothing
                     </span><span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
                 };
 

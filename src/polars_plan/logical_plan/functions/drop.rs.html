@@ -38,7 +38,7 @@
         <span class="comment">// ignore names that are not in there
         // they might already be removed by projection pushdown
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(idx) = df.find_idx_by_name(name) {
-            <span class="kw">let _ </span>= df.get_columns_mut().remove(idx);
+            <span class="kw">let _ </span>= <span class="kw">unsafe </span>{ df.get_columns_mut().remove(idx) };
         }
     }
 

@@ -399,10 +399,19 @@
 <a href="#399" id="399">399</a>
 <a href="#400" id="400">400</a>
 <a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::array::ValueSize;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::export::arrow::array::{MutableArray, MutableUtf8Array};
-<span class="kw">use </span>polars_utils::format_smartstring;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+</span><span class="kw">use </span>polars_utils::format_smartstring;
 
 <span class="kw">use </span><span class="kw">super</span>::function_expr::StringFunction;
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -742,10 +751,17 @@
     </span><span class="doccomment">/// Replace values that match a regex `pat` with a `value`.
     </span><span class="kw">pub fn </span>replace(<span class="self">self</span>, pat: Expr, value: Expr, literal: bool) -&gt; Expr {
         <span class="self">self</span>.<span class="number">0</span>.map_many_private(
-            FunctionExpr::StringExpr(StringFunction::Replace {
-                all: <span class="bool-val">false</span>,
-                literal,
-            }),
+            FunctionExpr::StringExpr(StringFunction::Replace { n: <span class="number">1</span>, literal }),
+            <span class="kw-2">&amp;</span>[pat, value],
+            <span class="bool-val">true</span>,
+        )
+    }
+
+    <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
+    </span><span class="doccomment">/// Replace values that match a regex `pat` with a `value`.
+    </span><span class="kw">pub fn </span>replace_n(<span class="self">self</span>, pat: Expr, value: Expr, literal: bool, n: i64) -&gt; Expr {
+        <span class="self">self</span>.<span class="number">0</span>.map_many_private(
+            FunctionExpr::StringExpr(StringFunction::Replace { n, literal }),
             <span class="kw-2">&amp;</span>[pat, value],
             <span class="bool-val">true</span>,
         )
@@ -755,7 +771,7 @@
     </span><span class="doccomment">/// Replace all values that match a regex `pat` with a `value`.
     </span><span class="kw">pub fn </span>replace_all(<span class="self">self</span>, pat: Expr, value: Expr, literal: bool) -&gt; Expr {
         <span class="self">self</span>.<span class="number">0</span>.map_many_private(
-            FunctionExpr::StringExpr(StringFunction::Replace { all: <span class="bool-val">true</span>, literal }),
+            FunctionExpr::StringExpr(StringFunction::Replace { n: -<span class="number">1</span>, literal }),
             <span class="kw-2">&amp;</span>[pat, value],
             <span class="bool-val">true</span>,
         )

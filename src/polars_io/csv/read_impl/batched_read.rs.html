@@ -875,14 +875,14 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_read_io_reader() {
         <span class="kw">let </span>path = <span class="string">&quot;../../examples/datasets/foods1.csv&quot;</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>file = std::fs::File::open(path).unwrap();
+        <span class="kw">let </span>file = std::fs::File::open(path).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>reader = CsvReader::from_path(path).unwrap().with_chunk_size(<span class="number">5</span>);
 
         <span class="kw">let </span><span class="kw-2">mut </span>reader = reader.batched_borrowed_read().unwrap();
         <span class="kw">let </span>batches = reader.next_batches(<span class="number">5</span>).unwrap().unwrap();
         <span class="macro">assert_eq!</span>(batches.len(), <span class="number">5</span>);
         <span class="kw">let </span>df = concat_df(<span class="kw-2">&amp;</span>batches).unwrap();
-        <span class="kw">let </span><span class="kw-2">mut </span>expected = CsvReader::new(file).finish().unwrap();
+        <span class="kw">let </span>expected = CsvReader::new(file).finish().unwrap();
         <span class="macro">assert!</span>(df.frame_equal(<span class="kw-2">&amp;</span>expected))
     }
 }

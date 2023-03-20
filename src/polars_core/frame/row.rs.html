@@ -696,6 +696,8 @@
 <a href="#696" id="696">696</a>
 <a href="#697" id="697">697</a>
 <a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Borrow;
 <span class="kw">use </span>std::fmt::Debug;
 
@@ -1191,7 +1193,9 @@
             Float32(b) =&gt; b.finish().into_series(),
             Float64(b) =&gt; b.finish().into_series(),
             Utf8(b) =&gt; b.finish().into_series(),
-            All(dtype, vals) =&gt; Series::from_any_values_and_dtype(<span class="string">&quot;&quot;</span>, <span class="kw-2">&amp;</span>vals, <span class="kw-2">&amp;</span>dtype).unwrap(),
+            All(dtype, vals) =&gt; {
+                Series::from_any_values_and_dtype(<span class="string">&quot;&quot;</span>, <span class="kw-2">&amp;</span>vals, <span class="kw-2">&amp;</span>dtype, <span class="bool-val">false</span>).unwrap()
+            }
         }
     }
 

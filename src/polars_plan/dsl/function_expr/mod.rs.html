@@ -499,6 +499,7 @@
 <a href="#499" id="499">499</a>
 <a href="#500" id="500">500</a>
 <a href="#501" id="501">501</a>
+<a href="#502" id="502">502</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
 </span><span class="kw">mod </span>arg_where;
 <span class="kw">mod </span>binary;
@@ -926,7 +927,7 @@
             <span class="attr">#[cfg(feature = <span class="string">&quot;concat_str&quot;</span>)]
             </span>ConcatHorizontal(delimiter) =&gt; <span class="macro">map_as_slice!</span>(strings::concat_hor, <span class="kw-2">&amp;</span>delimiter),
             <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
-            </span>Replace { all, literal } =&gt; <span class="macro">map_as_slice!</span>(strings::replace, literal, all),
+            </span>Replace { n, literal } =&gt; <span class="macro">map_as_slice!</span>(strings::replace, literal, n),
             Uppercase =&gt; <span class="macro">map!</span>(strings::uppercase),
             Lowercase =&gt; <span class="macro">map!</span>(strings::lowercase),
             Strip(matches) =&gt; <span class="macro">map!</span>(strings::strip, matches.as_deref()),
@@ -962,6 +963,7 @@
         <span class="kw">use </span>TemporalFunction::<span class="kw-2">*</span>;
         <span class="kw">match </span>func {
             Year =&gt; <span class="macro">map!</span>(datetime::year),
+            IsLeapYear =&gt; <span class="macro">map!</span>(datetime::is_leap_year),
             IsoYear =&gt; <span class="macro">map!</span>(datetime::iso_year),
             Month =&gt; <span class="macro">map!</span>(datetime::month),
             Quarter =&gt; <span class="macro">map!</span>(datetime::quarter),

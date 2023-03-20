@@ -396,27 +396,6 @@
 <a href="#396" id="396">396</a>
 <a href="#397" id="397">397</a>
 <a href="#398" id="398">398</a>
-<a href="#399" id="399">399</a>
-<a href="#400" id="400">400</a>
-<a href="#401" id="401">401</a>
-<a href="#402" id="402">402</a>
-<a href="#403" id="403">403</a>
-<a href="#404" id="404">404</a>
-<a href="#405" id="405">405</a>
-<a href="#406" id="406">406</a>
-<a href="#407" id="407">407</a>
-<a href="#408" id="408">408</a>
-<a href="#409" id="409">409</a>
-<a href="#410" id="410">410</a>
-<a href="#411" id="411">411</a>
-<a href="#412" id="412">412</a>
-<a href="#413" id="413">413</a>
-<a href="#414" id="414">414</a>
-<a href="#415" id="415">415</a>
-<a href="#416" id="416">416</a>
-<a href="#417" id="417">417</a>
-<a href="#418" id="418">418</a>
-<a href="#419" id="419">419</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;string_encoding&quot;</span>)]
@@ -528,77 +507,27 @@
     /// rather than before.
     /// The original string is returned if width is less than or equal to `s.len()`.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;string_justify&quot;</span>)]
-    </span><span class="kw">fn </span>zfill&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, alignment: usize) -&gt; Utf8Chunked {
+    </span><span class="kw">fn </span>zfill(<span class="kw-2">&amp;</span><span class="self">self</span>, alignment: usize) -&gt; Utf8Chunked {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
-
-        <span class="kw">let </span>f = |s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str| {
-            <span class="kw">let </span>alignment = alignment.saturating_sub(s.len());
-            <span class="kw">if </span>alignment == <span class="number">0 </span>{
-                <span class="kw">return </span>Cow::Borrowed(s);
-            }
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(stripped) = s.strip_prefix(<span class="string">&#39;-&#39;</span>) {
-                Cow::Owned(<span class="macro">format!</span>(
-                    <span class="string">&quot;-{:0alignment$}{value}&quot;</span>,
-                    <span class="number">0</span>,
-                    alignment = alignment,
-                    value = stripped
-                ))
-            } <span class="kw">else </span>{
-                Cow::Owned(<span class="macro">format!</span>(
-                    <span class="string">&quot;{:0alignment$}{value}&quot;</span>,
-                    <span class="number">0</span>,
-                    alignment = alignment,
-                    value = s
-                ))
-            }
-        };
-        ca.apply(f)
+        justify::zfill(ca, alignment)
     }
 
     <span class="doccomment">/// Return the string left justified in a string of length width.
     /// Padding is done using the specified `fillchar`,
     /// The original string is returned if width is less than or equal to `s.len()`.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;string_justify&quot;</span>)]
-    </span><span class="kw">fn </span>ljust&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, width: usize, fillchar: char) -&gt; Utf8Chunked {
+    </span><span class="kw">fn </span>ljust(<span class="kw-2">&amp;</span><span class="self">self</span>, width: usize, fillchar: char) -&gt; Utf8Chunked {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
-
-        <span class="kw">let </span>f = |s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str| {
-            <span class="kw">let </span>padding = width.saturating_sub(s.len());
-            <span class="kw">if </span>padding == <span class="number">0 </span>{
-                Cow::Borrowed(s)
-            } <span class="kw">else </span>{
-                <span class="kw">let </span><span class="kw-2">mut </span>buf = String::with_capacity(width);
-                buf.push_str(s);
-                <span class="kw">for _ in </span><span class="number">0</span>..padding {
-                    buf.push(fillchar)
-                }
-                Cow::Owned(buf)
-            }
-        };
-        ca.apply(f)
+        justify::ljust(ca, width, fillchar)
     }
 
     <span class="doccomment">/// Return the string right justified in a string of length width.
     /// Padding is done using the specified `fillchar`,
     /// The original string is returned if width is less than or equal to `s.len()`.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;string_justify&quot;</span>)]
-    </span><span class="kw">fn </span>rjust&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, width: usize, fillchar: char) -&gt; Utf8Chunked {
+    </span><span class="kw">fn </span>rjust(<span class="kw-2">&amp;</span><span class="self">self</span>, width: usize, fillchar: char) -&gt; Utf8Chunked {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
-
-        <span class="kw">let </span>f = |s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str| {
-            <span class="kw">let </span>padding = width.saturating_sub(s.len());
-            <span class="kw">if </span>padding == <span class="number">0 </span>{
-                Cow::Borrowed(s)
-            } <span class="kw">else </span>{
-                <span class="kw">let </span><span class="kw-2">mut </span>buf = String::with_capacity(width);
-                <span class="kw">for _ in </span><span class="number">0</span>..padding {
-                    buf.push(fillchar)
-                }
-                buf.push_str(s);
-                Cow::Owned(buf)
-            }
-        };
-        ca.apply(f)
+        justify::rjust(ca, width, fillchar)
     }
 
     <span class="doccomment">/// Check if strings contain a regex pattern.
@@ -658,7 +587,23 @@
     }
 
     <span class="doccomment">/// Replace the leftmost literal (sub)string with another string
-    </span><span class="kw">fn </span>replace_literal&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: <span class="kw-2">&amp;</span>str, val: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
+    </span><span class="kw">fn </span>replace_literal&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: <span class="kw-2">&amp;</span>str, val: <span class="kw-2">&amp;</span>str, n: usize) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
+        <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
+
+        <span class="comment">// for single bytes we can replace on the whole values buffer
+        </span><span class="kw">if </span>pat.len() == <span class="number">1 </span>&amp;&amp; val.len() == <span class="number">1 </span>{
+            <span class="kw">let </span>pat = pat.as_bytes()[<span class="number">0</span>];
+            <span class="kw">let </span>val = val.as_bytes()[<span class="number">0</span>];
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(
+                ca.apply_kernel(<span class="kw-2">&amp;</span>|arr| Box::new(replace::replace_lit_n_char(arr, n, pat, val)))
+            );
+        }
+        <span class="kw">if </span>pat.len() == val.len() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(
+                ca.apply_kernel(<span class="kw-2">&amp;</span>|arr| Box::new(replace::replace_lit_n_str(arr, n, pat, val)))
+            );
+        }
+
         <span class="comment">// amortize allocation
         </span><span class="kw">let </span><span class="kw-2">mut </span>buf = String::new();
 
@@ -668,7 +613,7 @@
 
             <span class="comment">// See: str.replacen
             </span><span class="kw">let </span><span class="kw-2">mut </span>last_end = <span class="number">0</span>;
-            <span class="kw">if let </span><span class="prelude-val">Some</span>((start, part)) = s.match_indices(pat).next() {
+            <span class="kw">for </span>(start, part) <span class="kw">in </span>s.match_indices(pat).take(n) {
                 changed = <span class="bool-val">true</span>;
                 buf.push_str(<span class="kw">unsafe </span>{ s.get_unchecked(last_end..start) });
                 buf.push_str(val);
@@ -685,7 +630,6 @@
                 s
             }
         };
-        <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
         <span class="prelude-val">Ok</span>(ca.apply_mut(f))
     }
 
@@ -698,6 +642,21 @@
 
     <span class="doccomment">/// Replace all matching literal (sub)strings with another string
     </span><span class="kw">fn </span>replace_literal_all&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: <span class="kw-2">&amp;</span>str, val: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
+        <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
+        <span class="comment">// for single bytes we can replace on the whole values buffer
+        </span><span class="kw">if </span>pat.len() == <span class="number">1 </span>&amp;&amp; val.len() == <span class="number">1 </span>{
+            <span class="kw">let </span>pat = pat.as_bytes()[<span class="number">0</span>];
+            <span class="kw">let </span>val = val.as_bytes()[<span class="number">0</span>];
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(
+                ca.apply_kernel(<span class="kw-2">&amp;</span>|arr| Box::new(replace::replace_lit_single_char(arr, pat, val)))
+            );
+        }
+        <span class="kw">if </span>pat.len() == val.len() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(ca.apply_kernel(<span class="kw-2">&amp;</span>|arr| {
+                Box::new(replace::replace_lit_n_str(arr, usize::MAX, pat, val))
+            }));
+        }
+
         <span class="comment">// amortize allocation
         </span><span class="kw">let </span><span class="kw-2">mut </span>buf = String::new();
 
@@ -725,7 +684,6 @@
             }
         };
 
-        <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
         <span class="prelude-val">Ok</span>(ca.apply_mut(f))
     }
 
@@ -804,14 +762,14 @@
     </span><span class="attr">#[must_use]
     </span><span class="kw">fn </span>to_lowercase(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Utf8Chunked {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
-        ca.apply(|s| str::to_lowercase(s).into())
+        case::to_lowercase(ca)
     }
 
     <span class="doccomment">/// Modify the strings to their uppercase equivalent
     </span><span class="attr">#[must_use]
     </span><span class="kw">fn </span>to_uppercase(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Utf8Chunked {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
-        ca.apply(|s| str::to_uppercase(s).into())
+        case::to_uppercase(ca)
     }
 
     <span class="doccomment">/// Concat with the values from a second Utf8Chunked

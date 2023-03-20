@@ -288,6 +288,7 @@
 <a href="#288" id="288">288</a>
 <a href="#289" id="289">289</a>
 <a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">impl </span>FunctionExpr {
@@ -444,6 +445,7 @@
                     Month | Quarter | Week | WeekDay | Day | OrdinalDay | Hour | Minute
                     | Millisecond | Microsecond | Nanosecond | Second =&gt; DataType::UInt32,
                     TimeStamp(<span class="kw">_</span>) =&gt; DataType::Int64,
+                    IsLeapYear =&gt; DataType::Boolean,
                     Truncate(..) =&gt; same_type().unwrap().dtype,
                     Round(..) =&gt; same_type().unwrap().dtype,
                     <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]

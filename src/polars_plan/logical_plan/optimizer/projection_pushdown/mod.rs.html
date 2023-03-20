@@ -779,6 +779,19 @@
 <a href="#779" id="779">779</a>
 <a href="#780" id="780">780</a>
 <a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
+<a href="#788" id="788">788</a>
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>functions;
 <span class="kw">mod </span>generic;
 <span class="kw">mod </span>groupby;
@@ -887,7 +900,7 @@
     expr_arena: <span class="kw-2">&amp;mut </span>Arena&lt;AExpr&gt;,
 ) {
     <span class="comment">// if empty: all columns are already projected.
-    </span><span class="kw">if </span>!acc_projections.is_empty() {
+    </span><span class="kw">if </span>!acc_projections.is_empty() &amp;&amp; !projected_names.contains(name) {
         <span class="kw">let </span>node = expr_arena.add(AExpr::Column(Arc::from(name)));
         add_expr_to_accumulated(node, acc_projections, projected_names, expr_arena);
     }
@@ -1342,15 +1355,28 @@
             }
             Distinct { input, options } =&gt; {
                 <span class="comment">// make sure that the set of unique columns is projected
-                </span><span class="kw">if let </span><span class="prelude-val">Some</span>(subset) = options.subset.as_ref() {
-                    subset.iter().for_each(|name| {
-                        add_str_to_accumulated(
-                            name,
-                            <span class="kw-2">&amp;mut </span>acc_projections,
-                            <span class="kw-2">&amp;mut </span>projected_names,
-                            expr_arena,
-                        )
-                    })
+                </span><span class="kw">if </span>!acc_projections.is_empty() {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(subset) = options.subset.as_ref() {
+                        subset.iter().for_each(|name| {
+                            add_str_to_accumulated(
+                                name,
+                                <span class="kw-2">&amp;mut </span>acc_projections,
+                                <span class="kw-2">&amp;mut </span>projected_names,
+                                expr_arena,
+                            )
+                        })
+                    } <span class="kw">else </span>{
+                        <span class="comment">// the distint needs all columns
+                        </span><span class="kw">let </span>input_schema = lp_arena.get(input).schema(lp_arena);
+                        <span class="kw">for </span>name <span class="kw">in </span>input_schema.iter_names() {
+                            add_str_to_accumulated(
+                                name.as_str(),
+                                <span class="kw-2">&amp;mut </span>acc_projections,
+                                <span class="kw-2">&amp;mut </span>projected_names,
+                                expr_arena,
+                            )
+                        }
+                    }
                 }
 
                 <span class="self">self</span>.pushdown_and_assign(

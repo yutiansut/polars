@@ -622,6 +622,8 @@
 <a href="#622" id="622">622</a>
 <a href="#623" id="623">623</a>
 <a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::csv::read_impl::{
     to_batched_owned_mmap, to_batched_owned_read, BatchedCsvReaderMmap, BatchedCsvReaderRead,
@@ -1224,22 +1226,24 @@
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
 </span><span class="kw">fn </span>parse_dates(<span class="kw-2">mut </span>df: DataFrame, fixed_schema: <span class="kw-2">&amp;</span>Schema) -&gt; DataFrame {
-    <span class="kw">let </span>cols = std::mem::take(df.get_columns_mut())
+    <span class="kw">let </span>cols = <span class="kw">unsafe </span>{ std::mem::take(df.get_columns_mut()) }
         .into_par_iter()
         .map(|s| {
-            <span class="kw">if let </span><span class="prelude-val">Ok</span>(ca) = s.utf8() {
-                <span class="comment">// don&#39;t change columns that are in the fixed schema.
-                </span><span class="kw">if </span>fixed_schema.index_of(s.name()).is_some() {
-                    <span class="kw">return </span>s;
-                }
+            <span class="kw">match </span>s.dtype() {
+                DataType::Utf8 =&gt; {
+                    <span class="kw">let </span>ca = s.utf8().unwrap();
+                    <span class="comment">// don&#39;t change columns that are in the fixed schema.
+                    </span><span class="kw">if </span>fixed_schema.index_of(s.name()).is_some() {
+                        <span class="kw">return </span>s;
+                    }
 
-                <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
-                </span><span class="kw">if let </span><span class="prelude-val">Ok</span>(ca) = ca.as_time(<span class="prelude-val">None</span>, <span class="bool-val">false</span>) {
-                    <span class="kw">return </span>ca.into_series();
+                    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
+                    </span><span class="kw">if let </span><span class="prelude-val">Ok</span>(ca) = ca.as_time(<span class="prelude-val">None</span>, <span class="bool-val">false</span>) {
+                        <span class="kw">return </span>ca.into_series();
+                    }
+                    s
                 }
-                s
-            } <span class="kw">else </span>{
-                s
+                <span class="kw">_ </span>=&gt; s,
             }
         })
         .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();

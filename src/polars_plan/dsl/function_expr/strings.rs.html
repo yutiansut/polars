@@ -551,6 +551,18 @@
 <a href="#551" id="551">551</a>
 <a href="#552" id="552">552</a>
 <a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -602,8 +614,9 @@
     </span>ConcatHorizontal(String),
     <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
     </span>Replace {
-        <span class="comment">// replace_single or replace_all
-        </span>all: bool,
+        <span class="comment">// negative is replace all
+        // how many matches to replace
+        </span>n: i64,
         literal: bool,
     },
     Uppercase,
@@ -985,11 +998,12 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
-</span><span class="kw">fn </span>replace_single&lt;<span class="lifetime">&#39;a</span>&gt;(
+</span><span class="kw">fn </span>replace_n&lt;<span class="lifetime">&#39;a</span>&gt;(
     ca: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Utf8Chunked,
     pat: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Utf8Chunked,
     val: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Utf8Chunked,
     literal: bool,
+    n: usize,
 ) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
     <span class="kw">match </span>(pat.len(), val.len()) {
         (<span class="number">1</span>, <span class="number">1</span>) =&gt; {
@@ -1000,11 +1014,19 @@
             <span class="kw">let </span>literal = literal || is_literal_pat(pat);
 
             <span class="kw">match </span>literal {
-                <span class="bool-val">true </span>=&gt; ca.replace_literal(pat, val),
-                <span class="bool-val">false </span>=&gt; ca.replace(pat, val),
+                <span class="bool-val">true </span>=&gt; ca.replace_literal(pat, val, n),
+                <span class="bool-val">false </span>=&gt; {
+                    <span class="kw">if </span>n &gt; <span class="number">1 </span>{
+                        <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;regex replacement with &#39;n &gt; 1&#39; not yet supported&quot;</span>)
+                    }
+                    ca.replace(pat, val)
+                }
             }
         }
         (<span class="number">1</span>, len_val) =&gt; {
+            <span class="kw">if </span>n &gt; <span class="number">1 </span>{
+                <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;multivalue replacement with &#39;n &gt; 1&#39; not yet supported&quot;</span>)
+            }
             <span class="kw">let </span><span class="kw-2">mut </span>pat = get_pat(pat)<span class="question-mark">?</span>.to_string();
             <span class="macro">polars_ensure!</span>(
                 len_val == ca.len(),
@@ -1082,10 +1104,12 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>replace(s: <span class="kw-2">&amp;</span>[Series], literal: bool, all: bool) -&gt; PolarsResult&lt;Series&gt; {
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>replace(s: <span class="kw-2">&amp;</span>[Series], literal: bool, n: i64) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">let </span>column = <span class="kw-2">&amp;</span>s[<span class="number">0</span>];
     <span class="kw">let </span>pat = <span class="kw-2">&amp;</span>s[<span class="number">1</span>];
     <span class="kw">let </span>val = <span class="kw-2">&amp;</span>s[<span class="number">2</span>];
+
+    <span class="kw">let </span>all = n &lt; <span class="number">0</span>;
 
     <span class="kw">let </span>column = column.utf8()<span class="question-mark">?</span>;
     <span class="kw">let </span>pat = pat.utf8()<span class="question-mark">?</span>;
@@ -1094,7 +1118,7 @@
     <span class="kw">if </span>all {
         replace_all(column, pat, val, literal)
     } <span class="kw">else </span>{
-        replace_single(column, pat, val, literal)
+        replace_n(column, pat, val, literal, n <span class="kw">as </span>usize)
     }
     .map(|ca| ca.into_series())
 }

@@ -255,6 +255,21 @@
 <a href="#255" id="255">255</a>
 <a href="#256" id="256">256</a>
 <a href="#257" id="257">257</a>
+<a href="#258" id="258">258</a>
+<a href="#259" id="259">259</a>
+<a href="#260" id="260">260</a>
+<a href="#261" id="261">261</a>
+<a href="#262" id="262">262</a>
+<a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::fmt::{Debug, Formatter};
 
 <span class="kw">use </span>indexmap::IndexMap;
@@ -297,6 +312,21 @@
             IndexMap::with_capacity_and_hasher(iter.size_hint().<span class="number">0</span>, ahash::RandomState::default());
         <span class="kw">for </span>fld <span class="kw">in </span>iter {
             <span class="kw">let </span>fld = fld.into();
+
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+            </span><span class="kw">let </span>fld = <span class="kw">match </span>fld.dtype {
+                DataType::Decimal(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; {
+                    <span class="kw">if </span><span class="kw">crate</span>::config::decimal_is_active() {
+                        fld
+                    } <span class="kw">else </span>{
+                        <span class="kw">let </span><span class="kw-2">mut </span>fld = fld.clone();
+                        fld.coerce(DataType::Float64);
+                        fld
+                    }
+                }
+                <span class="kw">_ </span>=&gt; fld,
+            };
+
             map.insert(fld.name().clone(), fld.data_type().clone());
         }
         <span class="self">Self </span>{ inner: map }

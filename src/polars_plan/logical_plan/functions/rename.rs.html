@@ -55,11 +55,11 @@
         <span class="comment">// the column might be removed due to projection pushdown
         // so we only update if we can find it.
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(pos) = pos {
-            df.get_columns_mut()[<span class="kw-2">*</span>pos].rename(name);
+            <span class="kw">unsafe </span>{ df.get_columns_mut()[<span class="kw-2">*</span>pos].rename(name) };
         }
     }
     <span class="comment">// recreate dataframe so we check duplicates
-    </span><span class="kw">let </span>columns = std::mem::take(df.get_columns_mut());
+    </span><span class="kw">let </span>columns = <span class="kw">unsafe </span>{ std::mem::take(df.get_columns_mut()) };
     DataFrame::new(columns)
 }
 

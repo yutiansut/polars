@@ -553,6 +553,14 @@
 <a href="#553" id="553">553</a>
 <a href="#554" id="554">554</a>
 <a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
 </pre><pre class="rust"><code><span class="kw">use </span>no_nulls;
 <span class="kw">use </span>no_nulls::{rolling_apply_agg_window, RollingAggWindowNoNulls};
 
@@ -596,13 +604,16 @@
 
     <span class="kw">unsafe fn </span>update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, start: usize, end: usize) -&gt; T {
         <span class="comment">// recompute min
-        </span><span class="kw">if </span>start &gt;= <span class="self">self</span>.last_end {
+        </span><span class="kw">if </span>start &gt;= <span class="self">self</span>.last_end
+            <span class="comment">// the window only got smaller
+            </span>|| end == <span class="self">self</span>.last_end
+        {
             <span class="self">self</span>.min = <span class="kw-2">*</span><span class="self">self
                 </span>.slice
                 .get_unchecked(start..end)
                 .iter()
                 .min_by(|a, b| compare_fn_nan_min(<span class="kw-2">*</span>a, <span class="kw-2">*</span>b))
-                .unwrap_or(<span class="kw-2">&amp;</span><span class="self">self</span>.slice[start]);
+                .unwrap_or(<span class="self">self</span>.slice.get_unchecked(start));
 
             <span class="self">self</span>.last_start = start;
             <span class="self">self</span>.last_end = end;
@@ -633,9 +644,10 @@
             .get_unchecked(<span class="self">self</span>.last_end..end)
             .iter()
             .min_by(|a, b| compare_fn_nan_min(<span class="kw-2">*</span>a, <span class="kw-2">*</span>b))
-            .unwrap_or(
-                <span class="kw-2">&amp;</span><span class="self">self</span>.slice[std::cmp::min(<span class="self">self</span>.last_start, <span class="self">self</span>.last_end.saturating_sub(<span class="number">1</span>))],
-            );
+            .unwrap_or(<span class="self">self</span>.slice.get_unchecked(std::cmp::min(
+                <span class="self">self</span>.last_start,
+                <span class="self">self</span>.last_end.saturating_sub(<span class="number">1</span>),
+            )));
 
         <span class="kw">if </span>recompute_min {
             <span class="kw">match </span>compare_fn_nan_min(<span class="kw-2">&amp;</span><span class="self">self</span>.min, entering_min) {
@@ -716,13 +728,16 @@
 
     <span class="kw">unsafe fn </span>update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, start: usize, end: usize) -&gt; T {
         <span class="comment">// recompute max
-        </span><span class="kw">if </span>start &gt;= <span class="self">self</span>.last_end {
+        </span><span class="kw">if </span>start &gt;= <span class="self">self</span>.last_end
+            <span class="comment">// the window only got smaller
+            </span>|| end == <span class="self">self</span>.last_end
+        {
             <span class="self">self</span>.max = <span class="kw-2">*</span><span class="self">self
                 </span>.slice
                 .get_unchecked(start..end)
                 .iter()
                 .max_by(|a, b| compare_fn_nan_max(<span class="kw-2">*</span>a, <span class="kw-2">*</span>b))
-                .unwrap_or(<span class="kw-2">&amp;</span><span class="self">self</span>.slice[start]);
+                .unwrap_or(<span class="self">self</span>.slice.get_unchecked(start));
 
             <span class="self">self</span>.last_start = start;
             <span class="self">self</span>.last_end = end;
@@ -750,9 +765,10 @@
             .get_unchecked(<span class="self">self</span>.last_end..end)
             .iter()
             .max_by(|a, b| compare_fn_nan_max(<span class="kw-2">*</span>a, <span class="kw-2">*</span>b))
-            .unwrap_or(
-                <span class="kw-2">&amp;</span><span class="self">self</span>.slice[std::cmp::max(<span class="self">self</span>.last_start, <span class="self">self</span>.last_end.saturating_sub(<span class="number">1</span>))],
-            );
+            .unwrap_or(<span class="self">self</span>.slice.get_unchecked(std::cmp::max(
+                <span class="self">self</span>.last_start,
+                <span class="self">self</span>.last_end.saturating_sub(<span class="number">1</span>),
+            )));
 
         <span class="kw">if </span>recompute_max {
             <span class="kw">match </span>compare_fn_nan_max(<span class="kw-2">&amp;</span><span class="self">self</span>.max, entering_max) {

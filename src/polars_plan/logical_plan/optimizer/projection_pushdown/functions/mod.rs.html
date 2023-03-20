@@ -199,7 +199,7 @@
                 <span class="kw">let </span>original_acc_projection_len = acc_projections.len();
 
                 <span class="comment">// add columns needed for the function.
-                </span><span class="kw">for </span>name <span class="kw">in </span>function.additional_projection_pd_columns() {
+                </span><span class="kw">for </span>name <span class="kw">in </span>function.additional_projection_pd_columns().as_ref() {
                     <span class="kw">let </span>node = expr_arena.add(AExpr::Column(name.clone()));
                     add_expr_to_accumulated(
                         node,

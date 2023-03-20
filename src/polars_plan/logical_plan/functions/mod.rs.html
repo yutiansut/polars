@@ -337,6 +337,8 @@
 <a href="#337" id="337">337</a>
 <a href="#338" id="338">338</a>
 <a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>drop;
 <span class="attr">#[cfg(feature = <span class="string">&quot;merge_sorted&quot;</span>)]
 </span><span class="kw">mod </span>merge_sorted;
@@ -575,12 +577,14 @@
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>additional_projection_pd_columns(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Arc&lt;str&gt;] {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>additional_projection_pd_columns(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;[Arc&lt;str&gt;]&gt; {
         <span class="kw">use </span>FunctionNode::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="self">self </span>{
-            Unnest { columns } =&gt; columns.as_ref(),
-            Explode { columns, .. } =&gt; columns.as_ref(),
-            <span class="kw">_ </span>=&gt; <span class="kw-2">&amp;</span>[],
+            Unnest { columns } =&gt; Cow::Borrowed(columns.as_ref()),
+            Explode { columns, .. } =&gt; Cow::Borrowed(columns.as_ref()),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;merge_sorted&quot;</span>)]
+            </span>MergeSorted { column, .. } =&gt; Cow::Owned(<span class="macro">vec!</span>[column.clone()]),
+            <span class="kw">_ </span>=&gt; Cow::Borrowed(<span class="kw-2">&amp;</span>[]),
         }
     }
 

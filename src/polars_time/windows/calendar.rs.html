@@ -85,7 +85,10 @@
 <a href="#85" id="85">85</a>
 <a href="#86" id="86">86</a>
 <a href="#87" id="87">87</a>
-</pre><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+</pre><pre class="rust"><code><span class="kw">use </span>chrono::TimeZone <span class="kw">as </span>TimeZoneTrait;
+<span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
@@ -127,7 +130,8 @@
     every: Duration,
     closed: ClosedWindow,
     tu: TimeUnit,
-) -&gt; Vec&lt;i64&gt; {
+    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;,
+) -&gt; PolarsResult&lt;Vec&lt;i64&gt;&gt; {
     <span class="kw">let </span>size = <span class="kw">match </span>tu {
         TimeUnit::Nanoseconds =&gt; ((stop - start) / every.duration_ns() + <span class="number">1</span>) <span class="kw">as </span>usize,
         TimeUnit::Microseconds =&gt; ((stop - start) / every.duration_us() + <span class="number">1</span>) <span class="kw">as </span>usize,
@@ -145,32 +149,32 @@
         ClosedWindow::Both =&gt; {
             <span class="kw">while </span>t &lt;= stop {
                 ts.push(t);
-                t = f(<span class="kw-2">&amp;</span>every, t)
-            }
+                t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
+            </span>}
         }
         ClosedWindow::Left =&gt; {
             <span class="kw">while </span>t &lt; stop {
                 ts.push(t);
-                t = f(<span class="kw-2">&amp;</span>every, t)
-            }
+                t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
+            </span>}
         }
         ClosedWindow::Right =&gt; {
-            t = f(<span class="kw-2">&amp;</span>every, t);
+            t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?</span>;
             <span class="kw">while </span>t &lt;= stop {
                 ts.push(t);
-                t = f(<span class="kw-2">&amp;</span>every, t)
-            }
+                t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
+            </span>}
         }
         ClosedWindow::None =&gt; {
-            t = f(<span class="kw-2">&amp;</span>every, t);
+            t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?</span>;
             <span class="kw">while </span>t &lt; stop {
                 ts.push(t);
-                t = f(<span class="kw-2">&amp;</span>every, t)
-            }
+                t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
+            </span>}
         }
     }
     <span class="macro">debug_assert!</span>(size &gt;= ts.len());
-    ts
+    <span class="prelude-val">Ok</span>(ts)
 }
 </code></pre></div>
 </section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

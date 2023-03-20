@@ -237,7 +237,7 @@
     <span class="kw">if </span>!dfs.is_empty() {
         <span class="kw">let </span><span class="kw-2">mut </span>previous = dfs[<span class="number">0</span>].<span class="number">1 </span>+ offset;
         <span class="kw">for </span>(df, n_read) <span class="kw">in </span><span class="kw-2">&amp;mut </span>dfs[<span class="number">1</span>..] {
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(s) = df.get_columns_mut().get_mut(<span class="number">0</span>) {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(s) = <span class="kw">unsafe </span>{ df.get_columns_mut() }.get_mut(<span class="number">0</span>) {
                 <span class="kw-2">*</span>s = <span class="kw-2">&amp;*</span>s + previous;
             }
             previous += <span class="kw-2">*</span>n_read;
@@ -252,7 +252,7 @@
         <span class="kw">let </span><span class="kw-2">mut </span>previous = dfs[<span class="number">0</span>].height() <span class="kw">as </span>IdxSize + offset;
         <span class="kw">for </span>df <span class="kw">in </span><span class="kw-2">&amp;mut </span>dfs[<span class="number">1</span>..] {
             <span class="kw">let </span>n_read = df.height() <span class="kw">as </span>IdxSize;
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(s) = df.get_columns_mut().get_mut(<span class="number">0</span>) {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(s) = <span class="kw">unsafe </span>{ df.get_columns_mut() }.get_mut(<span class="number">0</span>) {
                 <span class="kw-2">*</span>s = <span class="kw-2">&amp;*</span>s + previous;
             }
             previous += n_read;

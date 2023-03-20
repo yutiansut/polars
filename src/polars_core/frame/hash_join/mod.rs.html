@@ -1148,7 +1148,7 @@
             <span class="kw">_ </span>=&gt; s,
         };
 
-        df_left.get_columns_mut().insert(join_column_index, s);
+        <span class="kw">unsafe </span>{ df_left.get_columns_mut().insert(join_column_index, s) };
         _finish_join(df_left, df_right, suffix.as_deref())
     }
 }

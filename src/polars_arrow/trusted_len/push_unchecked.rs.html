@@ -72,6 +72,7 @@
 <a href="#72" id="72">72</a>
 <a href="#73" id="73">73</a>
 <a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub trait </span>PushUnchecked&lt;T&gt; {
@@ -115,6 +116,7 @@
 <span class="kw">impl</span>&lt;T&gt; PushUnchecked&lt;T&gt; <span class="kw">for </span>Vec&lt;T&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">unsafe fn </span>push_unchecked(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: T) {
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.capacity() &gt; <span class="self">self</span>.len());
         <span class="kw">let </span>end = <span class="self">self</span>.as_mut_ptr().add(<span class="self">self</span>.len());
         std::ptr::write(end, value);
         <span class="self">self</span>.set_len(<span class="self">self</span>.len() + <span class="number">1</span>);
