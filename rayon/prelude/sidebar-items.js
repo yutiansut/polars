@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"trait":["ParallelBridge"]};
+window.SIDEBAR_ITEMS = {};
