@@ -533,6 +533,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_list.html">polars.Series.to_list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_numpy.html">polars.Series.to_numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_pandas.html">polars.Series.to_pandas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_init_repr.html">polars.Series.to_init_repr</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../series/list.html">List</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -755,6 +756,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_arrow.html">polars.DataFrame.to_arrow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_dict.html">polars.DataFrame.to_dict</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_dicts.html">polars.DataFrame.to_dicts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_init_repr.html">polars.DataFrame.to_init_repr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_numpy.html">polars.DataFrame.to_numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_pandas.html">polars.DataFrame.to_pandas</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_struct.html">polars.DataFrame.to_struct</a></li>
@@ -1328,6 +1330,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_numpy.html">polars.from_numpy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_pandas.html">polars.from_pandas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_records.html">polars.from_records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.from_repr.html">polars.from_repr</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.arg_where.html">polars.arg_where</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.concat.html">polars.concat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.cut.html">polars.cut</a></li>
@@ -1509,13 +1512,16 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.to_dicts.html#polars.DataFrame.to_dicts" title="polars.DataFrame.to_dicts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_dicts</span></code></a>()</p></td>
 <td><p>Convert every row to a dictionary of python-native values.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.to_numpy.html#polars.DataFrame.to_numpy" title="polars.DataFrame.to_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_numpy</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.to_init_repr.html#polars.DataFrame.to_init_repr" title="polars.DataFrame.to_init_repr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_init_repr</span></code></a>([n])</p></td>
+<td><p>Convert DataFrame to instantiatable string representation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.to_numpy.html#polars.DataFrame.to_numpy" title="polars.DataFrame.to_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_numpy</span></code></a>()</p></td>
 <td><p>Convert DataFrame to a 2D NumPy array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.to_pandas.html#polars.DataFrame.to_pandas" title="polars.DataFrame.to_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_pandas</span></code></a>(*args[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.to_pandas.html#polars.DataFrame.to_pandas" title="polars.DataFrame.to_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_pandas</span></code></a>(*args[, ...])</p></td>
 <td><p>Cast to a pandas DataFrame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.to_struct.html#polars.DataFrame.to_struct" title="polars.DataFrame.to_struct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_struct</span></code></a>(name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.to_struct.html#polars.DataFrame.to_struct" title="polars.DataFrame.to_struct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_struct</span></code></a>(name)</p></td>
 <td><p>Convert a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> to a <code class="docutils literal notranslate"><span class="pre">Series</span></code> of type <code class="docutils literal notranslate"><span class="pre">Struct</span></code>.</p></td>
 </tr>
 </tbody>
