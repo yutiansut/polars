@@ -63,7 +63,7 @@
             <span class="kw">for </span>(offset, len) <span class="kw">in </span>SlicesIterator::new(<span class="kw-2">&amp;</span>values) {
                 <span class="comment">// law of small numbers optimization
                 </span><span class="kw">if </span>len == <span class="number">1 </span>{
-                    out.push(offset <span class="kw">as </span>IdxSize)
+                    out.push((total_offset + offset) <span class="kw">as </span>IdxSize)
                 } <span class="kw">else </span>{
                     <span class="kw">let </span>offset = (offset + total_offset) <span class="kw">as </span>IdxSize;
                     <span class="kw">let </span>len = len <span class="kw">as </span>IdxSize;

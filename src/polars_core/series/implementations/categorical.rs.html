@@ -398,6 +398,7 @@
 <a href="#398" id="398">398</a>
 <a href="#399" id="399">399</a>
 <a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="kw">use </span>ahash::RandomState;
@@ -786,7 +787,8 @@
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;mode&quot;</span>)]
     </span><span class="kw">fn </span>mode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="prelude-val">Ok</span>(CategoricalChunked::full_null(<span class="self">self</span>.<span class="number">0</span>.logical().name(), <span class="number">1</span>).into_series())
+        <span class="kw">let </span>cats = <span class="self">self</span>.<span class="number">0</span>.logical().mode()<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.finish_with_state(<span class="bool-val">false</span>, cats).into_series())
     }
 }
 

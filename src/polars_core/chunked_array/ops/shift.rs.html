@@ -179,24 +179,36 @@
 <a href="#179" id="179">179</a>
 <a href="#180" id="180">180</a>
 <a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
 </pre><pre class="rust"><code><span class="kw">use </span>num_traits::{abs, clamp};
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
 <span class="macro">macro_rules! </span>impl_shift_fill {
     (<span class="macro-nonterminal">$self</span>:ident, <span class="macro-nonterminal">$periods</span>:expr, <span class="macro-nonterminal">$fill_value</span>:expr) =&gt; {{
-        <span class="kw">let </span>periods = clamp(<span class="macro-nonterminal">$periods</span>, -(<span class="macro-nonterminal">$self</span>.len() <span class="kw">as </span>i64), <span class="macro-nonterminal">$self</span>.len() <span class="kw">as </span>i64);
-        <span class="kw">let </span>slice_offset = (-periods).max(<span class="number">0</span>) <span class="kw">as </span>i64;
-        <span class="kw">let </span>length = <span class="macro-nonterminal">$self</span>.len() - abs(periods) <span class="kw">as </span>usize;
+        <span class="kw">let </span>fill_length = abs(<span class="macro-nonterminal">$periods</span>) <span class="kw">as </span>usize;
+
+        <span class="kw">if </span>fill_length &gt;= <span class="macro-nonterminal">$self</span>.len() {
+            <span class="kw">return match </span><span class="macro-nonterminal">$fill_value </span>{
+                <span class="prelude-val">Some</span>(fill) =&gt; <span class="self">Self</span>::full(<span class="macro-nonterminal">$self</span>.name(), fill, <span class="macro-nonterminal">$self</span>.len()),
+                <span class="prelude-val">None </span>=&gt; <span class="self">Self</span>::full_null(<span class="macro-nonterminal">$self</span>.name(), <span class="macro-nonterminal">$self</span>.len()),
+            };
+        }
+        <span class="kw">let </span>slice_offset = (-<span class="macro-nonterminal">$periods</span>).max(<span class="number">0</span>) <span class="kw">as </span>i64;
+        <span class="kw">let </span>length = <span class="macro-nonterminal">$self</span>.len() - fill_length;
         <span class="kw">let </span><span class="kw-2">mut </span>slice = <span class="macro-nonterminal">$self</span>.slice(slice_offset, length);
 
-        <span class="kw">let </span>fill_length = abs(periods) <span class="kw">as </span>usize;
         <span class="kw">let </span><span class="kw-2">mut </span>fill = <span class="kw">match </span><span class="macro-nonterminal">$fill_value </span>{
             <span class="prelude-val">Some</span>(val) =&gt; <span class="self">Self</span>::full(<span class="macro-nonterminal">$self</span>.name(), val, fill_length),
             <span class="prelude-val">None </span>=&gt; <span class="self">Self</span>::full_null(<span class="macro-nonterminal">$self</span>.name(), fill_length),
         };
 
-        <span class="kw">if </span>periods &lt; <span class="number">0 </span>{
+        <span class="kw">if </span><span class="macro-nonterminal">$periods </span>&lt; <span class="number">0 </span>{
             slice.append(<span class="kw-2">&amp;</span>fill);
             slice
         } <span class="kw">else </span>{

@@ -784,7 +784,7 @@
                 <span class="prelude-val">Some</span>(<span class="prelude-val">None</span>) =&gt; {
                     init_null_count += <span class="number">1</span>;
                 }
-                <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>ListChunked::full_null(<span class="string">&quot;&quot;</span>, <span class="number">0</span>),
+                <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>ListChunked::full_null(<span class="string">&quot;&quot;</span>, init_null_count),
             }
         }
 

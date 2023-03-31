@@ -432,6 +432,11 @@
 <a href="#432" id="432">432</a>
 <a href="#433" id="433">433</a>
 <a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
 </pre><pre class="rust"><code><span class="kw">use </span>arrow::offset::Offsets;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -663,6 +668,8 @@
     groups_len: usize,
     func: F,
 ) -&gt; Series {
+    <span class="kw">let </span>inner_dtype = ca.inner_dtype();
+    <span class="kw">let </span>inner_dtype_physical = inner_dtype.to_physical();
     <span class="kw">let </span>can_fast_explode = <span class="bool-val">true</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>offsets = Vec::&lt;i64&gt;::with_capacity(groups_len + <span class="number">1</span>);
     <span class="kw">let </span><span class="kw-2">mut </span>length_so_far = <span class="number">0i64</span>;
@@ -696,6 +703,9 @@
     <span class="kw">let </span><span class="kw-2">mut </span>listarr = <span class="kw">unsafe </span>{ ListChunked::from_chunks(ca.name(), <span class="macro">vec!</span>[arr]) };
     <span class="kw">if </span>can_fast_explode {
         listarr.set_fast_explode()
+    }
+    <span class="kw">if </span>inner_dtype_physical != inner_dtype {
+        listarr.to_logical(DataType::List(Box::new(inner_dtype)));
     }
     listarr.into_series()
 }

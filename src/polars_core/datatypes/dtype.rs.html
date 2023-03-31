@@ -317,6 +317,7 @@
 <a href="#317" id="317">317</a>
 <a href="#318" id="318">318</a>
 <a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub type </span>TimeZone = String;
@@ -440,6 +441,7 @@
             Time =&gt; Int64,
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
             </span>Categorical(<span class="kw">_</span>) =&gt; UInt32,
+            List(dt) =&gt; List(Box::new(dt.to_physical())),
             <span class="kw">_ </span>=&gt; <span class="self">self</span>.clone(),
         }
     }

@@ -106,7 +106,7 @@
 </span><span class="kw">pub type </span>IdxCa = UInt64Chunked;
 <span class="kw">pub use </span>polars_arrow::index::{IdxArr, IdxSize};
 
-<span class="kw">use </span><span class="kw">crate</span>::vector_hasher::IdBuildHasher;
+<span class="kw">use </span><span class="kw">crate</span>::hashing::IdBuildHasher;
 
 <span class="attr">#[cfg(not(feature = <span class="string">&quot;bigidx&quot;</span>))]
 </span><span class="kw">pub const </span>IDX_DTYPE: DataType = DataType::UInt32;

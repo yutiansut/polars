@@ -315,6 +315,7 @@
 <a href="#315" id="315">315</a>
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono::NaiveDateTime;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -339,6 +340,7 @@
 
 <span class="kw">impl </span>Window {
     <span class="kw">pub fn </span>new(every: Duration, period: Duration, offset: Duration) -&gt; <span class="self">Self </span>{
+        <span class="macro">debug_assert!</span>(!every.negative);
         <span class="self">Self </span>{
             every,
             period,

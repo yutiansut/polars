@@ -170,8 +170,6 @@
 <a href="#170" id="170">170</a>
 <a href="#171" id="171">171</a>
 <a href="#172" id="172">172</a>
-<a href="#173" id="173">173</a>
-<a href="#174" id="174">174</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="kw">use </span>arrow::offset::Offsets;
@@ -211,7 +209,7 @@
         <span class="kw">let </span>offsets = <span class="macro">vec!</span>[<span class="number">0i64</span>, values.len() <span class="kw">as </span>i64];
         <span class="kw">let </span>inner_type = <span class="self">self</span>.dtype();
 
-        <span class="kw">let </span>data_type = ListArray::&lt;i64&gt;::default_datatype(inner_type.to_physical().to_arrow());
+        <span class="kw">let </span>data_type = ListArray::&lt;i64&gt;::default_datatype(values.data_type().clone());
 
         <span class="comment">// Safety:
         // offsets are correct;
@@ -226,9 +224,7 @@
         <span class="kw">let </span>name = <span class="self">self</span>.name();
 
         <span class="kw">let </span><span class="kw-2">mut </span>ca = <span class="kw">unsafe </span>{ ListChunked::from_chunks(name, <span class="macro">vec!</span>[Box::new(arr)]) };
-        <span class="kw">if </span><span class="self">self</span>.dtype() != <span class="kw-2">&amp;</span><span class="self">self</span>.dtype().to_physical() {
-            ca.to_logical(inner_type.clone())
-        }
+        ca.to_logical(inner_type.clone());
         ca.set_fast_explode();
 
         <span class="prelude-val">Ok</span>(ca)

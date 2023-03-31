@@ -618,12 +618,12 @@
 </span><span class="kw">pub use </span><span class="kw">crate</span>::frame::hash_join::multiple_keys::{
     _left_anti_multiple_keys, _left_semi_multiple_keys,
 };
-<span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::utils::{_set_partition_size, slice_slice, split_ca};
-<span class="kw">use </span><span class="kw">crate</span>::vector_hasher::{
+<span class="kw">use </span><span class="kw">crate</span>::hashing::{
     create_hash_and_keys_threaded_vectorized, prepare_hashed_relation_threaded, this_partition,
     AsU64, BytesHash,
 };
+<span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::utils::{_set_partition_size, slice_slice, split_ca};
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
 
 <span class="kw">pub type </span>LeftJoinIds = (JoinIds, JoinOptIds);

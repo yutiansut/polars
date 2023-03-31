@@ -106,7 +106,7 @@
     }
 
     <span class="kw">pub fn </span>to_logical(<span class="kw-2">&amp;mut </span><span class="self">self</span>, inner_dtype: DataType) {
-        <span class="macro">assert_eq!</span>(inner_dtype.to_physical(), <span class="self">self</span>.inner_dtype());
+        <span class="macro">debug_assert_eq!</span>(inner_dtype.to_physical(), <span class="self">self</span>.inner_dtype());
         <span class="kw">let </span>fld = Arc::make_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>.field);
         fld.coerce(DataType::List(Box::new(inner_dtype)))
     }

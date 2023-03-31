@@ -179,6 +179,10 @@
 <a href="#179" id="179">179</a>
 <a href="#180" id="180">180</a>
 <a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -187,6 +191,7 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::datatypes::IdxCa;
 <span class="kw">use </span><span class="kw">crate</span>::error::PolarsResult;
+<span class="kw">use </span><span class="kw">crate</span>::prelude::explode::ExplodeByOffsets;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::private::{PrivateSeries, PrivateSeriesNumeric};
 <span class="kw">use </span><span class="kw">crate</span>::series::<span class="kw-2">*</span>;
@@ -200,7 +205,7 @@
 
 <span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>NullChunked {
-    name: Arc&lt;str&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) name: Arc&lt;str&gt;,
     length: IdxSize,
     <span class="comment">// we still need chunks as many series consumers expect
     // chunks to be there
@@ -208,7 +213,7 @@
 }
 
 <span class="kw">impl </span>NullChunked {
-    <span class="kw">fn </span>new(name: Arc&lt;str&gt;, len: usize) -&gt; <span class="self">Self </span>{
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(name: Arc&lt;str&gt;, len: usize) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             name,
             length: len <span class="kw">as </span>IdxSize,
@@ -233,6 +238,9 @@
     <span class="attr">#[cfg(feature = <span class="string">&quot;zip_with&quot;</span>)]
     </span><span class="kw">fn </span>zip_with_same_type(<span class="kw-2">&amp;</span><span class="self">self</span>, _mask: <span class="kw-2">&amp;</span>BooleanChunked, _other: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.clone().into_series())
+    }
+    <span class="kw">fn </span>explode_by_offsets(<span class="kw-2">&amp;</span><span class="self">self</span>, offsets: <span class="kw-2">&amp;</span>[i64]) -&gt; Series {
+        ExplodeByOffsets::explode_by_offsets(<span class="self">self</span>, offsets)
     }
 }
 

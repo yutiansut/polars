@@ -82,6 +82,7 @@
 <span class="kw">pub mod </span>fmt;
 <span class="kw">pub mod </span>frame;
 <span class="kw">pub mod </span>functions;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>hashing;
 <span class="kw">mod </span>named_from;
 <span class="kw">pub mod </span>prelude;
 <span class="kw">pub mod </span>schema;
@@ -91,14 +92,13 @@
 <span class="kw">pub mod </span>testing;
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests;
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>vector_hasher;
 
 <span class="kw">use </span>std::sync::Mutex;
 <span class="kw">use </span>std::time::{SystemTime, UNIX_EPOCH};
 
+<span class="kw">pub use </span>hashing::IdBuildHasher;
 <span class="kw">use </span>once_cell::sync::Lazy;
 <span class="kw">use </span>rayon::{ThreadPool, ThreadPoolBuilder};
-<span class="kw">pub use </span>vector_hasher::IdBuildHasher;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::chunked_array::logical::categorical::stringcache::<span class="kw-2">*</span>;

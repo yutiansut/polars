@@ -980,8 +980,8 @@
 <span class="kw">use </span><span class="kw">crate</span>::frame::hash_join::{
     create_probe_table, get_hash_tbl_threaded_join_partitioned, multiple_keys <span class="kw">as </span>mk, prepare_bytes,
 };
+<span class="kw">use </span><span class="kw">crate</span>::hashing::{df_rows_to_hashes_threaded, AsU64};
 <span class="kw">use </span><span class="kw">crate</span>::utils::{split_ca, split_df};
-<span class="kw">use </span><span class="kw">crate</span>::vector_hasher::{df_rows_to_hashes_threaded, AsU64};
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">unsafe fn </span>join_asof_backward_with_indirection_and_tolerance&lt;

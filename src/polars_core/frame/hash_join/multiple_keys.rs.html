@@ -602,10 +602,10 @@
 <span class="kw">use </span><span class="kw">crate</span>::frame::hash_join::{
     get_hash_tbl_threaded_join_mut_partitioned, get_hash_tbl_threaded_join_partitioned,
 };
+<span class="kw">use </span><span class="kw">crate</span>::hashing::{df_rows_to_hashes_threaded, this_partition, IdBuildHasher, IdxHash};
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utils::series::_to_physical_and_bit_repr;
 <span class="kw">use </span><span class="kw">crate</span>::utils::{_set_partition_size, split_df};
-<span class="kw">use </span><span class="kw">crate</span>::vector_hasher::{df_rows_to_hashes_threaded, this_partition, IdBuildHasher, IdxHash};
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
 
 <span class="doccomment">/// Compare the rows of two DataFrames

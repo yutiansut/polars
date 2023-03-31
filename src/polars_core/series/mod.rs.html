@@ -1257,7 +1257,7 @@
 
     <span class="doccomment">/// # Safety
     /// The caller must ensure the length and the data types of `ArrayRef` does not change.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>chunks_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Vec&lt;ArrayRef&gt; {
+    </span><span class="kw">pub unsafe fn </span>chunks_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Vec&lt;ArrayRef&gt; {
         <span class="attr">#[allow(unused_mut)]
         </span><span class="kw">let </span><span class="kw-2">mut </span>ca = <span class="self">self</span>._get_inner_mut();
         <span class="kw">let </span>chunks = ca.chunks() <span class="kw">as </span><span class="kw-2">*const </span>Vec&lt;ArrayRef&gt; <span class="kw">as </span><span class="kw-2">*mut </span>Vec&lt;ArrayRef&gt;;

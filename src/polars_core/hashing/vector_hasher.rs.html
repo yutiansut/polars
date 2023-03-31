@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/vector_hasher.rs`."><title>vector_hasher.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../polars_core/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/hashing/vector_hasher.rs`."><title>vector_hasher.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_core/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -494,300 +494,7 @@
 <a href="#494" id="494">494</a>
 <a href="#495" id="495">495</a>
 <a href="#496" id="496">496</a>
-<a href="#497" id="497">497</a>
-<a href="#498" id="498">498</a>
-<a href="#499" id="499">499</a>
-<a href="#500" id="500">500</a>
-<a href="#501" id="501">501</a>
-<a href="#502" id="502">502</a>
-<a href="#503" id="503">503</a>
-<a href="#504" id="504">504</a>
-<a href="#505" id="505">505</a>
-<a href="#506" id="506">506</a>
-<a href="#507" id="507">507</a>
-<a href="#508" id="508">508</a>
-<a href="#509" id="509">509</a>
-<a href="#510" id="510">510</a>
-<a href="#511" id="511">511</a>
-<a href="#512" id="512">512</a>
-<a href="#513" id="513">513</a>
-<a href="#514" id="514">514</a>
-<a href="#515" id="515">515</a>
-<a href="#516" id="516">516</a>
-<a href="#517" id="517">517</a>
-<a href="#518" id="518">518</a>
-<a href="#519" id="519">519</a>
-<a href="#520" id="520">520</a>
-<a href="#521" id="521">521</a>
-<a href="#522" id="522">522</a>
-<a href="#523" id="523">523</a>
-<a href="#524" id="524">524</a>
-<a href="#525" id="525">525</a>
-<a href="#526" id="526">526</a>
-<a href="#527" id="527">527</a>
-<a href="#528" id="528">528</a>
-<a href="#529" id="529">529</a>
-<a href="#530" id="530">530</a>
-<a href="#531" id="531">531</a>
-<a href="#532" id="532">532</a>
-<a href="#533" id="533">533</a>
-<a href="#534" id="534">534</a>
-<a href="#535" id="535">535</a>
-<a href="#536" id="536">536</a>
-<a href="#537" id="537">537</a>
-<a href="#538" id="538">538</a>
-<a href="#539" id="539">539</a>
-<a href="#540" id="540">540</a>
-<a href="#541" id="541">541</a>
-<a href="#542" id="542">542</a>
-<a href="#543" id="543">543</a>
-<a href="#544" id="544">544</a>
-<a href="#545" id="545">545</a>
-<a href="#546" id="546">546</a>
-<a href="#547" id="547">547</a>
-<a href="#548" id="548">548</a>
-<a href="#549" id="549">549</a>
-<a href="#550" id="550">550</a>
-<a href="#551" id="551">551</a>
-<a href="#552" id="552">552</a>
-<a href="#553" id="553">553</a>
-<a href="#554" id="554">554</a>
-<a href="#555" id="555">555</a>
-<a href="#556" id="556">556</a>
-<a href="#557" id="557">557</a>
-<a href="#558" id="558">558</a>
-<a href="#559" id="559">559</a>
-<a href="#560" id="560">560</a>
-<a href="#561" id="561">561</a>
-<a href="#562" id="562">562</a>
-<a href="#563" id="563">563</a>
-<a href="#564" id="564">564</a>
-<a href="#565" id="565">565</a>
-<a href="#566" id="566">566</a>
-<a href="#567" id="567">567</a>
-<a href="#568" id="568">568</a>
-<a href="#569" id="569">569</a>
-<a href="#570" id="570">570</a>
-<a href="#571" id="571">571</a>
-<a href="#572" id="572">572</a>
-<a href="#573" id="573">573</a>
-<a href="#574" id="574">574</a>
-<a href="#575" id="575">575</a>
-<a href="#576" id="576">576</a>
-<a href="#577" id="577">577</a>
-<a href="#578" id="578">578</a>
-<a href="#579" id="579">579</a>
-<a href="#580" id="580">580</a>
-<a href="#581" id="581">581</a>
-<a href="#582" id="582">582</a>
-<a href="#583" id="583">583</a>
-<a href="#584" id="584">584</a>
-<a href="#585" id="585">585</a>
-<a href="#586" id="586">586</a>
-<a href="#587" id="587">587</a>
-<a href="#588" id="588">588</a>
-<a href="#589" id="589">589</a>
-<a href="#590" id="590">590</a>
-<a href="#591" id="591">591</a>
-<a href="#592" id="592">592</a>
-<a href="#593" id="593">593</a>
-<a href="#594" id="594">594</a>
-<a href="#595" id="595">595</a>
-<a href="#596" id="596">596</a>
-<a href="#597" id="597">597</a>
-<a href="#598" id="598">598</a>
-<a href="#599" id="599">599</a>
-<a href="#600" id="600">600</a>
-<a href="#601" id="601">601</a>
-<a href="#602" id="602">602</a>
-<a href="#603" id="603">603</a>
-<a href="#604" id="604">604</a>
-<a href="#605" id="605">605</a>
-<a href="#606" id="606">606</a>
-<a href="#607" id="607">607</a>
-<a href="#608" id="608">608</a>
-<a href="#609" id="609">609</a>
-<a href="#610" id="610">610</a>
-<a href="#611" id="611">611</a>
-<a href="#612" id="612">612</a>
-<a href="#613" id="613">613</a>
-<a href="#614" id="614">614</a>
-<a href="#615" id="615">615</a>
-<a href="#616" id="616">616</a>
-<a href="#617" id="617">617</a>
-<a href="#618" id="618">618</a>
-<a href="#619" id="619">619</a>
-<a href="#620" id="620">620</a>
-<a href="#621" id="621">621</a>
-<a href="#622" id="622">622</a>
-<a href="#623" id="623">623</a>
-<a href="#624" id="624">624</a>
-<a href="#625" id="625">625</a>
-<a href="#626" id="626">626</a>
-<a href="#627" id="627">627</a>
-<a href="#628" id="628">628</a>
-<a href="#629" id="629">629</a>
-<a href="#630" id="630">630</a>
-<a href="#631" id="631">631</a>
-<a href="#632" id="632">632</a>
-<a href="#633" id="633">633</a>
-<a href="#634" id="634">634</a>
-<a href="#635" id="635">635</a>
-<a href="#636" id="636">636</a>
-<a href="#637" id="637">637</a>
-<a href="#638" id="638">638</a>
-<a href="#639" id="639">639</a>
-<a href="#640" id="640">640</a>
-<a href="#641" id="641">641</a>
-<a href="#642" id="642">642</a>
-<a href="#643" id="643">643</a>
-<a href="#644" id="644">644</a>
-<a href="#645" id="645">645</a>
-<a href="#646" id="646">646</a>
-<a href="#647" id="647">647</a>
-<a href="#648" id="648">648</a>
-<a href="#649" id="649">649</a>
-<a href="#650" id="650">650</a>
-<a href="#651" id="651">651</a>
-<a href="#652" id="652">652</a>
-<a href="#653" id="653">653</a>
-<a href="#654" id="654">654</a>
-<a href="#655" id="655">655</a>
-<a href="#656" id="656">656</a>
-<a href="#657" id="657">657</a>
-<a href="#658" id="658">658</a>
-<a href="#659" id="659">659</a>
-<a href="#660" id="660">660</a>
-<a href="#661" id="661">661</a>
-<a href="#662" id="662">662</a>
-<a href="#663" id="663">663</a>
-<a href="#664" id="664">664</a>
-<a href="#665" id="665">665</a>
-<a href="#666" id="666">666</a>
-<a href="#667" id="667">667</a>
-<a href="#668" id="668">668</a>
-<a href="#669" id="669">669</a>
-<a href="#670" id="670">670</a>
-<a href="#671" id="671">671</a>
-<a href="#672" id="672">672</a>
-<a href="#673" id="673">673</a>
-<a href="#674" id="674">674</a>
-<a href="#675" id="675">675</a>
-<a href="#676" id="676">676</a>
-<a href="#677" id="677">677</a>
-<a href="#678" id="678">678</a>
-<a href="#679" id="679">679</a>
-<a href="#680" id="680">680</a>
-<a href="#681" id="681">681</a>
-<a href="#682" id="682">682</a>
-<a href="#683" id="683">683</a>
-<a href="#684" id="684">684</a>
-<a href="#685" id="685">685</a>
-<a href="#686" id="686">686</a>
-<a href="#687" id="687">687</a>
-<a href="#688" id="688">688</a>
-<a href="#689" id="689">689</a>
-<a href="#690" id="690">690</a>
-<a href="#691" id="691">691</a>
-<a href="#692" id="692">692</a>
-<a href="#693" id="693">693</a>
-<a href="#694" id="694">694</a>
-<a href="#695" id="695">695</a>
-<a href="#696" id="696">696</a>
-<a href="#697" id="697">697</a>
-<a href="#698" id="698">698</a>
-<a href="#699" id="699">699</a>
-<a href="#700" id="700">700</a>
-<a href="#701" id="701">701</a>
-<a href="#702" id="702">702</a>
-<a href="#703" id="703">703</a>
-<a href="#704" id="704">704</a>
-<a href="#705" id="705">705</a>
-<a href="#706" id="706">706</a>
-<a href="#707" id="707">707</a>
-<a href="#708" id="708">708</a>
-<a href="#709" id="709">709</a>
-<a href="#710" id="710">710</a>
-<a href="#711" id="711">711</a>
-<a href="#712" id="712">712</a>
-<a href="#713" id="713">713</a>
-<a href="#714" id="714">714</a>
-<a href="#715" id="715">715</a>
-<a href="#716" id="716">716</a>
-<a href="#717" id="717">717</a>
-<a href="#718" id="718">718</a>
-<a href="#719" id="719">719</a>
-<a href="#720" id="720">720</a>
-<a href="#721" id="721">721</a>
-<a href="#722" id="722">722</a>
-<a href="#723" id="723">723</a>
-<a href="#724" id="724">724</a>
-<a href="#725" id="725">725</a>
-<a href="#726" id="726">726</a>
-<a href="#727" id="727">727</a>
-<a href="#728" id="728">728</a>
-<a href="#729" id="729">729</a>
-<a href="#730" id="730">730</a>
-<a href="#731" id="731">731</a>
-<a href="#732" id="732">732</a>
-<a href="#733" id="733">733</a>
-<a href="#734" id="734">734</a>
-<a href="#735" id="735">735</a>
-<a href="#736" id="736">736</a>
-<a href="#737" id="737">737</a>
-<a href="#738" id="738">738</a>
-<a href="#739" id="739">739</a>
-<a href="#740" id="740">740</a>
-<a href="#741" id="741">741</a>
-<a href="#742" id="742">742</a>
-<a href="#743" id="743">743</a>
-<a href="#744" id="744">744</a>
-<a href="#745" id="745">745</a>
-<a href="#746" id="746">746</a>
-<a href="#747" id="747">747</a>
-<a href="#748" id="748">748</a>
-<a href="#749" id="749">749</a>
-<a href="#750" id="750">750</a>
-<a href="#751" id="751">751</a>
-<a href="#752" id="752">752</a>
-<a href="#753" id="753">753</a>
-<a href="#754" id="754">754</a>
-<a href="#755" id="755">755</a>
-<a href="#756" id="756">756</a>
-<a href="#757" id="757">757</a>
-<a href="#758" id="758">758</a>
-<a href="#759" id="759">759</a>
-<a href="#760" id="760">760</a>
-<a href="#761" id="761">761</a>
-<a href="#762" id="762">762</a>
-<a href="#763" id="763">763</a>
-<a href="#764" id="764">764</a>
-<a href="#765" id="765">765</a>
-<a href="#766" id="766">766</a>
-<a href="#767" id="767">767</a>
-<a href="#768" id="768">768</a>
-<a href="#769" id="769">769</a>
-<a href="#770" id="770">770</a>
-<a href="#771" id="771">771</a>
-<a href="#772" id="772">772</a>
-<a href="#773" id="773">773</a>
-<a href="#774" id="774">774</a>
-<a href="#775" id="775">775</a>
-<a href="#776" id="776">776</a>
-<a href="#777" id="777">777</a>
-<a href="#778" id="778">778</a>
-<a href="#779" id="779">779</a>
-<a href="#780" id="780">780</a>
-<a href="#781" id="781">781</a>
-<a href="#782" id="782">782</a>
-<a href="#783" id="783">783</a>
-<a href="#784" id="784">784</a>
-<a href="#785" id="785">785</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::convert::TryInto;
-<span class="kw">use </span>std::hash::{BuildHasher, BuildHasherDefault, Hash, Hasher};
-
-<span class="kw">use </span>ahash::RandomState;
-<span class="kw">use </span>arrow::bitmap::utils::get_bit_unchecked;
+</pre><pre class="rust"><code><span class="kw">use </span>arrow::bitmap::utils::get_bit_unchecked;
 <span class="kw">use </span>hashbrown::hash_map::RawEntryMut;
 <span class="kw">use </span>hashbrown::HashMap;
 <span class="kw">use </span>polars_arrow::utils::CustomIterTools;
@@ -795,10 +502,14 @@
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>xxhash_rust::xxh3::xxh3_64_with_seed;
 
+<span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::datatypes::UInt64Chunked;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utils::arrow::array::Array;
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
+
+<span class="comment">// See: https://github.com/tkaitchuck/aHash/blob/f9acd508bd89e7c5b2877a9510098100f9018d64/src/operations.rs#L4
+</span><span class="kw">const </span>MULTIPLE: u64 = <span class="number">6364136223846793005</span>;
 
 <span class="comment">// Read more:
 //  https://www.cockroachlabs.com/blog/vectorized-hash-joiner/
@@ -817,6 +528,11 @@
     }
 }
 
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>folded_multiply(s: u64, by: u64) -&gt; u64 {
+    <span class="kw">let </span>result = (s <span class="kw">as </span>u128).wrapping_mul(by <span class="kw">as </span>u128);
+    ((result &amp; <span class="number">0xffff_ffff_ffff_ffff</span>) <span class="kw">as </span>u64) ^ ((result &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64)
+}
+
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_null_hash_value(random_state: RandomState) -&gt; u64 {
     <span class="comment">// we just start with a large prime number and hash that twice
     // to get a constant hash value for null/None
@@ -828,97 +544,6 @@
     hasher.finish()
 }
 
-<span class="macro">macro_rules! </span>fx_hash_8_bit {
-    (<span class="macro-nonterminal">$val</span>: expr, <span class="macro-nonterminal">$k</span>: expr ) =&gt; {{
-        <span class="kw">let </span>val = std::mem::transmute::&lt;<span class="kw">_</span>, u8&gt;(<span class="macro-nonterminal">$val</span>);
-        (val <span class="kw">as </span>u64).wrapping_mul(<span class="macro-nonterminal">$k</span>)
-    }};
-}
-<span class="macro">macro_rules! </span>fx_hash_16_bit {
-    (<span class="macro-nonterminal">$val</span>: expr, <span class="macro-nonterminal">$k</span>: expr ) =&gt; {{
-        <span class="kw">let </span>val = std::mem::transmute::&lt;<span class="kw">_</span>, u16&gt;(<span class="macro-nonterminal">$val</span>);
-        (val <span class="kw">as </span>u64).wrapping_mul(<span class="macro-nonterminal">$k</span>)
-    }};
-}
-<span class="macro">macro_rules! </span>fx_hash_32_bit {
-    (<span class="macro-nonterminal">$val</span>: expr, <span class="macro-nonterminal">$k</span>: expr ) =&gt; {{
-        <span class="kw">let </span>val = std::mem::transmute::&lt;<span class="kw">_</span>, u32&gt;(<span class="macro-nonterminal">$val</span>);
-        (val <span class="kw">as </span>u64).wrapping_mul(<span class="macro-nonterminal">$k</span>)
-    }};
-}
-<span class="macro">macro_rules! </span>fx_hash_64_bit {
-    (<span class="macro-nonterminal">$val</span>: expr, <span class="macro-nonterminal">$k</span>: expr ) =&gt; {{
-        (<span class="macro-nonterminal">$val </span><span class="kw">as </span>u64).wrapping_mul(<span class="macro-nonterminal">$k</span>)
-    }};
-}
-<span class="kw">const </span>FXHASH_K: u64 = <span class="number">0x517cc1b727220a95</span>;
-
-<span class="doccomment">/// Ensure that the same hash is used as with `VecHash`.
-</span><span class="kw">pub trait </span>FxHash {
-    <span class="kw">fn </span>get_k(random_state: RandomState) -&gt; u64 {
-        random_state.hash_one(FXHASH_K)
-    }
-    <span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64;
-}
-<span class="kw">impl </span>FxHash <span class="kw">for </span>i8 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="kw">unsafe </span>{ <span class="macro">fx_hash_8_bit!</span>(<span class="self">self</span>, k) }
-    }
-}
-<span class="kw">impl </span>FxHash <span class="kw">for </span>u8 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="attr">#[allow(clippy::useless_transmute)]
-        </span><span class="kw">unsafe </span>{
-            <span class="macro">fx_hash_8_bit!</span>(<span class="self">self</span>, k)
-        }
-    }
-}
-<span class="kw">impl </span>FxHash <span class="kw">for </span>i16 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="kw">unsafe </span>{ <span class="macro">fx_hash_16_bit!</span>(<span class="self">self</span>, k) }
-    }
-}
-<span class="kw">impl </span>FxHash <span class="kw">for </span>u16 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="attr">#[allow(clippy::useless_transmute)]
-        </span><span class="kw">unsafe </span>{
-            <span class="macro">fx_hash_16_bit!</span>(<span class="self">self</span>, k)
-        }
-    }
-}
-
-<span class="kw">impl </span>FxHash <span class="kw">for </span>i32 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="kw">unsafe </span>{ <span class="macro">fx_hash_32_bit!</span>(<span class="self">self</span>, k) }
-    }
-}
-<span class="kw">impl </span>FxHash <span class="kw">for </span>u32 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="attr">#[allow(clippy::useless_transmute)]
-        </span><span class="kw">unsafe </span>{
-            <span class="macro">fx_hash_32_bit!</span>(<span class="self">self</span>, k)
-        }
-    }
-}
-
-<span class="kw">impl </span>FxHash <span class="kw">for </span>i64 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="macro">fx_hash_64_bit!</span>(<span class="self">self</span>, k)
-    }
-}
-<span class="kw">impl </span>FxHash <span class="kw">for </span>u64 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="macro">fx_hash_64_bit!</span>(<span class="self">self</span>, k)
-    }
-}
 <span class="kw">fn </span>insert_null_hash(chunks: <span class="kw-2">&amp;</span>[ArrayRef], random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
     <span class="kw">let </span>null_h = get_null_hash_value(random_state);
     <span class="kw">let </span>hashes = buf.as_mut_slice();
@@ -942,7 +567,7 @@
 <span class="kw">fn </span>integer_vec_hash&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;)
 <span class="kw">where
     </span>T: PolarsIntegerType,
-    T::Native: Hash + FxHash,
+    T::Native: Hash + AsU64,
 {
     <span class="comment">// Note that we don&#39;t use the no null branch! This can break in unexpected ways.
     // for instance with threading we split an array in n_threads, this may lead to
@@ -953,18 +578,13 @@
     </span>buf.clear();
     buf.reserve(ca.len());
 
-    <span class="kw">let </span>k = random_state.hash_one(FXHASH_K);
-
     <span class="attr">#[allow(unused_unsafe)]
     #[allow(clippy::useless_transmute)]
     </span>ca.downcast_iter().for_each(|arr| {
-        buf.extend(
-            arr.values()
-                .as_slice()
-                .iter()
-                .copied()
-                .map(|v| <span class="kw">unsafe </span>{ v._fx_hash(k) }),
-        );
+        buf.extend(arr.values().as_slice().iter().copied().map(|v| {
+            <span class="comment">// we save an xor because we don&#39;t have initial state
+            </span>folded_multiply(v.as_u64(), MULTIPLE)
+        }));
     });
     insert_null_hash(<span class="kw-2">&amp;</span>ca.chunks, random_state, buf)
 }
@@ -972,10 +592,9 @@
 <span class="kw">fn </span>integer_vec_hash_combine&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, random_state: RandomState, hashes: <span class="kw-2">&amp;mut </span>[u64])
 <span class="kw">where
     </span>T: PolarsIntegerType,
-    T::Native: Hash + FxHash,
+    T::Native: Hash + AsU64,
 {
-    <span class="kw">let </span>null_h = get_null_hash_value(random_state.clone());
-    <span class="kw">let </span>k = random_state.hash_one(FXHASH_K);
+    <span class="kw">let </span>null_h = get_null_hash_value(random_state);
 
     <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
     ca.downcast_iter().for_each(|arr| {
@@ -986,8 +605,8 @@
                 .iter()
                 .zip(<span class="kw-2">&amp;mut </span>hashes[offset..])
                 .for_each(|(v, h)| {
-                    <span class="kw">let </span>l = v._fx_hash(k);
-                    <span class="kw-2">*</span>h = _boost_hash_combine(l, <span class="kw-2">*</span>h)
+                    <span class="comment">// inlined from ahash. This ensures we combine with the previous state
+                    </span><span class="kw-2">*</span>h = folded_multiply(v.as_u64() ^ <span class="kw-2">*</span>h, MULTIPLE);
                 }),
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">let </span>validity = arr.validity().unwrap();
@@ -997,8 +616,10 @@
                     .zip(<span class="kw-2">&amp;mut </span>hashes[offset..])
                     .zip(arr.values().as_slice())
                     .for_each(|((valid, h), l)| {
-                        <span class="kw">let </span>l = l._fx_hash(k);
-                        <span class="kw-2">*</span>h = _boost_hash_combine([null_h, l][valid <span class="kw">as </span>usize], <span class="kw-2">*</span>h)
+                        <span class="kw">let </span>to_hash = [null_h, l.as_u64()][valid <span class="kw">as </span>usize];
+
+                        <span class="comment">// inlined from ahash. This ensures we combine with the previous state
+                        </span><span class="kw-2">*</span>h = folded_multiply(to_hash ^ <span class="kw-2">*</span>h, MULTIPLE);
                     });
             }
         }
@@ -1007,7 +628,7 @@
 }
 
 <span class="macro">macro_rules! </span>vec_hash_int {
-    (<span class="macro-nonterminal">$ca</span>:ident, <span class="macro-nonterminal">$fx_hash</span>:ident) =&gt; {
+    (<span class="macro-nonterminal">$ca</span>:ident) =&gt; {
         <span class="kw">impl </span>VecHash <span class="kw">for </span><span class="macro-nonterminal">$ca </span>{
             <span class="kw">fn </span>vec_hash(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
                 integer_vec_hash(<span class="self">self</span>, random_state, buf)
@@ -1020,14 +641,14 @@
     };
 }
 
-<span class="macro">vec_hash_int!</span>(Int64Chunked, fx_hash_64_bit);
-<span class="macro">vec_hash_int!</span>(Int32Chunked, fx_hash_32_bit);
-<span class="macro">vec_hash_int!</span>(Int16Chunked, fx_hash_16_bit);
-<span class="macro">vec_hash_int!</span>(Int8Chunked, fx_hash_8_bit);
-<span class="macro">vec_hash_int!</span>(UInt64Chunked, fx_hash_64_bit);
-<span class="macro">vec_hash_int!</span>(UInt32Chunked, fx_hash_32_bit);
-<span class="macro">vec_hash_int!</span>(UInt16Chunked, fx_hash_16_bit);
-<span class="macro">vec_hash_int!</span>(UInt8Chunked, fx_hash_8_bit);
+<span class="macro">vec_hash_int!</span>(Int64Chunked);
+<span class="macro">vec_hash_int!</span>(Int32Chunked);
+<span class="macro">vec_hash_int!</span>(Int16Chunked);
+<span class="macro">vec_hash_int!</span>(Int8Chunked);
+<span class="macro">vec_hash_int!</span>(UInt64Chunked);
+<span class="macro">vec_hash_int!</span>(UInt32Chunked);
+<span class="macro">vec_hash_int!</span>(UInt16Chunked);
+<span class="macro">vec_hash_int!</span>(UInt8Chunked);
 
 <span class="kw">impl </span>VecHash <span class="kw">for </span>Utf8Chunked {
     <span class="kw">fn </span>vec_hash(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
@@ -1208,192 +829,13 @@
     }
 }
 
-<span class="comment">// Used to to get a u64 from the hashing keys
-// We need to modify the hashing algorithm to use the hash for this and only compute the hash once.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>AsU64 {
-    <span class="attr">#[allow(clippy::wrong_self_convention)]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64;
-}
-
-<span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
-</span><span class="kw">impl </span>AsU64 <span class="kw">for </span>u8 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="self">self </span><span class="kw">as </span>u64
-    }
-}
-
-<span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
-</span><span class="kw">impl </span>AsU64 <span class="kw">for </span>u16 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="self">self </span><span class="kw">as </span>u64
-    }
-}
-
-<span class="kw">impl </span>AsU64 <span class="kw">for </span>u32 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="self">self </span><span class="kw">as </span>u64
-    }
-}
-
-<span class="kw">impl </span>AsU64 <span class="kw">for </span>u64 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="self">self
-    </span>}
-}
-
-<span class="kw">impl </span>AsU64 <span class="kw">for </span>i32 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="kw">let </span>asu32: u32 = <span class="kw">unsafe </span>{ std::mem::transmute(<span class="self">self</span>) };
-        asu32 <span class="kw">as </span>u64
-    }
-}
-
-<span class="kw">impl </span>AsU64 <span class="kw">for </span>i64 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="kw">unsafe </span>{ std::mem::transmute(<span class="self">self</span>) }
-    }
-}
-
-<span class="kw">impl </span>AsU64 <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;u32&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="kw">match </span><span class="self">self </span>{
-            <span class="prelude-val">Some</span>(v) =&gt; v <span class="kw">as </span>u64,
-            <span class="comment">// just a number safe from overflow
-            </span><span class="prelude-val">None </span>=&gt; u64::MAX &gt;&gt; <span class="number">2</span>,
-        }
-    }
-}
-
-<span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
-</span><span class="kw">impl </span>AsU64 <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;u8&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="kw">match </span><span class="self">self </span>{
-            <span class="prelude-val">Some</span>(v) =&gt; v <span class="kw">as </span>u64,
-            <span class="comment">// just a number safe from overflow
-            </span><span class="prelude-val">None </span>=&gt; u64::MAX &gt;&gt; <span class="number">2</span>,
-        }
-    }
-}
-
-<span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
-</span><span class="kw">impl </span>AsU64 <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;u16&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="kw">match </span><span class="self">self </span>{
-            <span class="prelude-val">Some</span>(v) =&gt; v <span class="kw">as </span>u64,
-            <span class="comment">// just a number safe from overflow
-            </span><span class="prelude-val">None </span>=&gt; u64::MAX &gt;&gt; <span class="number">2</span>,
-        }
-    }
-}
-
-<span class="kw">impl </span>AsU64 <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;u64&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="self">self</span>.unwrap_or(u64::MAX &gt;&gt; <span class="number">2</span>)
-    }
-}
-
-<span class="kw">impl </span>AsU64 <span class="kw">for </span>[u8; <span class="number">9</span>] {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="comment">// the last byte includes the null information.
-        // that one is skipped. Worst thing that could happen is unbalanced partition.
-        </span>u64::from_ne_bytes(<span class="self">self</span>[..<span class="number">8</span>].try_into().unwrap())
-    }
-}
-<span class="kw">const </span>BUILD_HASHER: RandomState = RandomState::with_seeds(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
-<span class="kw">impl </span>AsU64 <span class="kw">for </span>[u8; <span class="number">17</span>] {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        BUILD_HASHER.hash_single(<span class="self">self</span>)
-    }
-}
-
-<span class="kw">impl </span>AsU64 <span class="kw">for </span>[u8; <span class="number">13</span>] {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        BUILD_HASHER.hash_single(<span class="self">self</span>)
-    }
-}
-
-<span class="attr">#[derive(Default)]
-</span><span class="kw">pub struct </span>IdHasher {
-    hash: u64,
-}
-
-<span class="kw">impl </span>Hasher <span class="kw">for </span>IdHasher {
-    <span class="kw">fn </span>finish(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
-        <span class="self">self</span>.hash
-    }
-
-    <span class="kw">fn </span>write(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _bytes: <span class="kw-2">&amp;</span>[u8]) {
-        <span class="macro">unreachable!</span>(<span class="string">&quot;IdHasher should only be used for integer keys &lt;= 64 bit precision&quot;</span>)
-    }
-
-    <span class="kw">fn </span>write_u32(<span class="kw-2">&amp;mut </span><span class="self">self</span>, i: u32) {
-        <span class="self">self</span>.write_u64(i <span class="kw">as </span>u64)
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>write_u64(<span class="kw-2">&amp;mut </span><span class="self">self</span>, i: u64) {
-        <span class="self">self</span>.hash = i;
-    }
-
-    <span class="kw">fn </span>write_i32(<span class="kw-2">&amp;mut </span><span class="self">self</span>, i: i32) {
-        <span class="comment">// Safety:
-        // same number of bits
-        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.write_u32(std::mem::transmute::&lt;i32, u32&gt;(i)) }
-    }
-
-    <span class="kw">fn </span>write_i64(<span class="kw-2">&amp;mut </span><span class="self">self</span>, i: i64) {
-        <span class="comment">// Safety:
-        // same number of bits
-        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.write_u64(std::mem::transmute::&lt;i64, u64&gt;(i)) }
-    }
-}
-
-<span class="kw">pub type </span>IdBuildHasher = BuildHasherDefault&lt;IdHasher&gt;;
-
-<span class="attr">#[derive(Debug)]
-</span><span class="doccomment">/// Contains an idx of a row in a DataFrame and the precomputed hash of that row.
-/// That hash still needs to be used to create another hash to be able to resize hashmaps without
-/// accidental quadratic behavior. So do not use an Identity function!
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>IdxHash {
-    <span class="comment">// idx in row of Series, DataFrame
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) idx: IdxSize,
-    <span class="comment">// precomputed hash of T
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) hash: u64,
-}
-
-<span class="kw">impl </span>Hash <span class="kw">for </span>IdxHash {
-    <span class="kw">fn </span>hash&lt;H: Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) {
-        state.write_u64(<span class="self">self</span>.hash)
-    }
-}
-
-<span class="kw">impl </span>IdxHash {
-    <span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(idx: IdxSize, hash: u64) -&gt; <span class="self">Self </span>{
-        IdxHash { idx, hash }
-    }
-}
-
 <span class="doccomment">/// Contains a ptr to the string slice an the precomputed hash of that string.
 /// During rehashes, we will rehash the hash instead of the string, that makes rehashing
 /// cheap and allows cache coherent small hash tables.
 </span><span class="attr">#[derive(Eq, Copy, Clone, Debug)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>BytesHash&lt;<span class="lifetime">&#39;a</span>&gt; {
     payload: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;,
-    hash: u64,
+    <span class="kw">pub</span>(<span class="kw">super</span>) hash: u64,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Hash <span class="kw">for </span>BytesHash&lt;<span class="lifetime">&#39;a</span>&gt; {
@@ -1415,20 +857,6 @@
         (<span class="self">self</span>.hash == other.hash) &amp;&amp; (<span class="self">self</span>.payload == other.payload)
     }
 }
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; AsU64 <span class="kw">for </span>BytesHash&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64 {
-        <span class="self">self</span>.hash
-    }
-}
-
-<span class="attr">#[inline]
-</span><span class="doccomment">/// For partitions that are a power of 2 we can use a bitshift instead of a modulo.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>this_partition(h: u64, thread_no: u64, n_partitions: u64) -&gt; bool {
-    <span class="macro">debug_assert!</span>(n_partitions.is_power_of_two());
-    <span class="comment">// n % 2^i = n &amp; (2^i - 1)
-    </span>(h.wrapping_add(thread_no)) &amp; n_partitions.wrapping_sub(<span class="number">1</span>) == <span class="number">0
-</span>}
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>prepare_hashed_relation_threaded&lt;T, I&gt;(
     iters: Vec&lt;I&gt;,
@@ -1519,12 +947,6 @@
             .collect()
     });
     (hashes, build_hasher)
-}
-
-<span class="comment">// hash combine from c++&#39; boost lib
-</span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>_boost_hash_combine(l: u64, r: u64) -&gt; u64 {
-    l ^ r.wrapping_add(<span class="number">0x9e3779b9u64</span>.wrapping_add(l &lt;&lt; <span class="number">6</span>).wrapping_add(r &gt;&gt; <span class="number">2</span>))
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>df_rows_to_hashes_threaded(

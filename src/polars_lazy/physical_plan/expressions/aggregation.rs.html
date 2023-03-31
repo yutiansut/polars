@@ -878,7 +878,7 @@
                             <span class="kw">_ </span>=&gt; agg_s.cast(<span class="kw-2">&amp;</span>DataType::Float64).unwrap(),
                         };
                         <span class="kw">let </span><span class="kw-2">mut </span>count_s = series.agg_valid_count(groups);
-                        count_s.rename(<span class="string">&quot;count&quot;</span>);
+                        count_s.rename(<span class="string">&quot;__POLARS_COUNT&quot;</span>);
                         <span class="prelude-val">Ok</span>(StructChunked::new(<span class="kw-2">&amp;</span>new_name, <span class="kw-2">&amp;</span>[agg_s, count_s])
                             .unwrap()
                             .into_series())

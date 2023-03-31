@@ -582,18 +582,6 @@
 <a href="#582" id="582">582</a>
 <a href="#583" id="583">583</a>
 <a href="#584" id="584">584</a>
-<a href="#585" id="585">585</a>
-<a href="#586" id="586">586</a>
-<a href="#587" id="587">587</a>
-<a href="#588" id="588">588</a>
-<a href="#589" id="589">589</a>
-<a href="#590" id="590">590</a>
-<a href="#591" id="591">591</a>
-<a href="#592" id="592">592</a>
-<a href="#593" id="593">593</a>
-<a href="#594" id="594">594</a>
-<a href="#595" id="595">595</a>
-<a href="#596" id="596">596</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -748,31 +736,19 @@
         Bounds::new_checked(start, stop)
     };
 
-    <span class="kw">let </span>size = <span class="kw">if </span>include_lower_bound || include_upper_bound {
+    <span class="kw">let </span>size = {
         <span class="kw">match </span>tu {
             TimeUnit::Nanoseconds =&gt; window.estimate_overlapping_bounds_ns(boundary),
             TimeUnit::Microseconds =&gt; window.estimate_overlapping_bounds_us(boundary),
             TimeUnit::Milliseconds =&gt; window.estimate_overlapping_bounds_ms(boundary),
         }
-    } <span class="kw">else </span>{
-        <span class="number">0
-    </span>};
+    };
     <span class="kw">let </span>size_lower = <span class="kw">if </span>include_lower_bound { size } <span class="kw">else </span>{ <span class="number">0 </span>};
     <span class="kw">let </span>size_upper = <span class="kw">if </span>include_upper_bound { size } <span class="kw">else </span>{ <span class="number">0 </span>};
     <span class="kw">let </span><span class="kw-2">mut </span>lower_bound = Vec::with_capacity(size_lower);
     <span class="kw">let </span><span class="kw-2">mut </span>upper_bound = Vec::with_capacity(size_upper);
 
-    <span class="kw">let </span><span class="kw-2">mut </span>groups = <span class="kw">match </span>tu {
-        TimeUnit::Nanoseconds =&gt; {
-            Vec::with_capacity(window.estimate_overlapping_bounds_ns(boundary))
-        }
-        TimeUnit::Microseconds =&gt; {
-            Vec::with_capacity(window.estimate_overlapping_bounds_us(boundary))
-        }
-        TimeUnit::Milliseconds =&gt; {
-            Vec::with_capacity(window.estimate_overlapping_bounds_ms(boundary))
-        }
-    };
+    <span class="kw">let </span><span class="kw-2">mut </span>groups = Vec::with_capacity(size);
     <span class="kw">let </span>start_offset = <span class="number">0</span>;
 
     <span class="kw">match </span>tz {

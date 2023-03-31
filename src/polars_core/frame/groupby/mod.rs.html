@@ -1192,9 +1192,9 @@
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="self">self</span>::hashing::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::hashing::{get_null_hash_value, AsU64, BytesHash};
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utils::{_set_partition_size, accumulate_dataframes_vertical};
-<span class="kw">use </span><span class="kw">crate</span>::vector_hasher::{get_null_hash_value, AsU64, BytesHash};
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
 
 <span class="kw">pub mod </span>aggregations;
