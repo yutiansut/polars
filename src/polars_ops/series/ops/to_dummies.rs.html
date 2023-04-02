@@ -60,7 +60,32 @@
 <a href="#60" id="60">60</a>
 <a href="#61" id="61">61</a>
 <a href="#62" id="62">62</a>
-</pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
+<a href="#63" id="63">63</a>
+<a href="#64" id="64">64</a>
+<a href="#65" id="65">65</a>
+<a href="#66" id="66">66</a>
+<a href="#67" id="67">67</a>
+<a href="#68" id="68">68</a>
+<a href="#69" id="69">69</a>
+<a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
+<a href="#72" id="72">72</a>
+<a href="#73" id="73">73</a>
+<a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
+<a href="#84" id="84">84</a>
+<a href="#85" id="85">85</a>
+</pre><pre class="rust"><code><span class="kw">use </span>polars_core::frame::groupby::GroupsIndicator;
+
+<span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u8&quot;</span>)]
 </span><span class="kw">type </span>DummyType = u8;
@@ -85,8 +110,8 @@
         <span class="comment">// safety: groups are in bounds
         </span><span class="kw">let </span>columns = <span class="kw">unsafe </span>{ <span class="self">self</span>.agg_first(<span class="kw-2">&amp;</span>groups) }
             .iter()
-            .zip(groups.into_idx())
-            .map(|(av, (<span class="kw">_</span>, group))| {
+            .zip(groups.iter())
+            .map(|(av, group)| {
                 <span class="comment">// strings are formatted with extra \&quot; \&quot; in polars, so we
                 // extract the string
                 </span><span class="kw">let </span>name = <span class="kw">if let </span><span class="prelude-val">Some</span>(s) = av.get_str() {
@@ -95,7 +120,15 @@
                     <span class="comment">// other types don&#39;t have this formatting issue
                     </span><span class="macro">format!</span>(<span class="string">&quot;{col_name}{sep}{av}&quot;</span>)
                 };
-                <span class="kw">let </span>ca = dummies_helper(group, <span class="self">self</span>.len(), <span class="kw-2">&amp;</span>name);
+
+                <span class="kw">let </span>ca = <span class="kw">match </span>group {
+                    GroupsIndicator::Idx((<span class="kw">_</span>, group)) =&gt; {
+                        dummies_helper_idx(group, <span class="self">self</span>.len(), <span class="kw-2">&amp;</span>name)
+                    }
+                    GroupsIndicator::Slice([offset, len]) =&gt; {
+                        dummies_helper_slice(offset, len, <span class="self">self</span>.len(), <span class="kw-2">&amp;</span>name)
+                    }
+                };
                 ca.into_series()
             })
             .collect();
@@ -104,13 +137,26 @@
     }
 }
 
-<span class="kw">fn </span>dummies_helper(<span class="kw-2">mut </span>groups: Vec&lt;IdxSize&gt;, len: usize, name: <span class="kw-2">&amp;</span>str) -&gt; DummyCa {
-    groups.sort_unstable();
+<span class="kw">fn </span>dummies_helper_idx(groups: <span class="kw-2">&amp;</span>[IdxSize], len: usize, name: <span class="kw-2">&amp;</span>str) -&gt; DummyCa {
+    <span class="kw">let </span><span class="kw-2">mut </span>av = <span class="macro">vec!</span>[<span class="number">0 </span><span class="kw">as </span>DummyType; len];
 
-    <span class="comment">// let mut group_member_iter = groups.into_iter();
-    </span><span class="kw">let </span><span class="kw-2">mut </span>av = <span class="macro">vec!</span>[<span class="number">0 </span><span class="kw">as </span>DummyType; len];
+    <span class="kw">for </span><span class="kw-2">&amp;</span>idx <span class="kw">in </span>groups {
+        <span class="kw">let </span>elem = <span class="kw">unsafe </span>{ av.get_unchecked_mut(idx <span class="kw">as </span>usize) };
+        <span class="kw-2">*</span>elem = <span class="number">1</span>;
+    }
 
-    <span class="kw">for </span>idx <span class="kw">in </span>groups {
+    ChunkedArray::from_vec(name, av)
+}
+
+<span class="kw">fn </span>dummies_helper_slice(
+    group_offset: IdxSize,
+    group_len: IdxSize,
+    len: usize,
+    name: <span class="kw-2">&amp;</span>str,
+) -&gt; DummyCa {
+    <span class="kw">let </span><span class="kw-2">mut </span>av = <span class="macro">vec!</span>[<span class="number">0 </span><span class="kw">as </span>DummyType; len];
+
+    <span class="kw">for </span>idx <span class="kw">in </span>group_offset..(group_offset + group_len) {
         <span class="kw">let </span>elem = <span class="kw">unsafe </span>{ av.get_unchecked_mut(idx <span class="kw">as </span>usize) };
         <span class="kw-2">*</span>elem = <span class="number">1</span>;
     }

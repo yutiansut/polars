@@ -741,10 +741,10 @@
             <span class="prelude-val">Ok</span>(out.into_series())
         }
         FillNullStrategy::Min =&gt; ca
-            .fill_null_with_values(<span class="number">1 </span>== ca.min().ok_or_else(err_fill_null)<span class="question-mark">?</span>)
+            .fill_null_with_values(ca.min().ok_or_else(err_fill_null)<span class="question-mark">?</span>)
             .map(|ca| ca.into_series()),
         FillNullStrategy::Max =&gt; ca
-            .fill_null_with_values(<span class="number">1 </span>== ca.max().ok_or_else(err_fill_null)<span class="question-mark">?</span>)
+            .fill_null_with_values(ca.max().ok_or_else(err_fill_null)<span class="question-mark">?</span>)
             .map(|ca| ca.into_series()),
         FillNullStrategy::Mean =&gt; <span class="macro">polars_bail!</span>(opq = mean, <span class="string">&quot;Boolean&quot;</span>),
         FillNullStrategy::One | FillNullStrategy::MaxBound =&gt; {

@@ -567,6 +567,7 @@
 <a href="#567" id="567">567</a>
 <a href="#568" id="568">568</a>
 <a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -617,6 +618,7 @@
         <span class="kw">let </span><span class="kw-2">mut </span>ac = <span class="self">self</span>.input.evaluate_on_groups(df, groups, state)<span class="question-mark">?</span>;
         <span class="comment">// don&#39;t change names by aggregations as is done in polars-core
         </span><span class="kw">let </span>keep_name = ac.series().name().to_string();
+        <span class="macro">polars_ensure!</span>(!<span class="macro">matches!</span>(ac.agg_state(), AggState::Literal(<span class="kw">_</span>)), ComputeError: <span class="string">&quot;cannot aggregate a literal&quot;</span>);
 
         <span class="macro">macro_rules! </span>check_null_prop {
             () =&gt; {

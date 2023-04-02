@@ -1909,7 +1909,7 @@
             Float64 =&gt; a.f64().unwrap().abs().into_series(),
             dt =&gt; <span class="macro">polars_bail!</span>(opq = abs, dt),
         };
-        <span class="prelude-val">Ok</span>(out)
+        out.cast(<span class="self">self</span>.dtype())
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;private&quot;</span>)]

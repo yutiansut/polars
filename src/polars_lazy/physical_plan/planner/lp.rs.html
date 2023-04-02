@@ -511,46 +511,10 @@
 <a href="#511" id="511">511</a>
 <a href="#512" id="512">512</a>
 <a href="#513" id="513">513</a>
-<a href="#514" id="514">514</a>
-<a href="#515" id="515">515</a>
-<a href="#516" id="516">516</a>
-<a href="#517" id="517">517</a>
-<a href="#518" id="518">518</a>
-<a href="#519" id="519">519</a>
-<a href="#520" id="520">520</a>
-<a href="#521" id="521">521</a>
-<a href="#522" id="522">522</a>
-<a href="#523" id="523">523</a>
-<a href="#524" id="524">524</a>
-<a href="#525" id="525">525</a>
-<a href="#526" id="526">526</a>
-<a href="#527" id="527">527</a>
-<a href="#528" id="528">528</a>
-<a href="#529" id="529">529</a>
-<a href="#530" id="530">530</a>
-<a href="#531" id="531">531</a>
-<a href="#532" id="532">532</a>
-<a href="#533" id="533">533</a>
-<a href="#534" id="534">534</a>
-<a href="#535" id="535">535</a>
-<a href="#536" id="536">536</a>
-<a href="#537" id="537">537</a>
-<a href="#538" id="538">538</a>
-<a href="#539" id="539">539</a>
-<a href="#540" id="540">540</a>
-<a href="#541" id="541">541</a>
-<a href="#542" id="542">542</a>
-<a href="#543" id="543">543</a>
-<a href="#544" id="544">544</a>
-<a href="#545" id="545">545</a>
-<a href="#546" id="546">546</a>
-<a href="#547" id="547">547</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::executors::{<span class="self">self</span>, Executor};
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
-<span class="attr">#[cfg(feature = <span class="string">&quot;streaming&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::physical_plan::streaming::insert_streaming_nodes;
 <span class="kw">use </span><span class="kw">crate</span>::utils::<span class="kw-2">*</span>;
 
 <span class="kw">fn </span>partitionable_gb(
@@ -944,48 +908,6 @@
             <span class="comment">// We first check if we can partition the groupby on the latest moment.
             </span><span class="kw">let </span>partitionable = partitionable_gb(<span class="kw-2">&amp;</span>keys, <span class="kw-2">&amp;</span>aggs, <span class="kw-2">&amp;</span>input_schema, expr_arena, <span class="kw-2">&amp;</span>apply);
             <span class="kw">if </span>partitionable {
-                <span class="attr">#[cfg(feature = <span class="string">&quot;streaming&quot;</span>)]
-                </span><span class="kw">if </span>!maintain_order
-                    <span class="comment">// many aggregations are more expensive
-                    // at a certain point the cost of collecting
-                    // the indices is amortized
-                    </span>&amp;&amp; aggs.len() &lt; <span class="number">10
-                    </span>&amp;&amp; std::env::var(<span class="string">&quot;POLARS_NO_STREAMING_GROUPBY&quot;</span>).is_err()
-                {
-                    <span class="kw">let </span>key_dtype = schema.get_index(<span class="number">0</span>).unwrap().<span class="number">1</span>.to_physical();
-                    <span class="comment">// only on numeric and string keys for now
-                    </span><span class="kw">let </span>allowed_key = keys.len() == <span class="number">1 </span>&amp;&amp; key_dtype.is_numeric()
-                        || <span class="macro">matches!</span>(key_dtype, DataType::Utf8);
-                    <span class="kw">let </span>allowed_aggs = schema.iter_dtypes().skip(<span class="number">1</span>).all(|dtype| {
-                        <span class="kw">let </span>dt = dtype.to_physical();
-                        dt.is_numeric() || <span class="macro">matches!</span>(dt, DataType::Utf8 | DataType::Boolean)
-                    });
-
-                    <span class="kw">let </span>lp = Aggregate {
-                        input,
-                        keys,
-                        aggs,
-                        apply,
-                        schema: schema.clone(),
-                        maintain_order,
-                        options: options.clone(),
-                    };
-                    <span class="kw">let </span>root = lp_arena.add(lp);
-
-                    <span class="comment">// do not jit insert if we have joins or distinct
-                    // first we have to test them more and ensure solid perf
-                    </span><span class="kw">let </span>has_joins_or_distinct = (<span class="kw-2">&amp;*</span>lp_arena)
-                        .iter(root)
-                        .any(|(<span class="kw">_</span>, lp)| <span class="macro">matches!</span>(lp, Join { .. } | Distinct { .. }));
-                    <span class="kw">if </span>allowed_key
-                        &amp;&amp; allowed_aggs
-                        &amp;&amp; !has_joins_or_distinct
-                        &amp;&amp; insert_streaming_nodes(root, lp_arena, expr_arena, <span class="kw-2">&amp;mut </span><span class="macro">vec!</span>[], <span class="bool-val">false</span>)<span class="question-mark">?
-                    </span>{
-                        <span class="kw">return </span>create_physical_plan(root, lp_arena, expr_arena);
-                    }
-                }
-
                 <span class="kw">let </span>from_partitioned_ds = (<span class="kw-2">&amp;*</span>lp_arena).iter(input).any(|(<span class="kw">_</span>, lp)| {
                     <span class="kw">if let </span>Union { options, .. } = lp {
                         options.from_partitioned_ds
@@ -994,6 +916,14 @@
                     </span>}
                 });
                 <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;
+                <span class="kw">let </span>keys = keys
+                    .iter()
+                    .map(|node| node_to_expr(<span class="kw-2">*</span>node, expr_arena))
+                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+                <span class="kw">let </span>aggs = aggs
+                    .iter()
+                    .map(|node| node_to_expr(<span class="kw-2">*</span>node, expr_arena))
+                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
                 <span class="prelude-val">Ok</span>(Box::new(executors::PartitionGroupByExec::new(
                     input,
                     phys_keys,
@@ -1003,6 +933,8 @@
                     input_schema,
                     schema,
                     from_partitioned_ds,
+                    keys,
+                    aggs,
                 )))
             } <span class="kw">else </span>{
                 <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;

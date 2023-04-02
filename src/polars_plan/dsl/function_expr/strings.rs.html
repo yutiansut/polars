@@ -563,6 +563,7 @@
 <a href="#563" id="563">563</a>
 <a href="#564" id="564">564</a>
 <a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -574,7 +575,8 @@
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-</span><span class="kw">static </span>TZ_AWARE_RE: Lazy&lt;Regex&gt; = Lazy::new(|| Regex::new(<span class="string">r&quot;(%z)|(%:z)|(%#z)|(^%\+$)&quot;</span>).unwrap());
+</span><span class="kw">static </span>TZ_AWARE_RE: Lazy&lt;Regex&gt; =
+    Lazy::new(|| Regex::new(<span class="string">r&quot;(%z)|(%:z)|(%::z)|(%:::z)|(%#z)|(^%\+$)&quot;</span>).unwrap());
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
@@ -906,7 +908,7 @@
                 (<span class="prelude-val">Some</span>(tz), <span class="bool-val">false</span>, <span class="bool-val">false</span>) =&gt; <span class="prelude-val">Some</span>(tz.clone()),
                 (<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="bool-val">true</span>, <span class="kw">_</span>) =&gt; <span class="macro">polars_bail!</span>(
                     ComputeError:
-                    <span class="string">&quot;cannot use strptime with both &#39;tz_aware=True&#39; and tz-aware datetime, \
+                    <span class="string">&quot;cannot use strptime with both a tz-aware format and a tz-aware dtype, \
                     please drop time zone from the dtype&quot;
                 </span>),
                 (<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="kw">_</span>, <span class="bool-val">true</span>) =&gt; <span class="macro">polars_bail!</span>(
