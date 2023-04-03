@@ -1779,8 +1779,8 @@
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;rank&quot;</span>)]
-    </span><span class="kw">pub fn </span>rank(<span class="kw-2">&amp;</span><span class="self">self</span>, options: RankOptions) -&gt; Series {
-        rank(<span class="self">self</span>, options.method, options.descending)
+    </span><span class="kw">pub fn </span>rank(<span class="kw-2">&amp;</span><span class="self">self</span>, options: RankOptions, seed: <span class="prelude-ty">Option</span>&lt;u64&gt;) -&gt; Series {
+        rank(<span class="self">self</span>, options.method, options.descending, seed)
     }
 
     <span class="doccomment">/// Cast throws an error if conversion had overflows

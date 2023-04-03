@@ -451,11 +451,19 @@
 <a href="#451" id="451">451</a>
 <a href="#452" id="452">452</a>
 <a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::prelude::FromData;
 <span class="attr">#[cfg(feature = <span class="string">&quot;random&quot;</span>)]
 </span><span class="kw">use </span>rand::prelude::SliceRandom;
+<span class="kw">use </span>rand::prelude::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;random&quot;</span>)]
-</span><span class="kw">use </span>rand::{rngs::SmallRng, thread_rng, SeedableRng};
+</span><span class="kw">use </span>rand::{rngs::SmallRng, SeedableRng};
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
@@ -486,7 +494,14 @@
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rank(s: <span class="kw-2">&amp;</span>Series, method: RankMethod, descending: bool) -&gt; Series {
+<span class="attr">#[cfg(feature = <span class="string">&quot;random&quot;</span>)]
+</span><span class="kw">fn </span>get_random_seed() -&gt; u64 {
+    <span class="kw">let </span><span class="kw-2">mut </span>rng = SmallRng::from_entropy();
+
+    rng.next_u64()
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rank(s: <span class="kw-2">&amp;</span>Series, method: RankMethod, descending: bool, seed: <span class="prelude-ty">Option</span>&lt;u64&gt;) -&gt; Series {
     <span class="kw">match </span>s.len() {
         <span class="number">1 </span>=&gt; {
             <span class="kw">return match </span>method {
@@ -518,7 +533,7 @@
         };
         <span class="kw">let </span>s = s.fill_null(null_strategy).unwrap();
 
-        <span class="kw">let </span><span class="kw-2">mut </span>out = rank(<span class="kw-2">&amp;</span>s, method, descending);
+        <span class="kw">let </span><span class="kw-2">mut </span>out = rank(<span class="kw-2">&amp;</span>s, method, descending, seed);
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>arr = <span class="kw-2">&amp;mut </span>out.chunks_mut()[<span class="number">0</span>];
             <span class="kw-2">*</span>arr = arr.with_validity(<span class="prelude-val">Some</span>(validity.clone()))
@@ -604,8 +619,7 @@
 
             <span class="kw">let </span><span class="kw-2">mut </span>sort_idx = sort_idx.to_vec();
 
-            <span class="kw">let </span><span class="kw-2">mut </span>thread_rng = thread_rng();
-            <span class="kw">let </span>rng = <span class="kw-2">&amp;mut </span>SmallRng::from_rng(<span class="kw-2">&amp;mut </span>thread_rng).unwrap();
+            <span class="kw">let </span>rng = <span class="kw-2">&amp;mut </span>SmallRng::seed_from_u64(seed.unwrap_or_else(get_random_seed));
 
             <span class="comment">// Shuffle sort_idx positions which point to ties in the original series.
             </span><span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..(ties_indices.len() - <span class="number">1</span>) {
@@ -766,7 +780,7 @@
     </span><span class="kw">fn </span>test_rank() -&gt; PolarsResult&lt;()&gt; {
         <span class="kw">let </span>s = Series::new(<span class="string">&quot;a&quot;</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">0</span>]);
 
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Ordinal, <span class="bool-val">false</span>)
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Ordinal, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
             .idx()<span class="question-mark">?
             </span>.into_no_null_iter()
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
@@ -774,7 +788,7 @@
 
         <span class="attr">#[cfg(feature = <span class="string">&quot;random&quot;</span>)]
         </span>{
-            <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Random, <span class="bool-val">false</span>)
+            <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Random, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
                 .idx()<span class="question-mark">?
                 </span>.into_no_null_iter()
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
@@ -787,25 +801,25 @@
             <span class="macro">assert_ne!</span>(out[<span class="number">3</span>], out[<span class="number">4</span>]);
         }
 
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Dense, <span class="bool-val">false</span>)
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Dense, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
             .idx()<span class="question-mark">?
             </span>.into_no_null_iter()
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">1</span>]);
 
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Max, <span class="bool-val">false</span>)
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Max, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
             .idx()<span class="question-mark">?
             </span>.into_no_null_iter()
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">1</span>]);
 
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Min, <span class="bool-val">false</span>)
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Min, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
             .idx()<span class="question-mark">?
             </span>.into_no_null_iter()
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">1</span>]);
 
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Average, <span class="bool-val">false</span>)
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Average, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
             .f32()<span class="question-mark">?
             </span>.into_no_null_iter()
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
@@ -816,7 +830,7 @@
             <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">Some</span>(<span class="number">2</span>), <span class="prelude-val">Some</span>(<span class="number">3</span>), <span class="prelude-val">Some</span>(<span class="number">2</span>), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">0</span>)],
         );
 
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Average, <span class="bool-val">false</span>)
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Average, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
             .f32()<span class="question-mark">?
             </span>.into_iter()
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
@@ -846,7 +860,7 @@
                 <span class="prelude-val">Some</span>(<span class="number">8</span>),
             ],
         );
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Max, <span class="bool-val">false</span>)
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Max, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
             .idx()<span class="question-mark">?
             </span>.into_iter()
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
@@ -870,12 +884,12 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_rank_all_null() -&gt; PolarsResult&lt;()&gt; {
         <span class="kw">let </span>s = UInt32Chunked::new(<span class="string">&quot;&quot;</span>, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>]).into_series();
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Average, <span class="bool-val">false</span>)
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Average, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
             .f32()<span class="question-mark">?
             </span>.into_no_null_iter()
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="number">2.0f32</span>, <span class="number">2.0</span>, <span class="number">2.0</span>]);
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Dense, <span class="bool-val">false</span>)
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Dense, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
             .idx()<span class="question-mark">?
             </span>.into_no_null_iter()
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
@@ -886,16 +900,16 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_rank_empty() {
         <span class="kw">let </span>s = UInt32Chunked::from_slice(<span class="string">&quot;&quot;</span>, <span class="kw-2">&amp;</span>[]).into_series();
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Average, <span class="bool-val">false</span>);
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Average, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
         <span class="macro">assert_eq!</span>(out.dtype(), <span class="kw-2">&amp;</span>DataType::Float32);
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Max, <span class="bool-val">false</span>);
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Max, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
         <span class="macro">assert_eq!</span>(out.dtype(), <span class="kw-2">&amp;</span>IDX_DTYPE);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_rank_reverse() -&gt; PolarsResult&lt;()&gt; {
         <span class="kw">let </span>s = Series::new(<span class="string">&quot;&quot;</span>, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">Some</span>(<span class="number">5</span>), <span class="prelude-val">None</span>]);
-        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Dense, <span class="bool-val">true</span>)
+        <span class="kw">let </span>out = rank(<span class="kw-2">&amp;</span>s, RankMethod::Dense, <span class="bool-val">true</span>, <span class="prelude-val">None</span>)
             .idx()<span class="question-mark">?
             </span>.into_iter()
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
