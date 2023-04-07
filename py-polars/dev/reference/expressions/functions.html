@@ -569,7 +569,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.alias.html">polars.Series.alias</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.append.html">polars.Series.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.arg_sort.html">polars.Series.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.argsort.html">polars.Series.argsort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.bottom_k.html">polars.Series.bottom_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.cast.html">polars.Series.cast</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.ceil.html">polars.Series.ceil</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.clear.html">polars.Series.clear</a></li>
@@ -782,6 +782,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../dataframe/modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-24"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.bottom_k.html">polars.DataFrame.bottom_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.clear.html">polars.DataFrame.clear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.clone.html">polars.DataFrame.clone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.drop.html">polars.DataFrame.drop</a></li>
@@ -895,6 +896,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../lazyframe/modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.bottom_k.html">polars.LazyFrame.bottom_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.clear.html">polars.LazyFrame.clear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.clone.html">polars.LazyFrame.clone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.drop.html">polars.LazyFrame.drop</a></li>
@@ -1045,7 +1047,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.n_unique.html">polars.Expr.n_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.null_count.html">polars.Expr.null_count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.pct_change.html">polars.Expr.pct_change</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.pow.html">polars.Expr.pow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rank.html">polars.Expr.rank</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_apply.html">polars.Expr.rolling_apply</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_max.html">polars.Expr.rolling_max</a></li>
@@ -1171,9 +1172,9 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-42"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.append.html">polars.Expr.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arg_sort.html">polars.Expr.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.argsort.html">polars.Expr.argsort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arg_true.html">polars.Expr.arg_true</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.backward_fill.html">polars.Expr.backward_fill</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.bottom_k.html">polars.Expr.bottom_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cast.html">polars.Expr.cast</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.ceil.html">polars.Expr.ceil</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.clip.html">polars.Expr.clip</a></li>
@@ -1232,7 +1233,26 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.set_sorted.html">polars.Expr.set_sorted</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="string.html">String</a><input class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-45"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="operators.html">Operators</a><input class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-45"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.and_.html">polars.Expr.and_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.or_.html">polars.Expr.or_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.eq.html">polars.Expr.eq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.ge.html">polars.Expr.ge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.gt.html">polars.Expr.gt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.le.html">polars.Expr.le</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.lt.html">polars.Expr.lt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.ne.html">polars.Expr.ne</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.add.html">polars.Expr.add</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.floordiv.html">polars.Expr.floordiv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.mod.html">polars.Expr.mod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.mul.html">polars.Expr.mul</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.sub.html">polars.Expr.sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.truediv.html">polars.Expr.truediv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.pow.html">polars.Expr.pow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.xor.html">polars.Expr.xor</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="string.html">String</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-46"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.concat.html">polars.Expr.str.concat</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.contains.html">polars.Expr.str.contains</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.count_match.html">polars.Expr.str.count_match</a></li>
@@ -1265,12 +1285,12 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.parse_int.html">polars.Expr.str.parse_int</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="struct.html">Struct</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-46"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="struct.html">Struct</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-47"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.struct.field.html">polars.Expr.struct.field</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.struct.rename_fields.html">polars.Expr.struct.rename_fields</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-47"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-48" name="toctree-checkbox-48" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-48"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.cast_time_unit.html">polars.Expr.dt.cast_time_unit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.replace_time_zone.html">polars.Expr.dt.replace_time_zone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.combine.html">polars.Expr.dt.combine</a></li>
@@ -1309,20 +1329,20 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.year.html">polars.Expr.dt.year</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="window.html">Window</a><input class="toctree-checkbox" id="toctree-checkbox-48" name="toctree-checkbox-48" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-48"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="window.html">Window</a><input class="toctree-checkbox" id="toctree-checkbox-49" name="toctree-checkbox-49" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-49"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.over.html">polars.Expr.over</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">Extending the API</a><input class="toctree-checkbox" id="toctree-checkbox-49" name="toctree-checkbox-49" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-49"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">Extending the API</a><input class="toctree-checkbox" id="toctree-checkbox-50" name="toctree-checkbox-50" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-50"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_expr_namespace.html">polars.api.register_expr_namespace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_dataframe_namespace.html">polars.api.register_dataframe_namespace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_lazyframe_namespace.html">polars.api.register_lazyframe_namespace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_series_namespace.html">polars.api.register_series_namespace</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-50" name="toctree-checkbox-50" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-50"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_arrow.html">polars.from_arrow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_dataframe.html">polars.from_dataframe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_dict.html">polars.from_dict</a></li>
@@ -1340,11 +1360,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.enable_string_cache.html">polars.enable_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.StringCache.html">polars.StringCache</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../datatypes.html">Data types</a><input class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../datatypes.html">Data types</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.DataType.html">polars.DataType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Decimal.html">polars.Decimal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Float32.html">polars.Float32</a></li>
@@ -1372,7 +1392,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Unknown.html">polars.Unknown</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-53" name="toctree-checkbox-53" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-53"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.activate_decimals.html">polars.Config.activate_decimals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_ascii_tables.html">polars.Config.set_ascii_tables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_fmt_float.html">polars.Config.set_fmt_float</a></li>
@@ -1396,24 +1416,24 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.restore_defaults.html">polars.Config.restore_defaults</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../exceptions.html">Exceptions</a><input class="toctree-checkbox" id="toctree-checkbox-53" name="toctree-checkbox-53" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-53"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exceptions.html">Exceptions</a><input class="toctree-checkbox" id="toctree-checkbox-54" name="toctree-checkbox-54" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-54"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ArrowError.html">polars.exceptions.ArrowError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ColumnNotFoundError.html">polars.exceptions.ColumnNotFoundError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ComputeError.html">polars.exceptions.ComputeError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.DuplicateError.html">polars.exceptions.DuplicateError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.InvalidOperationError.html">polars.exceptions.InvalidOperationError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.NoDataError.html">polars.exceptions.NoDataError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.NoRowsReturned.html">polars.exceptions.NoRowsReturned</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.PanicException.html">polars.exceptions.PanicException</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.RowsException.html">polars.exceptions.RowsException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.NoRowsReturnedError.html">polars.exceptions.NoRowsReturnedError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.PolarsPanicError.html">polars.exceptions.PolarsPanicError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.RowsError.html">polars.exceptions.RowsError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.SchemaError.html">polars.exceptions.SchemaError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.SchemaFieldNotFoundError.html">polars.exceptions.SchemaFieldNotFoundError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ShapeError.html">polars.exceptions.ShapeError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.StructFieldNotFoundError.html">polars.exceptions.StructFieldNotFoundError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.TooManyRowsReturned.html">polars.exceptions.TooManyRowsReturned</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.TooManyRowsReturnedError.html">polars.exceptions.TooManyRowsReturnedError</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../testing.html">Testing</a><input class="toctree-checkbox" id="toctree-checkbox-54" name="toctree-checkbox-54" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-54"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../testing.html">Testing</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.assert_frame_equal.html">polars.testing.assert_frame_equal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.assert_series_equal.html">polars.testing.assert_series_equal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.parametric.dataframes.html">polars.testing.parametric.dataframes</a></li>
@@ -1422,14 +1442,14 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.parametric.columns.html">polars.testing.parametric.columns</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.build_info.html">polars.build_info</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.get_index_type.html">polars.get_index_type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.show_versions.html">polars.show_versions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.threadpool_size.html">polars.threadpool_size</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-57" name="toctree-checkbox-57" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-57"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.SQLContext.execute.html">polars.SQLContext.execute</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.SQLContext.register.html">polars.SQLContext.register</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.SQLContext.query.html">polars.SQLContext.query</a></li>
@@ -1502,10 +1522,10 @@ document.write(`
 <p><strong>Available in module namespace:</strong></p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.all.html#polars.all" title="polars.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a>([name])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.all.html#polars.all" title="polars.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a>([columns])</p></td>
 <td><p>Do one of two things.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.any.html#polars.any" title="polars.any"><code class="xref py py-obj docutils literal notranslate"><span class="pre">any</span></code></a>(name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.any.html#polars.any" title="polars.any"><code class="xref py py-obj docutils literal notranslate"><span class="pre">any</span></code></a>(columns)</p></td>
 <td><p>Evaluate columnwise or elementwise with a bitwise OR operation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.apply.html#polars.apply" title="polars.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(exprs, function[, return_dtype, ...])</p></td>
@@ -1514,7 +1534,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.arange.html#polars.arange" title="polars.arange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arange</span></code></a>()</p></td>
 <td><p>Create a range expression (or Series).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.arg_sort_by.html#polars.arg_sort_by" title="polars.arg_sort_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arg_sort_by</span></code></a>(exprs, *[, descending])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.arg_sort_by.html#polars.arg_sort_by" title="polars.arg_sort_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arg_sort_by</span></code></a>(exprs, *more_exprs[, descending])</p></td>
 <td><p>Return the row indices that would sort the columns.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.avg.html#polars.avg" title="polars.avg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">avg</span></code></a>()</p></td>
@@ -1526,7 +1546,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.concat_list.html#polars.concat_list" title="polars.concat_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_list</span></code></a>(exprs, *more_exprs)</p></td>
 <td><p>Horizontally concatenate columns into a single list column.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.concat_str.html#polars.concat_str" title="polars.concat_str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_str</span></code></a>(exprs, *[, separator])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.concat_str.html#polars.concat_str" title="polars.concat_str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_str</span></code></a>(exprs, *more_exprs[, separator])</p></td>
 <td><p>Horizontally concatenate columns into a single string column.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.corr.html#polars.corr" title="polars.corr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">corr</span></code></a>(a, b, *[, method, ddof, propagate_nans])</p></td>
@@ -1568,7 +1588,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.fold.html#polars.fold" title="polars.fold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fold</span></code></a>(acc, function, exprs)</p></td>
 <td><p>Accumulate over multiple columns horizontally/ row wise with a left fold.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.format.html#polars.format" title="polars.format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">format</span></code></a>(fstring, *args)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.format.html#polars.format" title="polars.format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">format</span></code></a>(f_string, *args)</p></td>
 <td><p>Format expressions as a string.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.from_epoch.html#polars.from_epoch" title="polars.from_epoch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_epoch</span></code></a>()</p></td>
@@ -1657,7 +1677,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.count.html#polars.Expr.count" title="polars.Expr.count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.count</span></code></a>()</p></td>
 <td><p>Count the number of values in this expression.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.cumsum.html#polars.Expr.cumsum" title="polars.Expr.cumsum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.cumsum</span></code></a>([reverse])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.cumsum.html#polars.Expr.cumsum" title="polars.Expr.cumsum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.cumsum</span></code></a>(*[, reverse])</p></td>
 <td><p>Get an array with the cumulative sum computed at every element.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.exclude.html#polars.Expr.exclude" title="polars.Expr.exclude"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.exclude</span></code></a>(columns, *more_columns)</p></td>
